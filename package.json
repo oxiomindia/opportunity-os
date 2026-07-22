@@ -1,11 +1,17 @@
 {
+<<<<<<< HEAD
   "name": "opportunity-os",
   "version": "1.0.0",
+=======
+  "name": "oppurtunity-os",
+  "version": "0.1.0",
+>>>>>>> 2cdc9bb88e012286bad4e8610cf64be0d7508b16
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+<<<<<<< HEAD
     "lint": "next lint"
   },
   "dependencies": {
@@ -23,3 +29,30 @@
     "typescript": "^5"
   }
 }
+=======
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.110.8",
+    "drizzle-orm": "^0.45.2",
+    "next": "16.2.11",
+    "openai": "^6.48.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.11",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.1",
+    "typescript": "^5"
+  }
+}
+>>>>>>> 2cdc9bb88e012286bad4e8610cf64be0d7508b16
