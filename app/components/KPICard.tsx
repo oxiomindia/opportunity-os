@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { iconMap } from './Icons';
-import { KPIData } from '../types';
+import { KPIData } from '../../types';
 
 export default function KPICard({ data }: { data: KPIData }) {
   const Icon = iconMap[data.iconName];

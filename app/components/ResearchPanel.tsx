@@ -5,7 +5,7 @@ import Select from './Select';
 import Input from './Input';
 import Button from './Button';
 import { Bot, SearchIcon, Globe, Layers, Play } from './Icons';
-import { agents, countries, depthOptions } from '../data/mockData';
+import { agents, countries, depthOptions } from '../../data/mockData';
 
 interface ResearchPanelProps {
   agent: string;

@@ -1,83 +1,93 @@
-<<<<<<< HEAD
-export default function Home() {
-  return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-50">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-blue-600">
-          Opportunity OS
-        </h1>
+const footerLinks = [
+  { label: 'Email', value: 'hello@oxiom.ai', href: 'mailto:hello@oxiom.ai' },
+  { label: 'Phone', value: '+1 (555) 014-9028', href: 'tel:+15550149028' },
+  { label: 'LinkedIn', value: 'LinkedIn', href: 'https://www.linkedin.com/company/oxiom' },
+  { label: 'X (Twitter)', value: 'X (Twitter)', href: 'https://x.com/oxiom' },
+];
 
-        <p className="mt-4 text-slate-600">
-          Project setup completed successfully.
+function Header() {
+  return (
+    <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8 sm:px-8 lg:px-10">
+      <a href="#top" className="text-xl font-semibold tracking-tight text-slate-950" aria-label="Oxiom home">
+        Oxiom
+      </a>
+      <nav className="flex items-center gap-3" aria-label="Primary navigation">
+        <a
+          href="/dashboard"
+          aria-label="Open dashboard"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-base font-medium text-slate-700 hover:border-blue-200 hover:text-blue-700"
+        >
+          →
+        </a>
+        <a
+          href="mailto:hello@oxiom.ai"
+          className="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          Contact Us
+        </a>
+      </nav>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <main id="top" className="mx-auto flex min-h-[calc(100vh-220px)] w-full max-w-6xl items-center px-6 py-20 sm:px-8 sm:py-28 lg:px-10">
+      <section className="max-w-3xl">
+        <p className="mb-6 text-sm font-semibold uppercase tracking-[0.28em] text-blue-600">Oxiom</p>
+        <h1 className="text-5xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-6xl lg:text-7xl">
+          AI-Powered Invoice Processing
+        </h1>
+        <p className="mt-8 max-w-2xl text-xl leading-8 text-slate-600 sm:text-2xl sm:leading-9">
+          Transform vendor invoices into verified, payment-ready data in minutes.
         </p>
-      </div>
+        <div className="mt-12 flex flex-col gap-3 sm:flex-row">
+          <a
+            href="/dashboard"
+            aria-label="Open dashboard"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 text-xl font-medium text-slate-700 hover:border-blue-200 hover:text-blue-700"
+          >
+            →
+          </a>
+          <a
+            href="mailto:hello@oxiom.ai"
+            className="inline-flex items-center justify-center rounded-full bg-blue-600 px-7 py-3.5 text-base font-semibold text-white hover:bg-blue-700"
+          >
+            Contact Us
+          </a>
+        </div>
+      </section>
     </main>
   );
 }
-=======
-import Image from "next/image";
+
+function Footer() {
+  return (
+    <footer className="border-t border-slate-100">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-8 text-sm text-slate-500 sm:px-8 lg:px-10">
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+          <p className="font-semibold text-slate-900">Oxiom</p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
+            {footerLinks.map((link) => (
+              <a key={link.label} href={link.href} className="hover:text-blue-700">
+                <span className="sr-only">{link.label}: </span>
+                {link.value}
+              </a>
+            ))}
+          </div>
+        </div>
+        <p>© {new Date().getFullYear()} Oxiom. All rights reserved.</p>
+      </div>
+    </footer>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="min-h-screen bg-white text-slate-950">
+      <Header />
+      <Hero />
+      <Footer />
     </div>
   );
 }
->>>>>>> 2cdc9bb88e012286bad4e8610cf64be0d7508b16
