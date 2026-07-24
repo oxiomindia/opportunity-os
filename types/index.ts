@@ -45,3 +45,26 @@ export interface KPIData {
   iconName: string;
   color: 'blue' | 'green' | 'amber' | 'slate';
 }
+export type {
+  Invoice,
+  InvoiceCurrency,
+  InvoiceFileType,
+  InvoiceSource,
+  InvoiceStatus,
+} from './invoice';
+export { invoiceStatuses } from './invoice';
+
+export type {
+  ExtractedField,
+  ExtractedFieldKey,
+  ExtractionActivityEntry,
+  ExtractionIssue,
+  ExtractionIssueSeverity,
+  ExtractionLineItem,
+  ExtractionQueueItem,
+  ExtractionQueueStatus,
+  ExtractionResult,
+  ExtractionReviewStatus,
+  ExtractionStage,
+} from './extraction';
+export { extractionIssueSeverities, extractionQueueStatuses, extractionReviewStatuses, extractionStages } from './extraction';
