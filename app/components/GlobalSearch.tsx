@@ -39,6 +39,7 @@ export default function GlobalSearch() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const hasSearchError = query.toLowerCase().includes('error');
   const results = useMemo(() => {
@@ -61,6 +62,17 @@ export default function GlobalSearch() {
     window.addEventListener('keydown', handleShortcut);
     return () => window.removeEventListener('keydown', handleShortcut);
   }, []);
+
+
+  useEffect(() => {
+    function handlePointerDown(event: MouseEvent) {
+      if (!panelRef.current?.contains(event.target as Node)) setIsOpen(false);
+    }
+
+    if (!isOpen) return undefined;
+    document.addEventListener('mousedown', handlePointerDown);
+    return () => document.removeEventListener('mousedown', handlePointerDown);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!query.trim()) return;
@@ -85,27 +97,28 @@ export default function GlobalSearch() {
       setActiveIndex((index) => Math.max(index - 1, 0));
     }
     if (event.key === 'Enter' && results[activeIndex]) {
+      setIsOpen(false);
       window.location.href = results[activeIndex].href;
     }
   }
 
   return (
-    <div className="relative w-full max-w-xl">
+    <div ref={panelRef} className="relative w-full max-w-xl">
       <label className="sr-only" htmlFor="global-search">
         Search invoices, accounts, activity, reports, payments, and routes
       </label>
       <button
         type="button"
         onClick={openSearch}
-        className="flex h-9 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 text-left text-sm text-slate-500 outline-none hover:border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        className="flex h-10 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 text-left text-sm text-slate-500 outline-none hover:border-blue-200 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-100 md:h-9"
       >
-        <span>Search invoices, vendors, alerts, and reports</span>
+        <span className="truncate">Search invoices, vendors, alerts, and reports</span>
         <kbd className="hidden rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] font-semibold text-slate-500 sm:inline">⌘K</kbd>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-11 z-50 w-[min(42rem,calc(100vw-2rem))] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl">
-          <div className="border-b border-slate-100 p-3">
+        <div className="absolute left-0 top-12 z-50 w-[min(42rem,calc(100vw-2rem))] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl md:left-auto md:right-0 md:top-11">
+          <div className="flex items-center gap-2 border-b border-slate-100 p-3">
             <input
               ref={inputRef}
               id="global-search"
@@ -118,10 +131,11 @@ export default function GlobalSearch() {
               }}
               onKeyDown={handleKeyDown}
               placeholder="Try vendor, invoice number, payment, exception, report…"
-              className="h-11 w-full rounded-lg border border-slate-200 px-3 text-sm outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="h-11 min-w-0 flex-1 rounded-lg border border-slate-200 px-3 text-sm outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               aria-controls="global-search-results"
               aria-activedescendant={results[activeIndex] ? `global-search-result-${results[activeIndex].id}` : undefined}
             />
+            <button type="button" onClick={() => setIsOpen(false)} className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 hover:border-blue-200 hover:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Close global search">Close</button>
           </div>
 
           <div id="global-search-results" className="max-h-[32rem] overflow-y-auto p-3" role="listbox" aria-label="Global search results">
@@ -159,7 +173,7 @@ export default function GlobalSearch() {
                         role="option"
                         aria-selected={absoluteIndex === activeIndex}
                         onClick={() => setIsOpen(false)}
-                        className={`block rounded-lg border p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 ${absoluteIndex === activeIndex ? 'border-blue-200 bg-blue-50/60' : 'border-transparent hover:border-slate-200 hover:bg-slate-50'}`}
+                        className={`block rounded-lg border p-3 outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-100 ${absoluteIndex === activeIndex ? 'border-blue-200 bg-blue-50/60' : 'border-transparent hover:border-slate-200 hover:bg-slate-50'}`}
                       >
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                           <div className="min-w-0">

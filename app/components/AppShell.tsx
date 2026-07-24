@@ -19,13 +19,14 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-950">
+      <a href="#workspace-main" className="skip-link">Skip to workspace content</a>
       <aside
         className={`flex shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] ${
           collapsed ? 'w-16' : 'w-16 lg:w-56'
         }`}
       >
         <div className="flex h-14 items-center justify-between px-3">
-          <Link href="/dashboard" className="flex min-w-0 items-center gap-2" aria-label="Oxiom dashboard">
+          <Link href="/dashboard" className="flex min-w-0 items-center gap-2 rounded-md focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Oxiom dashboard">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-blue-600 text-sm font-semibold text-white">
               O
             </span>
@@ -34,7 +35,7 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
           <button
             type="button"
             onClick={() => setCollapsed((value) => !value)}
-            className="hidden h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:border-blue-200 hover:text-blue-700 lg:flex"
+            className="hidden h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:border-blue-200 hover:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500 lg:flex"
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {collapsed ? '›' : '‹'}
@@ -48,10 +49,11 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium ${
+                className={`flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium focus-visible:ring-2 focus-visible:ring-blue-500 ${
                   active ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
                 }`}
                 title={item.label}
+                aria-current={active ? 'page' : undefined}
               >
                 <span className="flex w-4 shrink-0 justify-center text-[15px]" aria-hidden="true">
                   {item.icon}
@@ -64,7 +66,7 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-14 shrink-0 items-center gap-4 border-b border-slate-200 bg-white px-4">
+        <header className="flex shrink-0 flex-col gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:h-14 lg:flex-row lg:items-center lg:py-0">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-blue-600 text-xs font-semibold text-white">
               O
@@ -79,22 +81,25 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
           <div className="flex items-center gap-2">
             <Link
               href="/activity"
-              className="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:border-blue-200 hover:text-blue-700"
+              className="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:border-blue-200 hover:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Notifications"
             >
               ○
             </Link>
             <button
               type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-700"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-700 focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Profile"
             >
               OX
             </button>
           </div>
         </header>
+        <div className="border-b border-slate-200 bg-white px-4 py-3 md:hidden">
+          <GlobalSearch />
+        </div>
 
-        <main className="min-w-0 flex-1 overflow-auto p-4 md:p-5">{children}</main>
+        <main id="workspace-main" tabIndex={-1} className="min-w-0 flex-1 overflow-auto p-4 focus:outline-none md:p-5">{children}</main>
       </div>
     </div>
   );

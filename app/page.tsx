@@ -8,20 +8,20 @@ const footerLinks = [
 function Header() {
   return (
     <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8 sm:px-8 lg:px-10">
-      <a href="#top" className="text-xl font-semibold tracking-tight text-slate-950" aria-label="Oxiom home">
+      <a href="#top" className="rounded-md text-xl font-semibold tracking-tight text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Oxiom home">
         Oxiom
       </a>
       <nav className="flex items-center gap-3" aria-label="Primary navigation">
         <a
           href="/dashboard"
           aria-label="Open dashboard"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-base font-medium text-slate-700 hover:border-blue-200 hover:text-blue-700"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-base font-medium text-slate-700 hover:border-blue-200 hover:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           →
         </a>
         <a
           href="mailto:hello@oxiom.ai"
-          className="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+          className="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         >
           Contact Us
         </a>
@@ -45,13 +45,13 @@ function Hero() {
           <a
             href="/dashboard"
             aria-label="Open dashboard"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 text-xl font-medium text-slate-700 hover:border-blue-200 hover:text-blue-700"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 text-xl font-medium text-slate-700 hover:border-blue-200 hover:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             →
           </a>
           <a
             href="mailto:hello@oxiom.ai"
-            className="inline-flex items-center justify-center rounded-full bg-blue-600 px-7 py-3.5 text-base font-semibold text-white hover:bg-blue-700"
+            className="inline-flex items-center justify-center rounded-full bg-blue-600 px-7 py-3.5 text-base font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
           >
             Contact Us
           </a>
@@ -69,7 +69,7 @@ function Footer() {
           <p className="font-semibold text-slate-900">Oxiom</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
             {footerLinks.map((link) => (
-              <a key={link.label} href={link.href} className="hover:text-blue-700">
+              <a key={link.label} href={link.href} className="rounded focus-visible:ring-2 focus-visible:ring-blue-500 hover:text-blue-700">
                 <span className="sr-only">{link.label}: </span>
                 {link.value}
               </a>
