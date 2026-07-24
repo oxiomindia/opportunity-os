@@ -7,7 +7,6 @@ import { navigationItems } from './workspaceNavigation';
 
 function getPageTitle(pathname: string) {
   if (pathname.startsWith('/invoices/')) return 'Invoice Details';
-  if (pathname === '/upload') return 'Upload Invoices';
 
   return navigationItems.find((item) => item.href === pathname)?.label ?? 'Dashboard';
 }
