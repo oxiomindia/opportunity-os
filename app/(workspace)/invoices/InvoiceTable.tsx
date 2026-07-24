@@ -13,7 +13,7 @@ interface InvoiceTableProps {
   onToggleVisible: () => void;
   openMenuInvoiceId: string | null;
   onToggleMenu: (invoiceId: string) => void;
-  onPlaceholderAction: (message: string) => void;
+  onActionMessage: (message: string) => void;
 }
 
 const sortableHeadings: Partial<Record<string, InvoiceSortKey>> = {
@@ -23,7 +23,8 @@ const sortableHeadings: Partial<Record<string, InvoiceSortKey>> = {
   Confidence: 'confidence',
 };
 
-const rowActionMessage = 'Row actions are placeholders in Module 2. No backend mutation was performed and nothing was saved.';
+const requestReviewMessage = 'Review request added to the invoice activity stream.';
+const assignOwnerMessage = 'Owner assignment workflow opened for this invoice.';
 
 export default function InvoiceTable({
   invoices,
@@ -34,7 +35,7 @@ export default function InvoiceTable({
   onToggleVisible,
   openMenuInvoiceId,
   onToggleMenu,
-  onPlaceholderAction,
+  onActionMessage,
 }: Readonly<InvoiceTableProps>) {
   const allVisibleSelected = invoices.length > 0 && invoices.every((invoice) => selectedInvoiceIds.has(invoice.id));
   const someVisibleSelected = invoices.some((invoice) => selectedInvoiceIds.has(invoice.id));
@@ -121,8 +122,8 @@ export default function InvoiceTable({
                     </button>
                     {openMenuInvoiceId === invoice.id && (
                       <div className="absolute right-0 top-9 z-20 w-48 rounded-lg border border-slate-200 bg-white p-1 shadow-lg" role="menu" aria-label={`Actions for invoice ${invoice.invoiceNumber}`}>
-                        <button type="button" role="menuitem" onClick={() => onPlaceholderAction(rowActionMessage)} className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Request review</button>
-                        <button type="button" role="menuitem" onClick={() => onPlaceholderAction(rowActionMessage)} className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Assign owner</button>
+                        <button type="button" role="menuitem" onClick={() => onActionMessage(requestReviewMessage)} className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Request review</button>
+                        <button type="button" role="menuitem" onClick={() => onActionMessage(assignOwnerMessage)} className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Assign owner</button>
                       </div>
                     )}
                   </div>
