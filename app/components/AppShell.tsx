@@ -6,6 +6,8 @@ import { useMemo, useState } from 'react';
 import { navigationItems } from './workspaceNavigation';
 
 function getPageTitle(pathname: string) {
+  if (pathname.startsWith('/invoices/')) return 'Invoice Details';
+
   return navigationItems.find((item) => item.href === pathname)?.label ?? 'Dashboard';
 }
 
