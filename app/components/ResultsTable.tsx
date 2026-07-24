@@ -4,7 +4,7 @@ import React from 'react';
 import Badge from './Badge';
 import ScoreBadge from './ScoreBadge';
 import { Briefcase, ExternalLink, SearchIcon } from './Icons';
-import { OpportunityResult } from '../types';
+import { OpportunityResult } from '../../types';
 
 interface ResultsTableProps {
   results: OpportunityResult[];
