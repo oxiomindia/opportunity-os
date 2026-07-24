@@ -12,5 +12,6 @@ export const navigationItems: NavigationItem[] = [
   { href: '/accounts-review', label: 'Accounts Review', description: 'Resolve accounting exceptions', icon: '◫' },
   { href: '/payment-queue', label: 'Payment Queue', description: 'Prepare approved payments', icon: '→' },
   { href: '/reports', label: 'Reports', description: 'Operational reporting', icon: '▤' },
+  { href: '/activity', label: 'Activity', description: 'Notifications and workflow events', icon: '○' },
   { href: '/settings', label: 'Settings', description: 'Workspace configuration', icon: '⚙' },
 ];

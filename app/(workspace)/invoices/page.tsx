@@ -1,6 +1,6 @@
 import { mockInvoices } from '../../../data/mockInvoices';
-import InvoiceWorklist from './InvoiceWorklist';
+import InvoicesPageClient from './InvoicesPageClient';
 
 export default function InvoicesPage() {
-  return <InvoiceWorklist invoices={mockInvoices} />;
+  return <InvoicesPageClient invoices={mockInvoices} />;
 }
