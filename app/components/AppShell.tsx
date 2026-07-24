@@ -84,13 +84,13 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
+            <Link
+              href="/activity"
               className="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:border-blue-200 hover:text-blue-700"
               aria-label="Notifications"
             >
               ○
-            </button>
+            </Link>
             <button
               type="button"
               className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-700"

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { Invoice } from '../../../types/invoice';
 import InvoiceBulkToolbar from './InvoiceBulkToolbar';
@@ -102,9 +103,9 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
             <button type="button" className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" onClick={() => handleActionMessage('Export queued for the current filtered invoice worklist.')}>
               Export
             </button>
-            <button type="button" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700" onClick={() => handleActionMessage('Upload intake is available from the dedicated upload workspace.')}>
+            <Link href="/upload" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700">
               Upload Invoice
-            </button>
+            </Link>
           </div>
         </div>
         {actionMessage && selectedInvoiceIds.size === 0 && <p role="status" className="mt-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-900">{actionMessage}</p>}

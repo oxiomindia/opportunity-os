@@ -26,6 +26,10 @@ const sortableHeadings: Partial<Record<string, InvoiceSortKey>> = {
 const requestReviewMessage = 'Review request added to the invoice activity stream.';
 const assignOwnerMessage = 'Owner assignment workflow opened for this invoice.';
 
+function isTemporaryIntakeInvoice(invoice: Invoice) {
+  return invoice.id.startsWith('temp-upload-');
+}
+
 export default function InvoiceTable({
   invoices,
   selectedInvoiceIds,
@@ -89,9 +93,13 @@ export default function InvoiceTable({
                   <input type="checkbox" checked={selectedInvoiceIds.has(invoice.id)} onChange={() => onToggleInvoice(invoice.id)} aria-label={`Select invoice ${invoice.invoiceNumber}`} className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
                 </td>
                 <td className="px-4 py-4 align-top">
-                  <Link href={`/invoices/${invoice.id}`} className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
-                    {invoice.invoiceNumber}
-                  </Link>
+                  {isTemporaryIntakeInvoice(invoice) ? (
+                    <span className="font-semibold text-slate-900">{invoice.invoiceNumber}</span>
+                  ) : (
+                    <Link href={`/invoices/${invoice.id}`} className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
+                      {invoice.invoiceNumber}
+                    </Link>
+                  )}
                   <p className="mt-1 text-xs text-slate-500">{invoice.fileName}</p>
                 </td>
                 <td className="max-w-52 px-4 py-4 align-top">
@@ -114,9 +122,15 @@ export default function InvoiceTable({
                 <td className="px-4 py-4 align-top text-sm text-slate-600">{invoice.assignedTo ?? 'Unassigned'}</td>
                 <td className="px-4 py-4 align-top">
                   <div className="relative flex items-center gap-2">
-                    <Link href={`/invoices/${invoice.id}`} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700">
-                      View
-                    </Link>
+                    {isTemporaryIntakeInvoice(invoice) ? (
+                      <span className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-400" aria-disabled="true">
+                        Intake
+                      </span>
+                    ) : (
+                      <Link href={`/invoices/${invoice.id}`} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700">
+                        View
+                      </Link>
+                    )}
                     <button type="button" className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" aria-expanded={openMenuInvoiceId === invoice.id} aria-label={`Open actions for invoice ${invoice.invoiceNumber}`} onClick={() => onToggleMenu(invoice.id)}>
                       ⋯
                     </button>
