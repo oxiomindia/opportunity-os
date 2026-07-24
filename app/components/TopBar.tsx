@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { SearchIcon, Bell } from './Icons';
-import { notifications } from '../data/mockData';
+import { notifications } from '../../data/mockData';
 
 export default function TopBar() {
   const [searchQuery, setSearchQuery] = useState('');

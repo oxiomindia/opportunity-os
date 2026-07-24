@@ -1,35 +1,11 @@
 {
-<<<<<<< HEAD
   "name": "opportunity-os",
   "version": "1.0.0",
-=======
-  "name": "oppurtunity-os",
-  "version": "0.1.0",
->>>>>>> 2cdc9bb88e012286bad4e8610cf64be0d7508b16
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-<<<<<<< HEAD
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "14.2.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
-    "tailwindcss": "^3.4.0",
-    "typescript": "^5"
-  }
-}
-=======
     "lint": "eslint"
   },
   "dependencies": {
@@ -55,4 +31,3 @@
     "typescript": "^5"
   }
 }
->>>>>>> 2cdc9bb88e012286bad4e8610cf64be0d7508b16

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { iconMap, Zap } from './Icons';
-import { sidebarItems } from '../data/mockData';
+import { sidebarItems } from '../../data/mockData';
 
 interface SidebarProps {
   active: string;
