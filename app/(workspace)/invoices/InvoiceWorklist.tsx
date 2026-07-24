@@ -1,8 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useInvoiceIntake } from '../../components/InvoiceIntakeProvider';
 import type { Invoice } from '../../../types/invoice';
 import InvoiceBulkToolbar from './InvoiceBulkToolbar';
 import InvoiceEmptyState from './InvoiceEmptyState';
@@ -22,9 +20,6 @@ const emptyFilters: InvoiceFiltersValue = {
 const pageSize = 6;
 
 export default function InvoiceWorklist({ invoices, isLoading = false }: Readonly<{ invoices: Invoice[]; isLoading?: boolean }>) {
-  const router = useRouter();
-  const { intakeInvoices } = useInvoiceIntake();
-  const allInvoices = useMemo(() => [...intakeInvoices, ...invoices], [intakeInvoices, invoices]);
   const [filters, setFilters] = useState<InvoiceFiltersValue>(emptyFilters);
   const [sort, setSort] = useState<InvoiceSortState>({ key: 'dueDate', direction: 'asc' });
   const [page, setPage] = useState(1);
@@ -33,7 +28,7 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
   const [actionMessage, setActionMessage] = useState('');
   const hasFilters = filters.search.trim() !== '' || filters.status !== 'all' || filters.dateFilter !== 'all';
 
-  const sortedInvoices = useMemo(() => sortInvoices(filterInvoices(allInvoices, filters), sort), [allInvoices, filters, sort]);
+  const sortedInvoices = useMemo(() => sortInvoices(filterInvoices(invoices, filters), sort), [filters, invoices, sort]);
   const pageCount = Math.max(1, Math.ceil(sortedInvoices.length / pageSize));
   const visibleInvoices = useMemo(() => paginateInvoices(sortedInvoices, Math.min(page, pageCount), pageSize), [page, pageCount, sortedInvoices]);
 
@@ -107,7 +102,7 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
             <button type="button" className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" onClick={() => handlePlaceholderAction('Export is a placeholder in Module 2. No file was generated and no backend mutation occurred.')}>
               Export
             </button>
-            <button type="button" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700" onClick={() => router.push('/upload')}>
+            <button type="button" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700" onClick={() => handlePlaceholderAction('Upload Invoice is a placeholder in Module 2. No upload, OCR, or AI extraction was started.')}>
               Upload Invoice
             </button>
           </div>
@@ -115,7 +110,7 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
         {actionMessage && selectedInvoiceIds.size === 0 && <p role="status" className="mt-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-900">{actionMessage}</p>}
       </section>
 
-      <InvoiceSummaryCards invoices={allInvoices} />
+      <InvoiceSummaryCards invoices={invoices} />
       <InvoiceFilters value={filters} onChange={updateFilters} onClear={handleClearFilters} hasFilters={hasFilters} />
       <InvoiceBulkToolbar selectedCount={selectedInvoiceIds.size} onClearSelection={() => setSelectedInvoiceIds(new Set())} message={actionMessage} onMessage={handlePlaceholderAction} />
 
