@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo, useState } from 'react';
+import GlobalSearch from './GlobalSearch';
 import { navigationItems } from './workspaceNavigation';
 
 function getPageTitle(pathname: string) {
@@ -71,16 +72,8 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
             <h1 className="truncate text-sm font-semibold text-slate-900">{pageTitle}</h1>
           </div>
 
-          <div className="hidden w-full max-w-sm md:block">
-            <label className="sr-only" htmlFor="workspace-search">
-              Search workspace
-            </label>
-            <input
-              id="workspace-search"
-              type="search"
-              placeholder="Search"
-              className="h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm outline-none placeholder:text-slate-400 focus:border-blue-500"
-            />
+          <div className="hidden w-full max-w-xl md:block">
+            <GlobalSearch />
           </div>
 
           <div className="flex items-center gap-2">
