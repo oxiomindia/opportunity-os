@@ -74,7 +74,7 @@ export default function InvoiceTable({
               {['Invoice number', 'Vendor', 'Invoice date', 'Due date', 'Total', 'Confidence', 'Exceptions', 'Status', 'Assignee', 'Actions'].map((heading) => {
                 const sortKey = sortableHeadings[heading];
                 return (
-                  <th key={heading} scope="col" className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th key={heading} scope="col" className={`px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 ${heading === 'Invoice number' ? 'min-w-48' : ''}`}>
                     {sortKey ? (
                       <button type="button" onClick={() => onSortChange(sortKey)} className="inline-flex items-center gap-1 rounded text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label={`Sort by ${heading}`}>
                         {heading}
