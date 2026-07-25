@@ -1,0 +1,21 @@
+import { Metadata } from 'next';
+import Link from 'next/link';
+
+export const metadata: Metadata = { title: 'User Guide | Oxiom Invoice Processing', description: 'Complete user guide for Oxiom Invoice Processing. Learn invoice management, search, workflows, approvals, and reporting.' };
+
+const sections = [
+  ['Dashboard overview', 'The dashboard gives AP teams a working snapshot of invoice throughput, queue backlogs, exceptions, and approvals waiting on action. KPI cards help managers assess workload and identify where intervention is needed most quickly.'],
+  ['Invoice Worklist', 'Use the worklist to review invoice queues, sort by age or amount, filter by status or supplier, and apply bulk actions where your role permits. Saved views help processors return to high-priority invoice segments throughout the day.'],
+  ['Invoice Detail view', 'Invoice detail pages show the source document, extracted values, coding context, workflow status, approver path, comments, and a full history of status changes so users can make decisions from one record.'],
+  ['Search and filtering', 'Global search helps users locate invoices quickly by supplier name, invoice number, amount, or reference data. Advanced filters and saved searches support recurring review scenarios such as aging exceptions or payment-ready batches.'],
+  ['Invoice lifecycle management', 'Invoices move through clear lifecycle stages, making it easier to see ownership and next actions. Teams can track transitions from receipt to payment-ready status and understand where delays are occurring.'],
+  ['Exception management', 'Exception queues isolate invoices with duplicate risk, missing data, mismatches, or policy concerns. Reviewers can resolve issues, document decisions, and return invoices to the normal workflow without losing audit context.'],
+  ['Payment queue workflow', 'Once invoices complete review and approval, payment queue visibility helps teams confirm readiness for downstream posting, payment scheduling, and reconciliation activities.'],
+  ['Reports and exports', 'Use reports to monitor throughput, exception patterns, aging, and approval performance. Export capabilities support downstream analysis, close support, and operational reporting requirements.'],
+  ['Settings navigation', 'User-facing settings typically include profile preferences, notification choices, saved search management, and visibility into role-governed configuration relevant to day-to-day work.'],
+  ['Tips for efficiency', 'Adopt saved searches, review exceptions in batches, use status filters during close periods, and rely on dashboard KPIs to prioritize the queues that present the greatest operational risk.'],
+];
+
+export default function UserGuidePage() {
+  return <div className="min-h-screen bg-white"><div className="border-b border-slate-100 bg-slate-50 py-12 sm:py-16"><div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10"><h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">User Guide</h1><p className="max-w-3xl text-lg text-slate-600">A practical guide for AP analysts, approvers, and finance users working in Oxiom Invoice Processing every day.</p></div></div><div className="mx-auto max-w-5xl px-6 py-16 sm:px-8 sm:py-20 lg:px-10"><div className="space-y-10">{sections.map(([title, body]) => (<section key={title}><h2 className="mb-4 text-2xl font-semibold text-slate-950">{title}</h2><p className="text-base leading-7 text-slate-600">{body}</p></section>))}</div></div><div className="border-t border-slate-100 bg-slate-50 py-16 sm:py-20"><div className="mx-auto max-w-5xl px-6 sm:px-8 lg:px-10"><div className="grid gap-6 md:grid-cols-3"><Link href="/docs/getting-started" className="rounded-lg border border-slate-200 bg-white p-6 hover:border-blue-300 hover:bg-blue-50"><h3 className="mb-2 text-lg font-semibold text-slate-950">Getting started</h3></Link><Link href="/docs/troubleshooting" className="rounded-lg border border-slate-200 bg-white p-6 hover:border-blue-300 hover:bg-blue-50"><h3 className="mb-2 text-lg font-semibold text-slate-950">Troubleshooting</h3></Link><Link href="/support" className="rounded-lg border border-slate-200 bg-white p-6 hover:border-blue-300 hover:bg-blue-50"><h3 className="mb-2 text-lg font-semibold text-slate-950">Support hub</h3></Link></div></div></div></div>;
+}
