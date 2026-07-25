@@ -65,7 +65,6 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#2563eb" />
-        <link rel="canonical" href="https://oxiom.one" />
       </head>
       <body>{children}</body>
     </html>

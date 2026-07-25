@@ -1,5 +1,9 @@
 'use client';
 
+function serializeJsonLd(schema: unknown) {
+  return JSON.stringify(schema).replace(/</g, '\\u003c');
+}
+
 export function OrganizationSchema() {
   const schema = {
     '@context': 'https://schema.org',
@@ -27,7 +31,7 @@ export function OrganizationSchema() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
     />
   );
 }
@@ -66,7 +70,7 @@ export function SoftwareApplicationSchema() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
     />
   );
 }
@@ -91,7 +95,7 @@ export function WebSiteSchema() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
     />
   );
 }
@@ -111,7 +115,7 @@ export function BreadcrumbSchema({ items }: { items: Array<{ name: string; url: 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
     />
   );
 }
@@ -137,7 +141,7 @@ export function FAQSchema({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
     />
   );
 }
