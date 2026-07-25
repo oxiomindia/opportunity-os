@@ -92,7 +92,7 @@ export default function InvoiceTable({
                 <td className="px-4 py-4 align-top">
                   <input type="checkbox" checked={selectedInvoiceIds.has(invoice.id)} onChange={() => onToggleInvoice(invoice.id)} aria-label={`Select invoice ${invoice.invoiceNumber}`} className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
                 </td>
-                <td className="min-w-48 px-4 py-4 align-top">
+                <td className="px-4 py-4 align-top">
                   {isTemporaryIntakeInvoice(invoice) ? (
                     <span className="font-semibold text-slate-900">{invoice.invoiceNumber}</span>
                   ) : (
