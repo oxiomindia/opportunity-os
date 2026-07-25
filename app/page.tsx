@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema, FAQSchema } from './StructuredData';
 
 const footerLinks = [
   { label: 'Email', value: 'hello@oxiom.ai', href: 'mailto:hello@oxiom.ai' },
@@ -468,6 +469,7 @@ function Footer() {
 export default function Home() {
   return (
     <div className="min-h-screen bg-white text-slate-950">
+      <StructuredDataContainer />
       <Header />
       <main id="top">
         <Hero />
@@ -481,5 +483,31 @@ export default function Home() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function StructuredDataContainer() {
+  const faqs = [
+    {
+      question: 'What is Oxiom Invoice Processing?',
+      answer: 'Oxiom Invoice Processing is an AI-powered vendor invoice processing and Accounts Payable automation solution. It helps finance teams manage incoming supplier invoices from capture through payment, with intelligent organization, status tracking, exception management, and audit-ready processing—all on the Oxiom One platform.',
+    },
+    {
+      question: 'Is this invoice generation software?',
+      answer: 'No. Oxiom Invoice Processing is designed to process and automate the handling of incoming vendor invoices and Accounts Payable workflows. It is not an invoice creation, billing, or quotation application. It does not generate customer invoices—it automates the processing of supplier invoices received by your organization.',
+    },
+    {
+      question: 'What is Oxiom One?',
+      answer: 'Oxiom One is an enterprise business platform. Oxiom Invoice Processing is the first application. Future modules include CRM, Projects, HR, Inventory, and Analytics—all unified on one platform to streamline your entire business.',
+    },
+  ];
+
+  return (
+    <>
+      <OrganizationSchema />
+      <SoftwareApplicationSchema />
+      <WebSiteSchema />
+      <FAQSchema faqs={faqs} />
+    </>
   );
 }
