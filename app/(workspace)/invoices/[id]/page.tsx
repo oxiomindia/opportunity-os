@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { mockInvoices } from '../../../../data/mockInvoices';
-import { formatInvoiceCurrency } from '../../../../lib/invoiceFormatters';
+import { formatInvoiceCurrency, formatInvoiceDate } from '../../../../lib/invoiceFormatters';
 import InvoiceStatusBadge from '../InvoiceStatusBadge';
 import { getInvoiceById } from '../invoiceWorklistUtils';
 
@@ -47,11 +47,28 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
           <p className="mt-3 text-sm text-slate-500">{invoice.exceptionCount} {invoice.exceptionCount === 1 ? 'exception' : 'exceptions'}</p>
         </article>
       </section>
-      <section className="rounded-xl border border-dashed border-slate-300 bg-white p-6 text-center">
-        <h2 className="text-base font-semibold text-slate-950">Detailed verification view will be implemented in a later module</h2>
-        <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-          This placeholder confirms row navigation and invoice identity only. No approval mutation, OCR, AI extraction, or backend persistence is available in Module 2.
-        </p>
+      <section className="grid gap-5 lg:grid-cols-[1fr_22rem]">
+        <div className="rounded-xl border border-slate-200 bg-white p-5">
+          <h2 className="text-base font-semibold text-slate-950">Verification record</h2>
+          <dl className="mt-5 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-lg bg-slate-50 p-4"><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Invoice date</dt><dd className="mt-1 text-sm font-semibold text-slate-950">{formatInvoiceDate(invoice.invoiceDate)}</dd></div>
+            <div className="rounded-lg bg-slate-50 p-4"><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Due date</dt><dd className="mt-1 text-sm font-semibold text-slate-950">{formatInvoiceDate(invoice.dueDate)}</dd></div>
+            <div className="rounded-lg bg-slate-50 p-4"><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Subtotal</dt><dd className="mt-1 text-sm font-semibold text-slate-950">{formatInvoiceCurrency(invoice.subtotal, invoice.currency)}</dd></div>
+            <div className="rounded-lg bg-slate-50 p-4"><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Tax</dt><dd className="mt-1 text-sm font-semibold text-slate-950">{formatInvoiceCurrency(invoice.tax, invoice.currency)}</dd></div>
+            <div className="rounded-lg bg-slate-50 p-4"><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Source</dt><dd className="mt-1 text-sm font-semibold capitalize text-slate-950">{invoice.source.replace('-', ' ')}</dd></div>
+            <div className="rounded-lg bg-slate-50 p-4"><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Assigned owner</dt><dd className="mt-1 text-sm font-semibold text-slate-950">{invoice.assignedTo ?? 'Unassigned'}</dd></div>
+          </dl>
+        </div>
+        <aside className="rounded-xl border border-slate-200 bg-white p-5">
+          <h2 className="text-base font-semibold text-slate-950">Automation confidence</h2>
+          <p className="mt-4 text-4xl font-semibold text-blue-700">{invoice.confidence}%</p>
+          <div className="mt-3 h-2 rounded-full bg-slate-100"><div className="h-2 rounded-full bg-blue-600" style={{ width: `${invoice.confidence}%` }} /></div>
+          <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-600">
+            <li>File: {invoice.fileName}</li>
+            <li>Type: {invoice.fileType.toUpperCase()}</li>
+            <li>Received: {formatInvoiceDate(invoice.receivedAt)}</li>
+          </ul>
+        </aside>
       </section>
     </div>
   );

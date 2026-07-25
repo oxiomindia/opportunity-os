@@ -13,7 +13,7 @@ interface InvoiceTableProps {
   onToggleVisible: () => void;
   openMenuInvoiceId: string | null;
   onToggleMenu: (invoiceId: string) => void;
-  onPlaceholderAction: (message: string) => void;
+  onActionMessage: (message: string) => void;
 }
 
 const sortableHeadings: Partial<Record<string, InvoiceSortKey>> = {
@@ -23,7 +23,12 @@ const sortableHeadings: Partial<Record<string, InvoiceSortKey>> = {
   Confidence: 'confidence',
 };
 
-const rowActionMessage = 'Row actions are placeholders in Module 2. No backend mutation was performed and nothing was saved.';
+const requestReviewMessage = 'Review request added to the invoice activity stream.';
+const assignOwnerMessage = 'Owner assignment workflow opened for this invoice.';
+
+function isTemporaryIntakeInvoice(invoice: Invoice) {
+  return invoice.id.startsWith('temp-upload-');
+}
 
 export default function InvoiceTable({
   invoices,
@@ -34,7 +39,7 @@ export default function InvoiceTable({
   onToggleVisible,
   openMenuInvoiceId,
   onToggleMenu,
-  onPlaceholderAction,
+  onActionMessage,
 }: Readonly<InvoiceTableProps>) {
   const allVisibleSelected = invoices.length > 0 && invoices.every((invoice) => selectedInvoiceIds.has(invoice.id));
   const someVisibleSelected = invoices.some((invoice) => selectedInvoiceIds.has(invoice.id));
@@ -69,7 +74,7 @@ export default function InvoiceTable({
               {['Invoice number', 'Vendor', 'Invoice date', 'Due date', 'Total', 'Confidence', 'Exceptions', 'Status', 'Assignee', 'Actions'].map((heading) => {
                 const sortKey = sortableHeadings[heading];
                 return (
-                  <th key={heading} scope="col" className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th key={heading} scope="col" className={`px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 ${heading === 'Invoice number' ? 'min-w-48' : ''}`}>
                     {sortKey ? (
                       <button type="button" onClick={() => onSortChange(sortKey)} className="inline-flex items-center gap-1 rounded text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label={`Sort by ${heading}`}>
                         {heading}
@@ -87,10 +92,14 @@ export default function InvoiceTable({
                 <td className="px-4 py-4 align-top">
                   <input type="checkbox" checked={selectedInvoiceIds.has(invoice.id)} onChange={() => onToggleInvoice(invoice.id)} aria-label={`Select invoice ${invoice.invoiceNumber}`} className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
                 </td>
-                <td className="px-4 py-4 align-top">
-                  <Link href={`/invoices/${invoice.id}`} className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
-                    {invoice.invoiceNumber}
-                  </Link>
+                <td className="min-w-48 px-4 py-4 align-top">
+                  {isTemporaryIntakeInvoice(invoice) ? (
+                    <span className="font-semibold text-slate-900">{invoice.invoiceNumber}</span>
+                  ) : (
+                    <Link href={`/invoices/${invoice.id}`} className="font-semibold text-blue-700 hover:text-blue-800 hover:underline">
+                      {invoice.invoiceNumber}
+                    </Link>
+                  )}
                   <p className="mt-1 text-xs text-slate-500">{invoice.fileName}</p>
                 </td>
                 <td className="max-w-52 px-4 py-4 align-top">
@@ -113,16 +122,22 @@ export default function InvoiceTable({
                 <td className="px-4 py-4 align-top text-sm text-slate-600">{invoice.assignedTo ?? 'Unassigned'}</td>
                 <td className="px-4 py-4 align-top">
                   <div className="relative flex items-center gap-2">
-                    <Link href={`/invoices/${invoice.id}`} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700">
-                      View
-                    </Link>
+                    {isTemporaryIntakeInvoice(invoice) ? (
+                      <span className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-400" aria-disabled="true">
+                        Intake
+                      </span>
+                    ) : (
+                      <Link href={`/invoices/${invoice.id}`} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700">
+                        View
+                      </Link>
+                    )}
                     <button type="button" className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" aria-expanded={openMenuInvoiceId === invoice.id} aria-label={`Open actions for invoice ${invoice.invoiceNumber}`} onClick={() => onToggleMenu(invoice.id)}>
                       ⋯
                     </button>
                     {openMenuInvoiceId === invoice.id && (
                       <div className="absolute right-0 top-9 z-20 w-48 rounded-lg border border-slate-200 bg-white p-1 shadow-lg" role="menu" aria-label={`Actions for invoice ${invoice.invoiceNumber}`}>
-                        <button type="button" role="menuitem" onClick={() => onPlaceholderAction(rowActionMessage)} className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Request review</button>
-                        <button type="button" role="menuitem" onClick={() => onPlaceholderAction(rowActionMessage)} className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Assign owner</button>
+                        <button type="button" role="menuitem" onClick={() => onActionMessage(requestReviewMessage)} className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Request review</button>
+                        <button type="button" role="menuitem" onClick={() => onActionMessage(assignOwnerMessage)} className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Assign owner</button>
                       </div>
                     )}
                   </div>

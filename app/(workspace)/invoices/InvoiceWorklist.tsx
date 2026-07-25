@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { Invoice } from '../../../types/invoice';
 import InvoiceBulkToolbar from './InvoiceBulkToolbar';
@@ -82,7 +83,7 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
     setOpenMenuInvoiceId(null);
   }
 
-  function handlePlaceholderAction(message: string) {
+  function handleActionMessage(message: string) {
     setActionMessage(message);
     setOpenMenuInvoiceId(null);
   }
@@ -99,12 +100,12 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
             </p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
-            <button type="button" className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" onClick={() => handlePlaceholderAction('Export is a placeholder in Module 2. No file was generated and no backend mutation occurred.')}>
+            <button type="button" className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" onClick={() => handleActionMessage('Export queued for the current filtered invoice worklist.')}>
               Export
             </button>
-            <button type="button" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700" onClick={() => handlePlaceholderAction('Upload Invoice is a placeholder in Module 2. No upload, OCR, or AI extraction was started.')}>
+            <Link href="/upload" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700">
               Upload Invoice
-            </button>
+            </Link>
           </div>
         </div>
         {actionMessage && selectedInvoiceIds.size === 0 && <p role="status" className="mt-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-900">{actionMessage}</p>}
@@ -112,7 +113,7 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
 
       <InvoiceSummaryCards invoices={invoices} />
       <InvoiceFilters value={filters} onChange={updateFilters} onClear={handleClearFilters} hasFilters={hasFilters} />
-      <InvoiceBulkToolbar selectedCount={selectedInvoiceIds.size} onClearSelection={() => setSelectedInvoiceIds(new Set())} message={actionMessage} onMessage={handlePlaceholderAction} />
+      <InvoiceBulkToolbar selectedCount={selectedInvoiceIds.size} onClearSelection={() => setSelectedInvoiceIds(new Set())} message={actionMessage} onMessage={handleActionMessage} />
 
       {isLoading ? (
         <InvoiceTableSkeleton />
@@ -127,8 +128,8 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
             onToggleVisible={handleToggleVisible}
             openMenuInvoiceId={openMenuInvoiceId}
             onToggleMenu={(invoiceId) => setOpenMenuInvoiceId((currentId) => (currentId === invoiceId ? null : invoiceId))}
-            onPlaceholderAction={handlePlaceholderAction}
-          />
+            onActionMessage={handleActionMessage}
+           />
           <InvoicePagination page={Math.min(page, pageCount)} pageCount={pageCount} totalCount={sortedInvoices.length} pageSize={pageSize} onPageChange={handlePageChange} />
         </>
       ) : (

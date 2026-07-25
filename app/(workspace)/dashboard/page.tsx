@@ -9,7 +9,7 @@ export default function DashboardPage() {
       <section className="rounded-lg border border-slate-200 bg-white p-5">
         <h2 className="text-xl font-semibold tracking-tight text-slate-950">Welcome to Oxiom</h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-          Use this workspace to manage invoice intake, verification, accounts review, payment preparation, reporting, and settings as each module becomes available.
+          Use this workspace to manage invoice intake, verification, accounts review, payment preparation, reporting, and settings from one operational command center.
         </p>
       </section>
 
