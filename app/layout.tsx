@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Oxiom Invoice Processing | Vendor Invoice & AP Automation",
   description: "Automate vendor invoice processing and Accounts Payable workflows with AI-powered extraction, validation, approval, and audit-ready processing on the Oxiom One platform.",
+  metadataBase: new URL("https://oxiom.one"),
+  alternates: {
+    canonical: "https://oxiom.one",
+  },
   keywords: [
     "vendor invoice processing software",
     "invoice processing",
