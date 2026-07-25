@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema, FAQSchema } from './StructuredData';
+import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema, FAQSchema } from './components/StructuredData';
 
 const footerLinks = [
   { label: 'Email', value: 'hello@oxiom.ai', href: 'mailto:hello@oxiom.ai' },
@@ -190,7 +189,7 @@ function InvoiceWorkflow() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {steps.map((step, idx) => (
+          {steps.map((step) => (
             <div key={step.number} className="flex gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-600 font-semibold text-white">
                 {step.number}

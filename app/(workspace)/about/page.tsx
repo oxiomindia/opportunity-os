@@ -70,7 +70,7 @@ export default function AboutPage() {
             <div>
               <h3 className="mb-3 text-xl font-semibold text-slate-950">Transparency</h3>
               <p className="text-slate-600">
-                We're honest about what works, what doesn't, and what's coming next. No surprises, no vaporware promises.
+                We&apos;re honest about what works, what doesn&apos;t, and what&apos;s coming next. No surprises, no vaporware promises.
               </p>
             </div>
             <div>
@@ -117,7 +117,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="mb-4 text-3xl font-semibold text-slate-950">Get in Touch</h2>
           <p className="mb-8 text-lg text-slate-600">
-            Have questions about Oxiom? We'd love to hear from you.
+            Have questions about Oxiom? We&apos;d love to hear from you.
           </p>
           <a
             href="mailto:hello@oxiom.ai"

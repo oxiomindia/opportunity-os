@@ -15,7 +15,7 @@ export default function ContactPage() {
             Contact Us
           </h1>
           <p className="max-w-2xl text-lg text-slate-600">
-            Get in touch with the Oxiom team. We're here to help.
+            Get in touch with the Oxiom team. We&apos;re here to help.
           </p>
         </div>
       </div>

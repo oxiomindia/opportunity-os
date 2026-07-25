@@ -118,7 +118,7 @@ export default function DocumentationIndex() {
               className="rounded-lg border border-slate-200 bg-white p-6 hover:border-blue-300 hover:bg-blue-50 transition-colors"
             >
               <h3 className="mb-2 font-semibold text-slate-950">Security</h3>
-              <p className="text-sm text-slate-600">Learn about Oxiom's security measures and compliance standards.</p>
+              <p className="text-sm text-slate-600">Learn about Oxiom&apos;s security measures and compliance standards.</p>
             </a>
             <a
               href="mailto:hello@oxiom.ai"

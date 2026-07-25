@@ -47,7 +47,6 @@ export const metadata: Metadata = {
   },
 
   // Additional metadata
-  canonical: "https://oxiom.one",
   referrer: "strict-origin-when-cross-origin",
 };
 
