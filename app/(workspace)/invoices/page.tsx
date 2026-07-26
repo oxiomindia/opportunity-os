@@ -1,6 +1,6 @@
-import { mockInvoices } from '../../../data/mockInvoices';
+import { listInvoices } from '../../../lib/invoices/repository';
 import InvoicesPageClient from './InvoicesPageClient';
 
-export default function InvoicesPage() {
-  return <InvoicesPageClient invoices={mockInvoices} />;
+export default async function InvoicesPage() {
+  return <InvoicesPageClient invoices={await listInvoices()} />;
 }

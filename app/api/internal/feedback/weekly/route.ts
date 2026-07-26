@@ -1,0 +1,5 @@
+import { timingSafeEqual } from 'node:crypto'; import { NextResponse } from 'next/server'; import { runWeeklyFeedbackEngine } from '../../../../../lib/feedback/engine';
+export const runtime='nodejs';export const maxDuration=300;
+function authorized(request:Request){const configured=process.env.FEEDBACK_CRON_SECRET??process.env.CRON_SECRET;const supplied=request.headers.get('authorization')?.replace(/^Bearer\s+/,'');if(!configured||!supplied)return false;const a=Buffer.from(configured),b=Buffer.from(supplied);return a.length===b.length&&timingSafeEqual(a,b)}
+export async function POST(request:Request){if(!authorized(request))return NextResponse.json({ok:false,error:'Unauthorized'},{status:401});try{const result=await runWeeklyFeedbackEngine();return NextResponse.json({ok:true,data:result});}catch(error){console.error('Weekly feedback endpoint failed',error instanceof Error?error.message:'unknown');return NextResponse.json({ok:false,error:'Weekly analysis failed.'},{status:500})}}
+export const GET=POST;
