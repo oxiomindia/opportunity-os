@@ -85,7 +85,6 @@ export default function AppShell({ children, userEmail, organizationName, role }
           </div>
 
           <div className="flex items-center gap-2">
-            <Link href="/feedback" className="rounded-md border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700">Share Feedback</Link>
             <span className="hidden text-right lg:block"><span className="block max-w-40 truncate text-xs font-semibold text-slate-800">{organizationName}</span><span className="block text-[11px] capitalize text-slate-500">{role}</span></span>
             <Link
               href="/activity"
