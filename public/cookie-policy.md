@@ -66,5 +66,5 @@ We may update this policy periodically. Changes are effective immediately upon p
 ## Contact
 
 Questions about cookies:
-- Email: hello@oxiom.ai
+- Email: oximindia@gmail.com
 - Phone: +1 (555) 014-9028

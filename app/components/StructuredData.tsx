@@ -20,7 +20,7 @@ export function OrganizationSchema() {
       '@type': 'ContactPoint',
       telephone: '+1-555-014-9028',
       contactType: 'Sales',
-      email: 'hello@oxiom.ai',
+      email: 'oximindia@gmail.com',
     },
     address: {
       '@type': 'PostalAddress',
