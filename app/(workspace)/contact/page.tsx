@@ -29,7 +29,7 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <h3 className="mb-2 font-semibold text-slate-950">Email</h3>
-                <p className="text-slate-600">hello@oxiom.ai</p>
+                <p className="text-slate-600">oximindia@gmail.com</p>
                 <p className="text-sm text-slate-500 mt-1">General inquiries</p>
               </div>
               <div>

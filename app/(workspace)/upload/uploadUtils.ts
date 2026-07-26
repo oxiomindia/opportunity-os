@@ -1,4 +1,4 @@
-import type { AcceptedUploadMimeType, TemporaryIntakeRecord, UploadQueueItem, UploadValidationError } from '../../../types/upload';
+import type { AcceptedUploadMimeType, UploadQueueItem, UploadValidationError } from '../../../types/upload';
 import { acceptedUploadMimeTypes } from '../../../types/upload';
 import { maxUploadBatchSize, maxUploadFileSizeBytes } from './uploadConstants';
 
@@ -76,21 +76,5 @@ export function createUploadQueueItem(file: File, sequence: number): UploadQueue
     status: 'Waiting',
     progress: 0,
     attempt: 0,
-  };
-}
-
-export function shouldFailDeterministically(item: UploadQueueItem) {
-  return item.filename.toLowerCase().includes('fail') && item.attempt === 0;
-}
-
-export function createTemporaryIntakeRecord(item: UploadQueueItem): TemporaryIntakeRecord {
-  return {
-    id: `temp-${item.id}`,
-    filename: item.filename,
-    size: item.size,
-    mimeType: item.mimeType,
-    uploadedAt: item.uploadedAt ?? new Date().toISOString(),
-    status: 'received',
-    source: 'manual-upload',
   };
 }

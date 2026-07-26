@@ -1,512 +1,57 @@
-'use client';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ExternalLink, FileText } from './components/Icons';
 
-import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema, FAQSchema } from './components/StructuredData';
+export const metadata: Metadata = {
+  title: 'Oxiom Invoice Processing | Vendor Invoice & AP Automation',
+  description: 'Organize vendor and supplier invoices, review invoice data, manage approvals, and prepare approved invoices for payment with Oxiom Invoice Processing.',
+};
 
-const footerLinks = [
-  { label: 'Email', value: 'hello@oxiom.ai', href: 'mailto:hello@oxiom.ai' },
-  { label: 'Phone', value: '+1 (555) 014-9028', href: 'tel:+15550149028' },
-  { label: 'LinkedIn', value: 'LinkedIn', href: 'https://www.linkedin.com/company/oxiom' },
-  { label: 'X (Twitter)', value: '@oxiom', href: 'https://x.com/oxiom' },
-];
+const demoHref = 'mailto:oximindia@gmail.com?subject=Book%20an%20Oxiom%20Invoice%20Processing%20Demo';
 
-function Header() {
-  return (
-    <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-8 sm:px-8 lg:px-10">
-      <a href="#top" className="text-xl font-semibold tracking-tight text-slate-950" aria-label="Oxiom home">
-        Oxiom
-      </a>
-      <nav className="flex items-center gap-3" aria-label="Primary navigation">
-        <a
-          href="/dashboard"
-          aria-label="Explore Invoice Processing platform"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-base font-medium text-slate-700 hover:border-blue-200 hover:text-blue-700"
-        >
-          →
-        </a>
-        <a
-          href="mailto:hello@oxiom.ai"
-          className="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
-        >
-          Request Demo
-        </a>
-      </nav>
-    </header>
-  );
+function DemoLink({ inverted = false }: Readonly<{ inverted?: boolean }>) {
+  return <a href={demoHref} className={`inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${inverted ? 'bg-white text-blue-700 hover:bg-blue-50' : 'bg-blue-600 text-white hover:bg-blue-700'}`}><ExternalLink size={16} />Book Demo</a>;
 }
 
-function Hero() {
-  return (
-    <section className="mx-auto flex max-w-7xl flex-col items-center px-6 py-20 sm:px-8 sm:py-32 lg:px-10">
-      <div className="text-center">
-        <p className="mb-4 inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold uppercase tracking-wider text-blue-600">
-          Accounts Payable Automation
-        </p>
-        <h1 className="mb-6 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-          Automate Vendor Invoice Processing with Intelligence
-        </h1>
-        <p className="mx-auto mb-12 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
-          Oxiom Invoice Processing helps finance teams manage incoming supplier invoices from capture and review through validation, approval, exception handling, and audit-ready processing—all within the Oxiom One platform.
-        </p>
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
-          <a
-            href="mailto:hello@oxiom.ai?subject=Oxiom%20Invoice%20Processing%20Demo%20Request"
-            className="inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-3.5 text-base font-semibold text-white hover:bg-blue-700"
-          >
-            Request a Demo
-          </a>
-          <a
-            href="/dashboard"
-            aria-label="Explore the platform"
-            className="inline-flex items-center justify-center rounded-full border-2 border-slate-200 px-8 py-3.5 text-base font-semibold text-slate-950 hover:border-blue-200 hover:text-blue-700"
-          >
-            Explore Invoice Processing
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ProblemStatement() {
-  const challenges = [
-    { title: 'Manual Processing', desc: 'Finance teams spend hours on manual data entry and invoice routing.' },
-    { title: 'Email Approvals', desc: 'Bottlenecks with email-based approval workflows slow payments.' },
-    { title: 'Data Errors', desc: 'Manual processes introduce duplicate invoices and data entry mistakes.' },
-    { title: 'Compliance Risk', desc: 'Limited audit trail and visibility creates compliance exposure.' },
-    { title: 'Late Payments', desc: 'Processing delays cause missed payment terms and supplier issues.' },
-    { title: 'Lack of Visibility', desc: 'No real-time insight into AP status or invoice exceptions.' },
+export default function HomePage() {
+  const workflow = [
+    ['Upload invoices', 'Add PDF, PNG, or JPG supplier invoices to a secure organization workspace.'],
+    ['Review invoice data', 'Open the source document and review the invoice details before they move forward.'],
+    ['Approve', 'Track each invoice through a clear review and approval status.'],
+    ['Prepare for payment', 'Keep approved invoices visible and organized for the next step in your payment process.'],
   ];
-
-  return (
-    <section className="border-t border-slate-100 bg-slate-50 py-20 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-            Finance Teams Face Complex Challenges
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-slate-600">
-            Manual vendor invoice processing creates bottlenecks, errors, and compliance risks that delay payments and frustrate suppliers.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {challenges.map((challenge) => (
-            <div key={challenge.title} className="rounded-lg border border-slate-200 bg-white p-6">
-              <h3 className="mb-2 font-semibold text-slate-950">{challenge.title}</h3>
-              <p className="text-sm text-slate-600">{challenge.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Capabilities() {
-  const capabilitiesImplemented = [
-    { title: 'Invoice Capture & Search', desc: 'Find invoices quickly across your vendor base with intelligent global search.' },
-    { title: 'Data Organization', desc: 'Centralized invoice repository with vendor, amount, and status information.' },
-    { title: 'Status Tracking', desc: 'Track invoices through processing lifecycle: received → processing → verified → approved → paid.' },
-    { title: 'Exception Management', desc: 'Identify and manage invoices with exceptions for manual review.' },
-    { title: 'Multi-Currency Support', desc: 'Process invoices in INR, USD, EUR with proper formatting.' },
-    { title: 'Audit Trail', desc: 'Complete visibility into invoice history and processing steps.' },
-  ];
-
-  const capabilitiesPlanned = [
-    { title: 'AI Data Extraction', desc: 'Automated OCR and AI to extract invoice data with high confidence.' },
-    { title: 'Intelligent Validation', desc: 'Automatic validation against GL codes, POs, and business rules.' },
-    { title: 'Duplicate Detection', desc: 'Prevent duplicate invoice processing with intelligent matching.' },
-    { title: 'Approval Workflows', desc: 'Customizable approval routing based on invoice amounts and types.' },
-    { title: 'ERP Integration', desc: 'Seamless integration with major ERP systems for invoice posting.' },
-    { title: 'Analytics Dashboard', desc: 'Real-time visibility into AP metrics, cycle times, and KPIs.' },
-  ];
-
-  return (
-    <section className="py-20 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-            Invoice Processing Capabilities
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-slate-600">
-            Manage your vendor invoices from intake through payment with intelligent automation and visibility.
-          </p>
-        </div>
-
-        {/* Currently Available */}
-        <div className="mb-16">
-          <h3 className="mb-6 text-xl font-semibold text-slate-950">✓ Available Now</h3>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {capabilitiesImplemented.map((cap) => (
-              <div key={cap.title} className="rounded-lg border border-green-200 bg-green-50 p-5">
-                <h4 className="mb-2 font-semibold text-slate-950">{cap.title}</h4>
-                <p className="text-sm text-slate-700">{cap.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Planned Features */}
-        <div>
-          <h3 className="mb-6 text-xl font-semibold text-slate-950">Coming Soon</h3>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {capabilitiesPlanned.map((cap) => (
-              <div key={cap.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5 opacity-75">
-                <h4 className="mb-2 font-semibold text-slate-950">{cap.title}</h4>
-                <p className="text-sm text-slate-600">{cap.desc}</p>
-                <span className="mt-3 inline-block rounded bg-slate-200 px-2 py-1 text-xs font-medium text-slate-700">
-                  Planned
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function InvoiceWorkflow() {
-  const steps = [
-    { number: '1', title: 'Receive', desc: 'Invoices captured from email, portals, and manual uploads.' },
-    { number: '2', title: 'Review', desc: 'Centralized view of all incoming invoices with search and filtering.' },
-    { number: '3', title: 'Validate', desc: 'Check for duplicates, exceptions, and data issues.' },
-    { number: '4', title: 'Approve', desc: 'Route through approval workflows with exception management.' },
-    { number: '5', title: 'Process', desc: 'Prepare for payment with audit trail and compliance documentation.' },
-    { number: '6', title: 'Pay', desc: 'Process payments with full visibility and vendor communication.' },
-  ];
-
-  return (
-    <section className="border-t border-slate-100 bg-slate-50 py-20 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-            Complete Invoice Processing Lifecycle
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-slate-600">
-            From vendor invoice capture through payment, streamlined and automated.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {steps.map((step) => (
-            <div key={step.number} className="flex gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-600 font-semibold text-white">
-                {step.number}
-              </div>
-              <div className="flex-1 pt-1">
-                <h3 className="font-semibold text-slate-950">{step.title}</h3>
-                <p className="mt-1 text-sm text-slate-600">{step.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Benefits() {
   const benefits = [
-    {
-      title: 'Reduce Manual Work',
-      items: ['Eliminate manual data entry and routing', 'Automated invoice organization and categorization'],
-    },
-    {
-      title: 'Accelerate Approvals',
-      items: ['Faster invoice processing and payment cycles', 'Reduce AP processing time by 50%+'],
-    },
-    {
-      title: 'Improve Accuracy',
-      items: ['Reduce duplicate invoices and data errors', 'Consistent, audit-ready invoice handling'],
-    },
-    {
-      title: 'Strengthen Compliance',
-      items: ['Complete audit trail for all invoices', 'Regulatory documentation and compliance ready'],
-    },
-    {
-      title: 'Enhance Visibility',
-      items: ['Real-time invoice status tracking', 'Exception alerts and bottleneck identification'],
-    },
-    {
-      title: 'Scale Operations',
-      items: ['Handle invoice volume growth without headcount', 'Vendor invoice management at enterprise scale'],
-    },
+    ['Less manual entry', 'Keep incoming invoice documents and their key information together in one workspace.'],
+    ['Better visibility', 'Search, filter, and follow invoice status without relying on disconnected spreadsheets or inboxes.'],
+    ['Fewer errors', 'Review invoice information and exceptions before an invoice is prepared for payment.'],
+    ['A clearer AP process', 'Give finance teams a consistent path from invoice intake to approval and payment preparation.'],
   ];
 
-  return (
-    <section className="py-20 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-            Benefits for Finance Teams
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-slate-600">
-            Streamline Accounts Payable operations and improve finance team efficiency.
-          </p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {benefits.map((benefit) => (
-            <div key={benefit.title} className="rounded-lg border border-slate-200 bg-white p-6">
-              <h3 className="mb-4 font-semibold text-slate-950">{benefit.title}</h3>
-              <ul className="space-y-2">
-                {benefit.items.map((item) => (
-                  <li key={item} className="flex gap-2 text-sm text-slate-600">
-                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+  return <div id="top" className="min-h-screen bg-white text-slate-950">
+    <header className="border-b border-slate-200">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-5 sm:px-8 lg:px-10">
+        <a href="#top" className="rounded text-xl font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Oxiom</a>
+        <nav aria-label="Primary navigation" className="flex items-center gap-3"><Link href="/login" className="rounded-lg px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Login</Link><DemoLink /></nav>
       </div>
-    </section>
-  );
-}
+    </header>
 
-function OxiomOnePlatform() {
-  const modules = [
-    { name: 'Oxiom Invoice Processing', status: 'Available', desc: 'Vendor invoice processing and AP automation' },
-    { name: 'Oxiom CRM', status: 'Coming Soon', desc: 'Customer relationship and sales management' },
-    { name: 'Oxiom Projects', status: 'Coming Soon', desc: 'Project planning and resource management' },
-    { name: 'Oxiom HR', status: 'Coming Soon', desc: 'Human resources and talent management' },
-    { name: 'Oxiom Inventory', status: 'Coming Soon', desc: 'Inventory and supply chain management' },
-    { name: 'Oxiom Analytics', status: 'Coming Soon', desc: 'Business intelligence and reporting' },
-  ];
+    <main>
+      <section aria-labelledby="hero-title" className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:px-10 lg:py-32">
+        <div><p className="text-sm font-semibold uppercase tracking-[.18em] text-blue-700">Oxiom One · Invoice Processing</p><h1 id="hero-title" className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">A clearer way to process vendor and supplier invoices</h1><p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">Oxiom Invoice Processing gives Accounts Payable teams one place to upload invoices, review information, manage status, and prepare approved invoices for payment.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><DemoLink /><Link href="/login" className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-800 hover:border-blue-300 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">Login</Link></div><p className="mt-5 text-sm text-slate-500">Designed for incoming vendor invoices and Accounts Payable operations—not billing or invoice generation.</p></div>
+        <aside aria-label="Product workflow summary" className="border-l-2 border-blue-600 pl-6 sm:pl-8"><FileText size={30} className="text-blue-700"/><h2 className="mt-5 text-xl font-semibold">From invoice intake to payment preparation</h2><ol className="mt-6 space-y-5">{workflow.map(([title],index)=><li key={title} className="flex items-center gap-4"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-semibold text-blue-700">{index+1}</span><span className="font-medium">{title}</span></li>)}</ol></aside>
+      </section>
 
-  return (
-    <section className="border-t border-slate-100 bg-slate-50 py-20 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-            Part of Oxiom One
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-slate-600">
-            Oxiom Invoice Processing is the first module of Oxiom One, an enterprise business platform designed to unify your entire business.
-          </p>
-        </div>
+      <section id="workflow" aria-labelledby="workflow-title" className="scroll-mt-6 border-y border-slate-200 bg-slate-50 py-20 sm:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10"><div className="max-w-2xl"><p className="text-sm font-semibold text-blue-700">Product workflow</p><h2 id="workflow-title" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">A simple, controlled invoice process</h2><p className="mt-4 text-lg leading-8 text-slate-600">Keep each step understandable for the people responsible for review and approval.</p></div><ol className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4">{workflow.map(([title,description],index)=><li key={title} className="border-t border-slate-300 pt-5"><p className="text-sm font-semibold text-blue-700">0{index+1}</p><h3 className="mt-3 text-lg font-semibold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{description}</p></li>)}</ol></div></section>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {modules.map((module) => (
-            <div
-              key={module.name}
-              className={`rounded-lg border p-6 ${
-                module.status === 'Available'
-                  ? 'border-blue-200 bg-blue-50'
-                  : 'border-slate-200 bg-white opacity-75'
-              }`}
-            >
-              <div className="mb-2 flex items-start justify-between">
-                <h3 className="font-semibold text-slate-950">{module.name}</h3>
-                <span
-                  className={`rounded px-2 py-1 text-xs font-medium ${
-                    module.status === 'Available'
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-slate-200 text-slate-700'
-                  }`}
-                >
-                  {module.status}
-                </span>
-              </div>
-              <p className="text-sm text-slate-600">{module.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+      <section aria-labelledby="benefits-title" className="py-20 sm:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10"><div className="max-w-2xl"><p className="text-sm font-semibold text-blue-700">Business value</p><h2 id="benefits-title" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Help finance teams work with greater clarity</h2></div><div className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2">{benefits.map(([title,description])=><article key={title}><h3 className="text-lg font-semibold">{title}</h3><p className="mt-2 max-w-xl leading-7 text-slate-600">{description}</p></article>)}</div></div></section>
 
-function FAQ() {
-  const faqs = [
-    {
-      q: 'What is Oxiom Invoice Processing?',
-      a: 'Oxiom Invoice Processing is an AI-powered vendor invoice processing and Accounts Payable automation solution. It helps finance teams manage incoming supplier invoices from capture through payment, with intelligent organization, status tracking, exception management, and audit-ready processing—all on the Oxiom One platform.',
-    },
-    {
-      q: 'Is this invoice generation software?',
-      a: 'No. Oxiom Invoice Processing is designed to process and automate the handling of incoming vendor invoices and Accounts Payable workflows. It is not an invoice creation, billing, or quotation application. It does not generate customer invoices—it automates the processing of supplier invoices received by your organization.',
-    },
-    {
-      q: 'What features are available today?',
-      a: 'Today you can capture, organize, search, and track vendor invoices across statuses. View exceptions and manage the invoice lifecycle. AI extraction, intelligent validation, approval workflows, ERP integration, and advanced analytics are coming soon.',
-    },
-    {
-      q: 'What is Oxiom One?',
-      a: 'Oxiom One is an enterprise business platform. Oxiom Invoice Processing is the first application. Future modules include CRM, Projects, HR, Inventory, and Analytics—all unified on one platform to streamline your entire business.',
-    },
-    {
-      q: 'Can I integrate with my ERP system?',
-      a: 'ERP integration is on our roadmap and coming soon. For now, you can use Oxiom Invoice Processing to centrally manage vendor invoices with full visibility.',
-    },
-    {
-      q: 'How does AI help with invoice processing?',
-      a: 'AI-powered invoice processing is planned for future releases. When available, it will automatically extract data from vendor invoices, validate information, detect duplicates, and route invoices intelligently—reducing manual work.',
-    },
-  ];
+      <section aria-labelledby="audience-title" className="border-y border-slate-200 bg-slate-50 py-20 sm:py-24"><div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:px-10"><div><p className="text-sm font-semibold text-blue-700">Who it is for</p><h2 id="audience-title" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Built for teams responsible for incoming invoices</h2></div><div className="space-y-7"><div><h3 className="font-semibold">Accounts Payable teams</h3><p className="mt-2 leading-7 text-slate-600">Organize daily invoice intake, review exceptions, and maintain visibility across the work queue.</p></div><div><h3 className="font-semibold">Finance managers and controllers</h3><p className="mt-2 leading-7 text-slate-600">Follow invoice status and support a more consistent review and approval process.</p></div><div><h3 className="font-semibold">Growing organizations</h3><p className="mt-2 leading-7 text-slate-600">Move away from fragmented email and spreadsheet tracking as supplier invoice volume increases.</p></div></div></div></section>
 
-  return (
-    <section className="py-20 sm:py-32">
-      <div className="mx-auto max-w-3xl px-6 sm:px-8 lg:px-10">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-            Frequently Asked Questions
-          </h2>
-        </div>
+      <section id="security" aria-labelledby="security-title" className="scroll-mt-6 py-20 sm:py-24"><div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:px-10"><div><p className="text-sm font-semibold text-blue-700">Security and control</p><h2 id="security-title" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Keep invoice access within the right organization</h2></div><div className="grid gap-8 sm:grid-cols-2"><div><h3 className="font-semibold">Organization isolation</h3><p className="mt-2 leading-7 text-slate-600">Authenticated workspaces and tenant-aware access controls keep each organization&apos;s invoice records separate.</p></div><div><h3 className="font-semibold">Controlled document access</h3><p className="mt-2 leading-7 text-slate-600">Invoice documents use private storage and time-limited access links for review.</p></div><div><h3 className="font-semibold">Role-aware actions</h3><p className="mt-2 leading-7 text-slate-600">Workspace roles help control who can upload, review, archive, or delete invoice records.</p></div><div><h3 className="font-semibold">Operational history</h3><p className="mt-2 leading-7 text-slate-600">Status and audit records support review of important invoice actions.</p></div></div></div></section>
 
-        <div className="space-y-6">
-          {faqs.map((faq) => (
-            <details key={faq.q} className="group rounded-lg border border-slate-200 bg-white p-6">
-              <summary className="flex cursor-pointer items-center justify-between font-semibold text-slate-950">
-                {faq.q}
-                <span className="text-slate-600 transition group-open:rotate-180">↓</span>
-              </summary>
-              <p className="mt-4 text-slate-600">{faq.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+      <section aria-labelledby="cta-title" className="bg-blue-700 py-16 sm:py-20"><div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-5 sm:px-8 lg:flex-row lg:items-center lg:px-10"><div className="max-w-2xl"><h2 id="cta-title" className="text-3xl font-semibold tracking-tight text-white">See Oxiom Invoice Processing in your AP workflow</h2><p className="mt-3 text-lg leading-8 text-blue-100">Book a focused product demo to discuss your vendor invoice process and see the current workspace.</p></div><DemoLink inverted /></div></section>
+    </main>
 
-function CTA() {
-  return (
-    <section className="border-t border-slate-100 bg-gradient-to-r from-blue-600 to-blue-700 py-20 sm:py-32">
-      <div className="mx-auto max-w-3xl px-6 text-center sm:px-8 lg:px-10">
-        <h2 className="mb-6 text-3xl font-semibold text-white sm:text-4xl">
-          Ready to Automate Your AP Process?
-        </h2>
-        <p className="mb-8 text-lg text-blue-100">
-          Request a demo to see Oxiom Invoice Processing in action and learn how to streamline your vendor invoice workflow.
-        </p>
-        <a
-          href="mailto:hello@oxiom.ai?subject=Oxiom%20Invoice%20Processing%20Demo%20Request"
-          className="inline-flex rounded-full bg-white px-8 py-3.5 font-semibold text-blue-600 hover:bg-blue-50"
-        >
-          Request a Demo
-        </a>
-      </div>
-    </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-slate-100 bg-slate-950 text-slate-300">
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-10">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <h3 className="mb-4 font-semibold text-white">Oxiom</h3>
-            <p className="text-sm">
-              Enterprise business platform for automating vendor invoice processing and Accounts Payable workflows.
-            </p>
-          </div>
-          <div>
-            <h4 className="mb-3 font-semibold text-white">Product</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="/dashboard" className="hover:text-white">
-                  Invoice Processing
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Pricing
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Security
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="mb-3 font-semibold text-white">Company</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="#" className="hover:text-white">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Careers
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="mb-3 font-semibold text-white">Connect</h4>
-            <div className="flex flex-col gap-2 text-sm">
-              {footerLinks.map((link) => (
-                <a key={link.label} href={link.href} className="hover:text-white">
-                  <span className="sr-only">{link.label}: </span>
-                  {link.value}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-12 border-t border-slate-800 pt-8 text-center text-sm">
-          <p>© {new Date().getFullYear()} Oxiom. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-export default function Home() {
-  return (
-    <div className="min-h-screen bg-white text-slate-950">
-      <StructuredDataContainer />
-      <Header />
-      <main id="top">
-        <Hero />
-        <ProblemStatement />
-        <Capabilities />
-        <InvoiceWorkflow />
-        <Benefits />
-        <OxiomOnePlatform />
-        <FAQ />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
-  );
-}
-
-function StructuredDataContainer() {
-  const faqs = [
-    {
-      question: 'What is Oxiom Invoice Processing?',
-      answer: 'Oxiom Invoice Processing is an AI-powered vendor invoice processing and Accounts Payable automation solution. It helps finance teams manage incoming supplier invoices from capture through payment, with intelligent organization, status tracking, exception management, and audit-ready processing—all on the Oxiom One platform.',
-    },
-    {
-      question: 'Is this invoice generation software?',
-      answer: 'No. Oxiom Invoice Processing is designed to process and automate the handling of incoming vendor invoices and Accounts Payable workflows. It is not an invoice creation, billing, or quotation application. It does not generate customer invoices—it automates the processing of supplier invoices received by your organization.',
-    },
-    {
-      question: 'What is Oxiom One?',
-      answer: 'Oxiom One is an enterprise business platform. Oxiom Invoice Processing is the first application. Future modules include CRM, Projects, HR, Inventory, and Analytics—all unified on one platform to streamline your entire business.',
-    },
-  ];
-
-  return (
-    <>
-      <OrganizationSchema />
-      <SoftwareApplicationSchema />
-      <WebSiteSchema />
-      <FAQSchema faqs={faqs} />
-    </>
-  );
+    <footer className="border-t border-slate-200 bg-slate-950 text-slate-300"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-3 lg:px-10"><div><p className="font-semibold text-white">Oxiom</p><p className="mt-3 max-w-sm text-sm leading-6">Oxiom Invoice Processing is part of Oxiom One, supporting vendor and supplier invoice operations for Accounts Payable teams.</p></div><nav aria-label="Product links"><p className="font-semibold text-white">Product</p><ul className="mt-3 space-y-2 text-sm"><li><a href="#workflow" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">Workflow</a></li><li><a href="#security" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">Security and control</a></li><li><Link href="/login" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">Login</Link></li></ul></nav><nav aria-label="Company links"><p className="font-semibold text-white">Talk to Oxiom</p><ul className="mt-3 space-y-2 text-sm"><li><a href={demoHref} className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">Book Demo</a></li><li><a href="mailto:oximindia@gmail.com" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">oximindia@gmail.com</a></li></ul></nav></div><div className="border-t border-slate-800 px-5 py-5 text-center text-xs text-slate-500">© {new Date().getFullYear()} Oxiom. All rights reserved.</div></footer>
+  </div>;
 }

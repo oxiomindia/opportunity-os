@@ -1,0 +1,2 @@
+import { listAdminFeedback } from '../../../../lib/feedback/admin'; import FeedbackTable from '../FeedbackTable';
+export default async function Urgent(){return <div className="space-y-5"><header><h1 className="text-2xl font-semibold">Urgent feedback</h1><p className="mt-2 text-sm text-slate-600">Unresolved concerns matched by deterministic operational, privacy, or security rules.</p></header><FeedbackTable items={await listAdminFeedback({urgent:true}) as unknown as Record<string,unknown>[]}/></div>}
