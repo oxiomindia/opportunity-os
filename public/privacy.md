@@ -90,7 +90,7 @@ For EU and UK residents: We comply with the General Data Protection Regulation (
 ## 9. Contact Us
 
 For privacy inquiries:
-- Email: hello@oxiom.ai
+- Email: oximindia@gmail.com
 - Mail: Oxiom, Inc., [Address]
 - Phone: +1 (555) 014-9028
 

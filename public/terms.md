@@ -144,5 +144,5 @@ Disputes shall be resolved through:
 ## 16. Contact
 
 Questions about these Terms:
-- Email: hello@oxiom.ai
+- Email: oximindia@gmail.com
 - Phone: +1 (555) 014-9028
