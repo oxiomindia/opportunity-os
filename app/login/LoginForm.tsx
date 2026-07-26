@@ -20,7 +20,7 @@ export default function LoginForm({ demoEnabled, configured }: Readonly<{ demoEn
       <button disabled={pending || !configured} className="h-11 w-full rounded-lg bg-blue-600 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
         {pending ? 'Signing in…' : 'Sign in'}
       </button>
-      {demoEnabled && <p className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900"><strong>Development only:</strong> use username <code>admin</code> and password <code>admin</code>. The account and demo organization will be provisioned on first sign-in.</p>}
+      {demoEnabled && <p className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900"><strong>Development only:</strong> use username <code>admin</code> and password <code>admin</code>. This starts a local Demo Organization session without connecting to Supabase.</p>}
     </form>
   );
 }
