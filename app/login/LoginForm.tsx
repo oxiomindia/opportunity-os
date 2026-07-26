@@ -1,7 +1,6 @@
 'use client';
 
 import { useActionState } from 'react';
-import Link from 'next/link';
 import { login, type LoginState } from './actions';
 
 export default function LoginForm({ demoEnabled, configured }: Readonly<{ demoEnabled: boolean; configured: boolean }>) {
@@ -22,7 +21,6 @@ export default function LoginForm({ demoEnabled, configured }: Readonly<{ demoEn
         {pending ? 'Signing in…' : 'Sign in'}
       </button>
       {demoEnabled && <p className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900"><strong>Development only:</strong> use username <code>admin</code> and password <code>admin</code>. This starts a local Demo Organization session without connecting to Supabase.</p>}
-    <div className="flex justify-between text-sm"><Link className="text-blue-700" href="/forgot-password">Forgot Password?</Link><Link className="text-blue-700" href="/resend-verification">Resend verification</Link></div>
     </form>
   );
 }

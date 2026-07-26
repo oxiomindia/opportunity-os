@@ -40,9 +40,8 @@ export const profiles = pgTable('profiles', {
   id: uuid('id').primaryKey(), // References auth.users(id); managed in the database migration.
   displayName: text('display_name').notNull(),
   email: text('email').notNull(),
-  phoneNumber: text('phone_number'),
   ...timestamps,
-}, (table) => [uniqueIndex('profiles_email_uidx').on(table.email), uniqueIndex('profiles_phone_number_uidx').on(table.phoneNumber)]);
+}, (table) => [uniqueIndex('profiles_email_uidx').on(table.email)]);
 
 export const organizationMembers = pgTable('organization_members', {
   organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),

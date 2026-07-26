@@ -20,8 +20,6 @@ test('Supabase RLS isolates organizations and enforces membership roles', { skip
     assert.ifError(error);
     assert.ok(data.user);
     users.push(data.user);
-    const { error: profileError } = await admin.from('profiles').upsert({ id: data.user.id, display_name: label, email: data.user.email });
-    assert.ifError(profileError);
     return data.user;
   }
 
@@ -64,22 +62,6 @@ test('Supabase RLS isolates organizations and enforces membership roles', { skip
   assert.ok(crossTenantInsertError, 'cross-tenant invoice insertion must be rejected');
   const { data: crossTenantUpdate, error: crossTenantUpdateError } = await clientA.from('organizations').update({ name: 'Compromised' }).eq('id', organizationB).select('id');
   assert.ok(crossTenantUpdateError || crossTenantUpdate?.length === 0, 'cross-tenant organization update must affect no rows');
-
-
-  const signupUser = await createUser('signup-owner');
-  const signupPhone = `+1415${String(Math.floor(Math.random() * 10_000_000)).padStart(7, '0')}`;
-  const { error: metadataError } = await admin.auth.admin.updateUserById(signupUser.id, { user_metadata: { display_name: 'Signup Owner', phone_number: signupPhone, organization_name: 'Signup Integration' } });
-  assert.ifError(metadataError);
-  const signupClient = await signIn(signupUser);
-  const firstOnboarding = await signupClient.rpc('complete_signup_onboarding');
-  assert.ifError(firstOnboarding.error);
-  const secondOnboarding = await signupClient.rpc('complete_signup_onboarding');
-  assert.ifError(secondOnboarding.error);
-  assert.equal(secondOnboarding.data, firstOnboarding.data, 'onboarding retries must return the same organization');
-  organizationIds.push(firstOnboarding.data as string);
-  const { data: ownerMemberships, error: ownerError } = await admin.from('organization_members').select('role').eq('organization_id', firstOnboarding.data).eq('user_id', signupUser.id);
-  assert.ifError(ownerError);
-  assert.deepEqual(ownerMemberships, [{ role: 'owner' }]);
 
   const clientB = await signIn(userB);
   const { data: roleEscalation, error: roleEscalationError } = await clientB.from('organization_members').update({ role: 'owner' }).eq('organization_id', organizationB).eq('user_id', userB.id).select('role');
