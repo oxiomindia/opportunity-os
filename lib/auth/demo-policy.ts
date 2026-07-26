@@ -4,6 +4,9 @@ export interface DemoEnvironment {
 }
 
 export function canUseDemoLogin(environment: DemoEnvironment) {
-  if (environment.NODE_ENV === 'production') return false;
-  return environment.NODE_ENV === 'development' || environment.ENABLE_DEMO_LOGIN === 'true';
+  return environment.NODE_ENV === 'development' && environment.ENABLE_DEMO_LOGIN === 'true';
+}
+
+export function isDemoCredentials(environment: DemoEnvironment, username: string, password: string) {
+  return canUseDemoLogin(environment) && username === 'admin' && password === 'admin';
 }

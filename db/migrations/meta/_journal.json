@@ -29,6 +29,20 @@
       "when": 1785051000000,
       "tag": "0003_invoice_lifecycle",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1785054000000,
+      "tag": "0004_product_feedback",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1785057000000,
+      "tag": "0005_simplify_feedback_for_beta",
+      "breakpoints": true
     }
   ]
 }

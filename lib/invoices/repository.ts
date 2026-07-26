@@ -4,6 +4,7 @@ import { cache } from 'react';
 import type { Invoice } from '../../types/invoice';
 import { requireSessionContext } from '../auth/dal';
 import { createSupabaseServerClient } from '../supabase/server';
+import { mockInvoices } from '../../data/mockInvoices';
 
 interface InvoiceRow {
   id: string; invoice_number: string | null; invoice_date: string | null; due_date: string | null;
@@ -36,7 +37,8 @@ function toInvoice(row: InvoiceRow): Invoice {
 const invoiceSelect = 'id, invoice_number, invoice_date, due_date, currency, subtotal, tax_total, total, status, extraction_confidence, source, created_at, vendors(name, email), attachments(original_name, mime_type)';
 
 export const listInvoices = cache(async (): Promise<Invoice[]> => {
-  const { organization } = await requireSessionContext();
+  const { organization, mode } = await requireSessionContext();
+  if (mode === 'demo') return mockInvoices;
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.from('invoices').select(invoiceSelect)
     .eq('organization_id', organization.id).is('deleted_at', null).is('archived_at', null)
@@ -46,8 +48,10 @@ export const listInvoices = cache(async (): Promise<Invoice[]> => {
 });
 
 export async function getInvoice(id: string): Promise<Invoice | null> {
+  const session = await requireSessionContext();
+  if (session.mode === 'demo') return mockInvoices.find((invoice) => invoice.id === id) ?? null;
   if (!/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(id)) return null;
-  const { organization } = await requireSessionContext();
+  const { organization } = session;
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.from('invoices').select(invoiceSelect)
     .eq('organization_id', organization.id).eq('id', id).is('deleted_at', null).maybeSingle();
@@ -56,8 +60,10 @@ export async function getInvoice(id: string): Promise<Invoice | null> {
 }
 
 export async function getInvoiceDocument(id: string) {
+  const session = await requireSessionContext();
+  if (session.mode === 'demo') return null;
   if (!/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(id)) return null;
-  const { organization } = await requireSessionContext();
+  const { organization } = session;
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.from('attachments').select('storage_key, original_name, mime_type')
     .eq('organization_id', organization.id).eq('invoice_id', id).eq('status', 'stored').limit(1).maybeSingle();

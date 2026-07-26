@@ -1,10 +1,12 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 import { z } from 'zod';
-import { isDemoCredentials, provisionDemoAccount } from '../../lib/auth/demo';
-import { isDemoLoginEnabled } from '../../lib/supabase/config';
+import { isDemoCredentials } from '../../lib/auth/demo-policy';
+import { getAuthCapabilities } from '../../lib/supabase/config';
 import { createSupabaseServerClient } from '../../lib/supabase/server';
+import { createLocalDemoToken, getLocalDemoCookieOptions, localDemoCookie } from '../../lib/auth/dev-session';
 
 export interface LoginState { error?: string }
 
@@ -17,15 +19,16 @@ export async function login(_state: LoginState, formData: FormData): Promise<Log
   const parsed = loginSchema.safeParse({ username: formData.get('username'), password: formData.get('password') });
   if (!parsed.success) return { error: 'Enter a valid email address and password.' };
   const { username, password } = parsed.data;
-  let email = username;
+  const capabilities = getAuthCapabilities(process.env);
+  if (!capabilities.supabase && !capabilities.localDemo) return { error: 'Sign in is not configured for this environment.' };
+  const email = username;
 
   if (username === 'admin') {
-    if (!isDemoCredentials(username, password)) return { error: 'Invalid email address or password.' };
-    try {
-      ({ email } = await provisionDemoAccount());
-    } catch (error) {
-      console.error('Demo provisioning failed', error);
-      return { error: 'The development demo could not be provisioned. Check the local Supabase configuration.' };
+    if (!capabilities.demo || !isDemoCredentials(process.env, username, password)) return { error: 'Invalid email address or password.' };
+    if (capabilities.localDemo) {
+      const cookieStore = await cookies();
+      cookieStore.set(localDemoCookie.name, await createLocalDemoToken(), getLocalDemoCookieOptions(process.env));
+      redirect('/dashboard');
     }
   } else if (!z.email().safeParse(username).success) {
     return { error: 'Enter a valid email address and password.' };
@@ -38,11 +41,15 @@ export async function login(_state: LoginState, formData: FormData): Promise<Log
 }
 
 export async function logout() {
+  const cookieStore = await cookies();
+  cookieStore.delete(localDemoCookie.name);
+  const capabilities = getAuthCapabilities(process.env);
+  if (!capabilities.supabase) redirect('/login');
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
   redirect('/login');
 }
 
 export async function getLoginCapabilities() {
-  return { demo: isDemoLoginEnabled() };
+  return getAuthCapabilities(process.env);
 }

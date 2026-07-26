@@ -1,8 +1,15 @@
 import { createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 import { getSupabaseConfig } from './lib/supabase/config';
+import { isLocalDemoEnabled, localDemoCookie, verifyLocalDemoToken } from './lib/auth/dev-session';
 
 export async function proxy(request: NextRequest) {
+  if (isLocalDemoEnabled(process.env)) {
+    if (await verifyLocalDemoToken(request.cookies.get(localDemoCookie.name)?.value)) return NextResponse.next({ request });
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('next', request.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
+  }
   let response = NextResponse.next({ request });
   let config: ReturnType<typeof getSupabaseConfig>;
   try {
@@ -30,5 +37,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/invoices/:path*', '/upload/:path*', '/verification/:path*', '/reviews/:path*', '/accounts-review/:path*', '/payment-queue/:path*', '/reports/:path*', '/activity/:path*', '/settings/:path*'],
+  matcher: ['/dashboard/:path*', '/invoices/:path*', '/upload/:path*', '/verification/:path*', '/reviews/:path*', '/accounts-review/:path*', '/payment-queue/:path*', '/reports/:path*', '/activity/:path*', '/settings/:path*', '/feedback/:path*', '/admin/:path*'],
 };
