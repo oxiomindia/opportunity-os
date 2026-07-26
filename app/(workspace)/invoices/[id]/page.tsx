@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { mockInvoices } from '../../../../data/mockInvoices';
+import { getInvoice, getInvoiceDocument } from '../../../../lib/invoices/repository';
 import { formatInvoiceCurrency, formatInvoiceDate } from '../../../../lib/invoiceFormatters';
 import InvoiceStatusBadge from '../InvoiceStatusBadge';
-import { getInvoiceById } from '../invoiceWorklistUtils';
+import { archiveInvoice, deleteInvoice } from '../actions';
 
 interface InvoiceDetailPageProps {
   params: Promise<{ id: string }>;
@@ -11,7 +11,7 @@ interface InvoiceDetailPageProps {
 
 export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDetailPageProps>) {
   const { id } = await params;
-  const invoice = getInvoiceById(mockInvoices, id);
+  const [invoice, document] = await Promise.all([getInvoice(id), getInvoiceDocument(id)]);
 
   if (!invoice) notFound();
 
@@ -27,7 +27,7 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
             <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">{invoice.invoiceNumber}</h1>
             <p className="mt-2 text-sm text-slate-600">{invoice.fileName}</p>
           </div>
-          <InvoiceStatusBadge status={invoice.status} />
+          <div className="flex flex-wrap items-center gap-2"><InvoiceStatusBadge status={invoice.status} /><form action={archiveInvoice}><input type="hidden" name="id" value={invoice.id} /><button className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700">Archive</button></form><form action={deleteInvoice}><input type="hidden" name="id" value={invoice.id} /><button className="rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700">Delete</button></form></div>
         </div>
       </section>
       <section className="grid gap-3 md:grid-cols-3">
@@ -70,6 +70,16 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
           </ul>
         </aside>
       </section>
+      <section className="rounded-xl border border-slate-200 bg-white p-5">
+        <div className="flex items-center justify-between gap-4"><h2 className="text-base font-semibold text-slate-950">Source document</h2>{document && <a href={document.url} target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-700 hover:underline">Open securely</a>}</div>
+        {!document ? <p className="mt-4 text-sm text-slate-500">No stored document is available for this invoice.</p> : document.mimeType === 'application/pdf' ? <iframe src={document.url} title={document.name} className="mt-4 h-[42rem] w-full rounded-lg border border-slate-200" /> : <DocumentImage url={document.url} name={document.name} />}
+      </section>
     </div>
   );
+}
+
+function DocumentImage({ url, name }: Readonly<{ url: string; name: string }>) {
+  // Signed storage URLs expire quickly and do not have stable dimensions for next/image optimization.
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={url} alt={`Source invoice ${name}`} className="mt-4 max-h-[42rem] w-full rounded-lg border border-slate-200 object-contain" />;
 }

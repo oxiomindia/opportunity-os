@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import GlobalSearch from './GlobalSearch';
 import { navigationItems } from './workspaceNavigation';
+import { logout } from '../login/actions';
 
 function getPageTitle(pathname: string) {
   if (pathname.startsWith('/invoices/')) return 'Invoice Details';
@@ -12,7 +13,14 @@ function getPageTitle(pathname: string) {
   return navigationItems.find((item) => item.href === pathname)?.label ?? 'Dashboard';
 }
 
-export default function AppShell({ children }: Readonly<{ children: React.ReactNode }>) {
+interface AppShellProps {
+  children: React.ReactNode;
+  userEmail: string;
+  organizationName: string;
+  role: string;
+}
+
+export default function AppShell({ children, userEmail, organizationName, role }: Readonly<AppShellProps>) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const pageTitle = useMemo(() => getPageTitle(pathname), [pathname]);
@@ -77,6 +85,7 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
           </div>
 
           <div className="flex items-center gap-2">
+            <span className="hidden text-right lg:block"><span className="block max-w-40 truncate text-xs font-semibold text-slate-800">{organizationName}</span><span className="block text-[11px] capitalize text-slate-500">{role}</span></span>
             <Link
               href="/activity"
               className="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:border-blue-200 hover:text-blue-700"
@@ -84,13 +93,14 @@ export default function AppShell({ children }: Readonly<{ children: React.ReactN
             >
               ○
             </Link>
-            <button
-              type="button"
+            <span
               className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-700"
-              aria-label="Profile"
+              aria-label={`Signed in as ${userEmail}`}
+              title={userEmail}
             >
-              OX
-            </button>
+              {(userEmail.slice(0, 2) || 'OX').toUpperCase()}
+            </span>
+            <form action={logout}><button type="submit" className="rounded-md border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:text-blue-700">Sign out</button></form>
           </div>
         </header>
 

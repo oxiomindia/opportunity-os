@@ -11,9 +11,7 @@ interface UploadRowProps {
   onRemove: (id: string) => void;
 }
 
-export default function UploadRow({ item, onPause, onResume, onCancel, onRetry, onRemove }: Readonly<UploadRowProps>) {
-  const canPause = item.status === 'Uploading';
-  const canResume = item.status === 'Waiting';
+export default function UploadRow({ item, onCancel, onRetry, onRemove }: Readonly<UploadRowProps>) {
   const canCancel = item.status === 'Uploading' || item.status === 'Waiting';
   const canRetry = item.status === 'Failed' || item.status === 'Cancelled';
   const canRemove = item.status !== 'Uploading';
@@ -44,8 +42,6 @@ export default function UploadRow({ item, onPause, onResume, onCancel, onRetry, 
       </div>
 
       <div className="flex flex-wrap gap-2 lg:justify-end">
-        {canPause && <button type="button" onClick={() => onPause(item.id)} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" aria-label={`Pause upload for ${item.filename}`}>Pause</button>}
-        {canResume && <button type="button" onClick={() => onResume(item.id)} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" aria-label={`Resume upload for ${item.filename}`}>Resume</button>}
         {canCancel && <button type="button" onClick={() => onCancel(item.id)} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-amber-200 hover:text-amber-700" aria-label={`Cancel upload for ${item.filename}`}>Cancel</button>}
         {canRetry && <button type="button" onClick={() => onRetry(item.id)} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" aria-label={`Retry upload for ${item.filename}`}>Retry</button>}
         {canRemove && <button type="button" onClick={() => onRemove(item.id)} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-red-200 hover:text-red-700" aria-label={`Remove ${item.filename} from upload queue`}>Remove</button>}
