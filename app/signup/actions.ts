@@ -4,6 +4,7 @@ import { signupErrorMessage, signupExceptionMessage } from '../../lib/auth/signu
 import { signupSchema } from '../../lib/auth/signup';
 import { getAuthCapabilities } from '../../lib/supabase/config';
 import { createSupabaseServerClient } from '../../lib/supabase/server';
+import { UnexpectedAuthResponseError } from '../../lib/supabase/auth-fetch';
 
 export interface SignupState { error?: string; success?: string; fields?: Record<string, string> }
 
@@ -13,10 +14,10 @@ export async function signup(_state: SignupState, formData: FormData): Promise<S
   const parsed = signupSchema.safeParse(values);
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Check the highlighted information.' };
 
-  const supabase = await createSupabaseServerClient();
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 
   try {
+    const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase.auth.signUp({
       email: parsed.data.email,
       password: parsed.data.password,
@@ -46,7 +47,14 @@ export async function signup(_state: SignupState, formData: FormData): Promise<S
     }
   } catch (error) {
     const message = signupExceptionMessage(error);
-    console.error(JSON.stringify({ event: 'auth.signup.exception', message }));
+    console.error(JSON.stringify({
+      event: 'auth.signup.exception',
+      message,
+      ...(error instanceof UnexpectedAuthResponseError ? error.details : {}),
+    }));
+    if (error instanceof UnexpectedAuthResponseError) {
+      return { error: `The authentication endpoint returned an unexpected response (HTTP ${error.details.responseStatus}). Verify the Supabase project URL and try again.` };
+    }
     return { error: `Account creation could not reach the authentication service: ${message}` };
   }
 
