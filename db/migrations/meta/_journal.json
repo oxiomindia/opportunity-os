@@ -43,6 +43,27 @@
       "when": 1785057000000,
       "tag": "0005_simplify_feedback_for_beta",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1785060000000,
+      "tag": "0006_account_signup_onboarding",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1785063000000,
+      "tag": "0007_first_user_bootstrap",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1785066000000,
+      "tag": "0008_repair_organization_onboarding",
+      "breakpoints": true
     }
   ]
 }

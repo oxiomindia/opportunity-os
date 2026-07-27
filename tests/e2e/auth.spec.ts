@@ -2,6 +2,23 @@ import { expect, test } from '@playwright/test';
 
 const protectedPaths = ['/dashboard', '/invoices', '/upload', '/verification', '/reviews', '/reports', '/activity', '/settings'];
 
+test('login links to a signup form that fits a standard laptop viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.goto('/login');
+
+  const createAccountLink = page.getByRole('link', { name: 'Create Account' });
+  await expect(createAccountLink).toBeVisible();
+  await createAccountLink.click();
+  await expect(page).toHaveURL(/\/signup$/);
+
+  const createAccountButton = page.getByRole('button', { name: 'Create Account' });
+  await expect(createAccountButton).toBeVisible();
+  const buttonBounds = await createAccountButton.boundingBox();
+  expect(buttonBounds).not.toBeNull();
+  expect(buttonBounds!.y + buttonBounds!.height).toBeLessThanOrEqual(768);
+  expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBeLessThanOrEqual(768);
+});
+
 test('protected routes redirect an anonymous browser to login', async ({ page }) => {
   for (const path of protectedPaths) {
     await page.goto(path);

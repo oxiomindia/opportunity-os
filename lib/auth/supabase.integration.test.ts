@@ -69,3 +69,59 @@ test('Supabase RLS isolates organizations and enforces membership roles', { skip
   const { data: unchangedMembership } = await admin.from('organization_members').select('role').eq('organization_id', organizationB).eq('user_id', userB.id).single();
   assert.equal(unchangedMembership?.role, 'viewer');
 });
+
+test('organization onboarding repairs a missing profile and assigns Owner atomically', { skip: !enabled }, async (context) => {
+  assert.ok(url && anonKey && serviceKey, 'Supabase integration environment is incomplete');
+  const admin = createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } });
+  const suffix = crypto.randomUUID();
+  const email = `onboarding-repair-${suffix}@example.invalid`;
+  const password = `${crypto.randomUUID()}aA!9`;
+  const { data: created, error: createError } = await admin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: {
+      display_name: 'Onboarding Repair User',
+      phone_number: '+14155552671',
+      organization_name: 'Bootstrap Organization',
+    },
+  });
+  assert.ifError(createError);
+  assert.ok(created.user);
+  const userId = created.user.id;
+  const createdOrganizationIds: string[] = [];
+
+  context.after(async () => {
+    for (const organizationId of createdOrganizationIds) await admin.from('organizations').delete().eq('id', organizationId);
+    await admin.auth.admin.deleteUser(userId);
+  });
+
+  // Reproduce the production state: Auth identity exists, but profile and
+  // membership bootstrap did not complete. Remove any rows a newer trigger made.
+  const { data: bootstrapMemberships } = await admin.from('organization_members').select('organization_id').eq('user_id', userId);
+  const bootstrapOrganizationIds = (bootstrapMemberships ?? []).map(({ organization_id }) => organization_id);
+  for (const organizationId of bootstrapOrganizationIds) await admin.from('organizations').delete().eq('id', organizationId);
+  await admin.from('profiles').delete().eq('id', userId);
+
+  const client = createClient(url, anonKey, { auth: { autoRefreshToken: false, persistSession: false } });
+  const { error: signInError } = await client.auth.signInWithPassword({ email, password });
+  assert.ifError(signInError);
+  const slug = `onboarding-repair-${suffix}`;
+  const { data: organizationId, error: onboardingError } = await client.rpc('create_organization', {
+    organization_name: 'Repaired Organization',
+    organization_slug: slug,
+  });
+  assert.ifError(onboardingError);
+  assert.ok(organizationId);
+  createdOrganizationIds.push(organizationId);
+
+  const [{ data: profile }, { data: membership }, { data: audit }] = await Promise.all([
+    admin.from('profiles').select('id,email,display_name').eq('id', userId).single(),
+    admin.from('organization_members').select('organization_id,user_id,role,active').eq('organization_id', organizationId).eq('user_id', userId).single(),
+    admin.from('audit_logs').select('action,entity_type,actor_id').eq('organization_id', organizationId).eq('entity_id', organizationId).single(),
+  ]);
+  assert.equal(profile?.email, email);
+  assert.equal(profile?.display_name, 'Onboarding Repair User');
+  assert.deepEqual(membership, { organization_id: organizationId, user_id: userId, role: 'owner', active: true });
+  assert.deepEqual(audit, { action: 'create', entity_type: 'organization', actor_id: userId });
+});

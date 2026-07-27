@@ -34,6 +34,11 @@ export async function login(_state: LoginState, formData: FormData): Promise<Log
     return { error: 'Enter a valid email address and password.' };
   }
 
+  // Infrastructure-free demo mode has no external identity provider to query.
+  // Reject non-demo identities consistently instead of attempting to create an
+  // unconfigured Supabase client and turning invalid credentials into a 500.
+  if (!capabilities.supabase) return { error: 'Invalid email address or password.' };
+
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return { error: 'Invalid email address or password.' };
