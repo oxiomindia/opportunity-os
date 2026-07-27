@@ -57,6 +57,13 @@
       "when": 1785063000000,
       "tag": "0007_first_user_bootstrap",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1785066000000,
+      "tag": "0008_repair_organization_onboarding",
+      "breakpoints": true
     }
   ]
 }

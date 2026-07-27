@@ -2,6 +2,7 @@ import 'server-only';
 
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { createDiagnosticAuthFetch } from './auth-fetch';
 import { getSupabaseConfig } from './config';
 
 export async function createSupabaseServerClient() {
@@ -9,6 +10,7 @@ export async function createSupabaseServerClient() {
   const { url, publishableKey } = getSupabaseConfig();
 
   return createServerClient(url, publishableKey, {
+    global: { fetch: createDiagnosticAuthFetch() },
     cookies: {
       getAll: () => cookieStore.getAll(),
       setAll(cookiesToSet) {
