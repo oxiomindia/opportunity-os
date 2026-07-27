@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 import { getSupabaseConfig } from './lib/supabase/config';
 import { isLocalDemoEnabled, localDemoCookie, verifyLocalDemoToken } from './lib/auth/dev-session';
+import { requiresOrganization } from './lib/auth/organization-access';
 
 export async function proxy(request: NextRequest) {
   if (isLocalDemoEnabled(process.env)) {
@@ -33,9 +34,17 @@ export async function proxy(request: NextRequest) {
     loginUrl.searchParams.set('next', request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   }
+  if (requiresOrganization(request.nextUrl.pathname)) {
+    const { data: membership } = await supabase.from('organization_members').select('organization_id').eq('user_id', user.id).eq('active', true).limit(1).maybeSingle();
+    if (!membership) {
+      const requiredUrl = new URL('/organization-required', request.url);
+      requiredUrl.searchParams.set('next', request.nextUrl.pathname);
+      return NextResponse.redirect(requiredUrl);
+    }
+  }
   return response;
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/invoices/:path*', '/upload/:path*', '/verification/:path*', '/reviews/:path*', '/accounts-review/:path*', '/payment-queue/:path*', '/reports/:path*', '/activity/:path*', '/settings/:path*', '/feedback/:path*', '/admin/:path*'],
+  matcher: ['/dashboard/:path*', '/organization-required/:path*', '/onboarding/:path*', '/invoices/:path*', '/upload/:path*', '/verification/:path*', '/reviews/:path*', '/accounts-review/:path*', '/payment-queue/:path*', '/reports/:path*', '/activity/:path*', '/settings/:path*', '/feedback/:path*', '/admin/:path*'],
 };

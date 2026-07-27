@@ -16,8 +16,8 @@ function getPageTitle(pathname: string) {
 interface AppShellProps {
   children: React.ReactNode;
   userEmail: string;
-  organizationName: string;
-  role: string;
+  organizationName?: string;
+  role?: string;
 }
 
 export default function AppShell({ children, userEmail, organizationName, role }: Readonly<AppShellProps>) {
@@ -85,7 +85,7 @@ export default function AppShell({ children, userEmail, organizationName, role }
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="hidden text-right lg:block"><span className="block max-w-40 truncate text-xs font-semibold text-slate-800">{organizationName}</span><span className="block text-[11px] capitalize text-slate-500">{role}</span></span>
+            <span className="hidden text-right lg:block"><span className="block max-w-40 truncate text-xs font-semibold text-slate-800">{organizationName ?? 'Personal workspace'}</span><span className="block text-[11px] capitalize text-slate-500">{role ?? 'Getting started'}</span></span>
             <Link
               href="/activity"
               className="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:border-blue-200 hover:text-blue-700"
