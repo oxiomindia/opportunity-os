@@ -1,17 +1,17 @@
 import Link from 'next/link';
-import { mockInvoices } from '../../../data/mockInvoices';
+import { listInvoices } from '../../../lib/invoices/repository';
 import { formatInvoiceCurrency, formatInvoiceDate } from '../../../lib/invoiceFormatters';
 import InvoiceStatusBadge from '../invoices/InvoiceStatusBadge';
 
-const verificationStatuses = new Set(['received', 'processing', 'needs-review', 'verified']);
-const verificationQueue = mockInvoices.filter((invoice) => verificationStatuses.has(invoice.status));
-const readyCount = verificationQueue.filter((invoice) => invoice.status === 'verified').length;
-const exceptionCount = verificationQueue.reduce((total, invoice) => total + invoice.exceptionCount, 0);
-const averageConfidence = Math.round(
-  verificationQueue.reduce((total, invoice) => total + invoice.confidence, 0) / verificationQueue.length,
-);
-
-export default function VerificationPage() {
+export default async function VerificationPage() {
+  const invoices = await listInvoices();
+  const verificationStatuses = new Set(['received', 'processing', 'needs-review', 'verified']);
+  const verificationQueue = invoices.filter((invoice) => verificationStatuses.has(invoice.status));
+  const readyCount = verificationQueue.filter((invoice) => invoice.status === 'verified').length;
+  const exceptionCount = verificationQueue.reduce((total, invoice) => total + invoice.exceptionCount, 0);
+  const averageConfidence = verificationQueue.length
+    ? Math.round(verificationQueue.reduce((total, invoice) => total + invoice.confidence, 0) / verificationQueue.length)
+    : null;
   return (
     <div className="flex flex-col gap-5">
       <section className="rounded-xl border border-slate-200 bg-white p-5">
@@ -33,7 +33,7 @@ export default function VerificationPage() {
         </article>
         <article className="rounded-xl border border-slate-200 bg-white p-5">
           <p className="text-sm font-medium text-slate-500">Extraction confidence</p>
-          <p className="mt-2 text-3xl font-semibold text-slate-950">{averageConfidence}%</p>
+          <p className="mt-2 text-3xl font-semibold text-slate-950">{averageConfidence === null ? 'Not available' : `${averageConfidence}%`}</p>
           <p className="mt-1 text-sm text-slate-500">{exceptionCount} exceptions detected</p>
         </article>
       </section>

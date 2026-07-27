@@ -1,19 +1,20 @@
-import { mockInvoices } from '../../../data/mockInvoices';
-import { formatInvoiceCurrency } from '../../../lib/invoiceFormatters';
+import { listInvoices } from '../../../lib/invoices/repository';
 
-const totalInvoices = mockInvoices.length;
-const totalValue = mockInvoices.reduce((total, invoice) => total + invoice.total, 0);
-const exceptionInvoices = mockInvoices.filter((invoice) => invoice.exceptionCount > 0).length;
-const paidInvoices = mockInvoices.filter((invoice) => invoice.status === 'paid').length;
-const byStatus = Array.from(
-  mockInvoices.reduce((map, invoice) => map.set(invoice.status, (map.get(invoice.status) ?? 0) + 1), new Map<string, number>()),
-).sort((a, b) => b[1] - a[1]);
-const bySource = Array.from(
-  mockInvoices.reduce((map, invoice) => map.set(invoice.source, (map.get(invoice.source) ?? 0) + 1), new Map<string, number>()),
-).sort((a, b) => b[1] - a[1]);
-const averageConfidence = Math.round(mockInvoices.reduce((total, invoice) => total + invoice.confidence, 0) / totalInvoices);
+export default async function ReportsPage() {
+  const invoices = await listInvoices();
+  const totalInvoices = invoices.length;
+  const currencyCount = new Set(invoices.map((invoice) => invoice.currency)).size;
+  const exceptionInvoices = invoices.filter((invoice) => invoice.exceptionCount > 0).length;
+  const paidInvoices = invoices.filter((invoice) => invoice.status === 'paid').length;
+  const byStatus = Array.from(
+    invoices.reduce((map, invoice) => map.set(invoice.status, (map.get(invoice.status) ?? 0) + 1), new Map<string, number>()),
+  ).sort((a, b) => b[1] - a[1]);
+  const bySource = Array.from(
+    invoices.reduce((map, invoice) => map.set(invoice.source, (map.get(invoice.source) ?? 0) + 1), new Map<string, number>()),
+  ).sort((a, b) => b[1] - a[1]);
+  const averageConfidence = totalInvoices ? Math.round(invoices.reduce((total, invoice) => total + invoice.confidence, 0) / totalInvoices) : null;
 
-export default function ReportsPage() {
+
   return (
     <div className="flex flex-col gap-5">
       <section className="rounded-xl border border-slate-200 bg-white p-5">
@@ -26,9 +27,9 @@ export default function ReportsPage() {
 
       <section className="grid gap-3 md:grid-cols-4">
         <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Invoices processed</p><p className="mt-2 text-3xl font-semibold text-slate-950">{totalInvoices}</p></article>
-        <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Gross invoice value</p><p className="mt-2 text-3xl font-semibold text-slate-950">{formatInvoiceCurrency(totalValue, 'USD')}</p><p className="mt-1 text-xs text-slate-500">Mixed-currency operational estimate</p></article>
-        <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Average confidence</p><p className="mt-2 text-3xl font-semibold text-blue-700">{averageConfidence}%</p></article>
-        <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Exception rate</p><p className="mt-2 text-3xl font-semibold text-amber-700">{Math.round((exceptionInvoices / totalInvoices) * 100)}%</p><p className="mt-1 text-xs text-slate-500">{paidInvoices} invoices paid</p></article>
+        <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Currencies represented</p><p className="mt-2 text-3xl font-semibold text-slate-950">{currencyCount}</p><p className="mt-1 text-xs text-slate-500">Values are never combined across currencies</p></article>
+        <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Average confidence</p><p className="mt-2 text-3xl font-semibold text-blue-700">{averageConfidence === null ? 'Not available' : `${averageConfidence}%`}</p></article>
+        <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Exception rate</p><p className="mt-2 text-3xl font-semibold text-amber-700">{totalInvoices ? Math.round((exceptionInvoices / totalInvoices) * 100) : 0}%</p><p className="mt-1 text-xs text-slate-500">{paidInvoices} invoices paid</p></article>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-2">

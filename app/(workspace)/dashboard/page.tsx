@@ -2,8 +2,24 @@ import Link from 'next/link';
 import { listInvoices } from '../../../lib/invoices/repository';
 import { formatInvoiceCurrency, formatInvoiceDate } from '../../../lib/invoiceFormatters';
 import InvoiceStatusBadge from '../invoices/InvoiceStatusBadge';
+import { getSessionContext } from '../../../lib/auth/dal';
 
 export default async function DashboardPage() {
+  const session = await getSessionContext();
+  if (!session) {
+    return <div className="flex flex-col gap-5">
+      <section className="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-white p-6 sm:p-8">
+        <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">Welcome to Oxiom</p>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">Your workspace is ready</h1>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">Explore the application now. Create an organization when you are ready to add invoices and use organization-specific workflows.</p>
+        <Link href="/onboarding" className="mt-6 inline-flex rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700">Create Organization</Link>
+      </section>
+      <section className="grid gap-4 md:grid-cols-2">
+        <article className="rounded-xl border border-slate-200 bg-white p-5"><h2 className="font-semibold text-slate-950">Explore Oxiom</h2><p className="mt-2 text-sm leading-6 text-slate-600">Review product documentation, security information, and workflow capabilities without completing organization setup.</p><Link href="/docs" className="mt-4 inline-flex text-sm font-semibold text-blue-700">Browse documentation →</Link></article>
+        <article className="rounded-xl border border-amber-200 bg-amber-50 p-5"><h2 className="font-semibold text-amber-950">Organization features</h2><p className="mt-2 text-sm leading-6 text-amber-900">An organization is required before creating invoices, viewing reports, or configuring organization settings.</p><Link href="/onboarding" className="mt-4 inline-flex text-sm font-semibold text-amber-950 underline">Set up an organization</Link></article>
+      </section>
+    </div>;
+  }
   const invoices = await listInvoices();
   const pending = invoices.filter((invoice) => ['received', 'processing', 'needs-review', 'accounts-review'].includes(invoice.status)).length;
   const processed = invoices.filter((invoice) => ['verified', 'approved', 'payment-ready', 'paid'].includes(invoice.status)).length;

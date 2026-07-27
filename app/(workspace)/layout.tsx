@@ -1,6 +1,6 @@
 import AppShell from '../components/AppShell';
 import { InvoiceIntakeProvider } from '../components/InvoiceIntakeProvider';
-import { requireSessionContext } from '../../lib/auth/dal';
+import { getSessionContext, requireUser } from '../../lib/auth/dal';
 
 export const metadata = {
   title: 'Oxiom Invoice Processing | Dashboard',
@@ -8,10 +8,11 @@ export const metadata = {
 };
 
 export default async function WorkspaceLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const session = await requireSessionContext();
+  const user = await requireUser();
+  const session = await getSessionContext();
   return (
     <InvoiceIntakeProvider>
-      <AppShell userEmail={session.user.email} organizationName={session.organization.name} role={session.role}>{children}</AppShell>
+      <AppShell userEmail={user.email} organizationName={session?.organization.name} role={session?.role}>{children}</AppShell>
     </InvoiceIntakeProvider>
   );
 }

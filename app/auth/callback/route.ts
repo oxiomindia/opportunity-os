@@ -27,10 +27,6 @@ export async function GET(request: NextRequest) {
       details: onboardingError.details ?? null,
       hint: onboardingError.hint ?? null,
     }));
-    const onboardingUrl = new URL('/onboarding', request.url);
-    onboardingUrl.searchParams.set('error', 'completion');
-    onboardingUrl.searchParams.set('reference', reference);
-    return NextResponse.redirect(onboardingUrl);
   }
   return NextResponse.redirect(new URL('/dashboard', request.url));
 }

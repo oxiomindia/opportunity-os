@@ -1,20 +1,19 @@
 import Link from 'next/link';
-import { mockInvoices } from '../../../data/mockInvoices';
-import { formatInvoiceCurrency, formatInvoiceDate } from '../../../lib/invoiceFormatters';
+import { listInvoices } from '../../../lib/invoices/repository';
+import { formatInvoiceDate } from '../../../lib/invoiceFormatters';
 import InvoiceStatusBadge from '../invoices/InvoiceStatusBadge';
 
-const reviewInvoices = mockInvoices.filter((invoice) => invoice.status === 'accounts-review' || invoice.exceptionCount > 0);
-const criticalInvoices = reviewInvoices.filter((invoice) => invoice.exceptionCount >= 4);
-const assignedOwners = Array.from(new Set(reviewInvoices.map((invoice) => invoice.assignedTo ?? 'Unassigned')));
-const totalExposure = reviewInvoices.reduce((total, invoice) => total + invoice.total, 0);
+export default async function AccountsReviewPage() {
+  const invoices = await listInvoices();
+  const reviewInvoices = invoices.filter((invoice) => invoice.status === 'accounts-review' || invoice.exceptionCount > 0);
+  const criticalInvoices = reviewInvoices.filter((invoice) => invoice.exceptionCount >= 4);
+  const assignedOwners = Array.from(new Set(reviewInvoices.map((invoice) => invoice.assignedTo ?? 'Unassigned')));
 
-const exceptionPolicies = [
-  'Validate tax registration, GST/VAT totals, and purchase order references.',
-  'Confirm vendor bank details before releasing invoices to payment operations.',
-  'Escalate invoices with four or more exceptions to the controller queue.',
-];
-
-export default function AccountsReviewPage() {
+  const exceptionPolicies = [
+    'Validate tax registration, GST/VAT totals, and purchase order references.',
+    'Confirm vendor bank details before releasing invoices to payment operations.',
+    'Escalate invoices with four or more exceptions to the controller queue.',
+  ];
   return (
     <div className="flex flex-col gap-5">
       <section className="rounded-xl border border-slate-200 bg-white p-5">
@@ -39,9 +38,9 @@ export default function AccountsReviewPage() {
           <p className="mt-2 text-3xl font-semibold text-slate-950">{assignedOwners.length}</p>
         </article>
         <article className="rounded-xl border border-slate-200 bg-white p-5">
-          <p className="text-sm font-medium text-slate-500">Exposure</p>
-          <p className="mt-2 text-3xl font-semibold text-slate-950">{formatInvoiceCurrency(totalExposure, 'USD')}</p>
-          <p className="mt-1 text-xs text-slate-500">Mixed-currency operational estimate</p>
+          <p className="text-sm font-medium text-slate-500">Currencies represented</p>
+          <p className="mt-2 text-3xl font-semibold text-slate-950">{new Set(reviewInvoices.map((invoice) => invoice.currency)).size}</p>
+          <p className="mt-1 text-xs text-slate-500">Exposure is not combined across currencies</p>
         </article>
       </section>
 
