@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useActionState } from 'react';
 import { login, type LoginState } from './actions';
 
@@ -20,6 +21,17 @@ export default function LoginForm({ demoEnabled, configured }: Readonly<{ demoEn
       <button disabled={pending || !configured} className="h-11 w-full rounded-lg bg-blue-600 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
         {pending ? 'Signing in…' : 'Sign in'}
       </button>
+      <div className="flex items-center gap-3" aria-hidden="true">
+        <span className="h-px flex-1 bg-slate-200" />
+        <span className="text-xs font-medium uppercase tracking-wider text-slate-500">New to Oxiom?</span>
+        <span className="h-px flex-1 bg-slate-200" />
+      </div>
+      <Link
+        href="/signup"
+        className="flex h-11 w-full items-center justify-center rounded-lg border border-blue-200 bg-blue-50 font-semibold text-blue-700 transition-colors hover:border-blue-300 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+      >
+        Create Account
+      </Link>
       {demoEnabled && <p className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900"><strong>Development only:</strong> use username <code>admin</code> and password <code>admin</code>. This starts a local Demo Organization session without connecting to Supabase.</p>}
     </form>
   );
