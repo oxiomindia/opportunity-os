@@ -1,16 +1,15 @@
 import Link from 'next/link';
-import { mockInvoices } from '../../../data/mockInvoices';
+import { listInvoices } from '../../../lib/invoices/repository';
 import { formatInvoiceCurrency, formatInvoiceDate } from '../../../lib/invoiceFormatters';
 import InvoiceStatusBadge from '../invoices/InvoiceStatusBadge';
 
-const payableStatuses = new Set(['approved', 'payment-ready', 'paid']);
-const paymentInvoices = mockInvoices.filter((invoice) => payableStatuses.has(invoice.status));
-const readyInvoices = paymentInvoices.filter((invoice) => invoice.status === 'payment-ready');
-const approvedInvoices = paymentInvoices.filter((invoice) => invoice.status === 'approved');
-const paidInvoices = paymentInvoices.filter((invoice) => invoice.status === 'paid');
-const readyTotal = readyInvoices.reduce((total, invoice) => total + invoice.total, 0);
-
-export default function PaymentQueuePage() {
+export default async function PaymentQueuePage() {
+  const invoices = await listInvoices();
+  const payableStatuses = new Set(['approved', 'payment-ready', 'paid']);
+  const paymentInvoices = invoices.filter((invoice) => payableStatuses.has(invoice.status));
+  const readyInvoices = paymentInvoices.filter((invoice) => invoice.status === 'payment-ready');
+  const approvedInvoices = paymentInvoices.filter((invoice) => invoice.status === 'approved');
+  const paidInvoices = paymentInvoices.filter((invoice) => invoice.status === 'paid');
   return (
     <div className="flex flex-col gap-5">
       <section className="rounded-xl border border-slate-200 bg-white p-5">
@@ -25,7 +24,7 @@ export default function PaymentQueuePage() {
         <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Approved</p><p className="mt-2 text-3xl font-semibold text-slate-950">{approvedInvoices.length}</p></article>
         <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Payment-ready</p><p className="mt-2 text-3xl font-semibold text-blue-700">{readyInvoices.length}</p></article>
         <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Paid</p><p className="mt-2 text-3xl font-semibold text-emerald-700">{paidInvoices.length}</p></article>
-        <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Ready amount</p><p className="mt-2 text-3xl font-semibold text-slate-950">{formatInvoiceCurrency(readyTotal, 'USD')}</p><p className="mt-1 text-xs text-slate-500">Mixed-currency operational estimate</p></article>
+        <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Currencies represented</p><p className="mt-2 text-3xl font-semibold text-slate-950">{new Set(paymentInvoices.map((invoice) => invoice.currency)).size}</p><p className="mt-1 text-xs text-slate-500">Payment values remain currency-specific</p></article>
       </section>
 
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">

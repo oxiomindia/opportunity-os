@@ -6,13 +6,13 @@
 
 | Field | Value |
 |---|---|
-| Document version | **1.2.0** |
+| Document version | **1.3.0** |
 | Last updated | **2026-07-27** |
 | Last reviewed | **2026-07-27** (repository evidence review; production environment not reviewed) |
-| Repository commit | `17b0197` — the audited baseline immediately before this documentation revision |
+| Repository commit | `2b7d0fb` — the audited baseline immediately before this documentation revision |
 | Repository branch | `work` |
 | Application version | `1.0.0` (`package.json`) |
-| Database migration version | `0007_first_user_bootstrap` (latest repository/journal migration; deployment unverified) |
+| Database migration version | `0008_repair_organization_onboarding` (latest repository/journal migration; deployment unverified) |
 | Scope | Application code, schema/migrations, public assets, tests, build/deployment configuration |
 | Evidence basis | Static repository inspection plus the checks listed in [Audit method](#audit-method-and-status-definitions) |
 | Runtime verification | Local lint, unit tests, and production build; no production database or deployment inspection |
@@ -26,6 +26,7 @@ This is a functional change ledger, not a duplicate of `git log`. It records sig
 
 | Date | PR number | Commit | Feature | Summary |
 |---|---:|---|---|---|
+| 2026-07-27 | TBD | `TBD` | Production readiness remediation | Replaced mock data in reports and core queues, removed dead legacy mock UI, expanded CI/Playwright, and added an evidence-based launch audit. |
 | 2026-07-27 | TBD | `TBD` | Engineering governance enhancement | Added architecture traceability, risk/incident/release/lifecycle governance, quality/operations/compliance/AI dashboards, KPIs, and continuous-improvement review. |
 | 2026-07-27 | TBD | `TBD` | Living audit reference enhancement | Added metadata, changelog, traceability/dependency matrices, release checklist, roadmap and mandatory update policy. |
 | 2026-07-27 | — | `7def399` | Functional audit, signup and bootstrap | Added the initial audit, signup UX/error diagnostics, migration 0007 first-user Owner bootstrap, and signup tests. |
@@ -81,7 +82,7 @@ Feature IDs are stable and must not be renumbered. Add a new ID for a new capabi
 | INV-001 | Invoice worklist/filter/detail | `app/(workspace)/invoices/**`, `lib/invoices/repository.ts` | Invoice header/items/taxes/history and vendors | Invoice repository | `/invoices`, `/invoices/[id]` | — | — | — | 🟡 Beta Ready |
 | INV-002 | Secure invoice upload | `app/(workspace)/upload/**`, `app/api/invoices/upload/route.ts`, `lib/uploads/**` | `invoices`, `attachments`, `audit_logs`; storage bucket; `create_uploaded_invoice()` | `POST /api/invoices/upload` | `/upload` | `validation.test.ts` | — | — | 🟡 Beta Ready |
 | INV-003 | Invoice lifecycle and operational queues | Queue pages, `app/(workspace)/invoices/actions.ts` | `invoices`, `invoice_status_history`, `audit_logs`; `manage_invoice_lifecycle()` | Archive/delete Server Actions | `/verification`, `/reviews`, `/accounts-review`, `/payment-queue`, `/activity` | — | — | — | 🟠 Development |
-| RPT-001 | Reports and analytics | `app/(workspace)/reports/page.tsx`, `data/mockInvoices.ts` | — (mock only) | — | `/reports` | — | — | — | Stub |
+| RPT-001 | Reports and analytics | `app/(workspace)/reports/page.tsx`, `lib/invoices/repository.ts` | `invoices` | Tenant PostgREST reads | `/reports` | — | — | — | 🟡 Beta Ready |
 | SET-001 | Persistent workspace settings | `app/(workspace)/settings/page.tsx` | — | — | `/settings` | — | — | Anonymous redirect only | Stub |
 | FDB-001 | Submit product feedback | `app/(workspace)/feedback/**`, `lib/feedback/model.ts` | Feedback submission/identity/history tables; `submit_feedback()` | Feedback Server Action/RPC | `/feedback` | `feedback.test.ts` | — | Conditional feedback tests | 🟡 Beta Ready |
 | FDB-002 | Platform feedback administration | `app/admin/feedback/**`, `lib/feedback/admin.ts` | Feedback/admin/report/alert tables and admin RPCs | Feedback admin Server Actions | `/admin/feedback/**` | Partial model tests | — | Conditional admin test | 🟡 Beta Ready |
@@ -185,7 +186,7 @@ The detailed records below cover the requested 20 attributes. To keep the docume
 | Invoice detail | Invoice metadata, exceptions, history, document signed link and lifecycle actions. **Partially Implemented; 🟡 Beta Ready.** | `/invoices/[id]`; not-found response and secure-document link. | Repository tenant-scopes invoice and creates 5-minute storage signed URL. | Active member; mutation role restrictions above. | Generic retrieval/mutation failures; RPC performs audit/history. | None. | Add detail/error/document expiration/access tests; expose line items/taxes currently modeled but not displayed. | High |
 | Invoice upload/files | Multi-file client queue and durable Supabase upload/record creation. **Partially Implemented; 🟡 Beta Ready.** | `/upload`; drag/drop, per-file progress/cancel/retry/clear UI. | `POST /api/invoices/upload`; storage bucket then `create_uploaded_invoice` RPC with compensating delete. | Auth + active membership; viewer denied. | PDF/PNG/JPEG, 1 byte–25 MB, magic signature, sanitized key, SHA-256. Request ID returned/logged; DB function writes audit. No malware scanning despite `quarantined` enum. | File-validation unit tests only. | Add API/E2E, storage/RLS, duplicate/retry/idempotency, virus scan and orphan reconciliation. | **Critical** |
 | Invoice verification/reviews | Queue pages derived from invoice data. **Stub/Partially Implemented; 🟠 Development.** | `/verification`, `/reviews`, `/accounts-review`, `/payment-queue`, `/activity`; mostly client-side filtered/presentational queues. | Some pages use mock invoice/activity data rather than repositories; no assignment/approval/payment execution workflow. | Any active member; no stage-specific permission enforcement. | Limited UI states; no workflow logging beyond lifecycle RPC. | None. | Connect all queues to tenant DB; define transitions, approvals, segregation of duties and tests. | **Critical** |
-| Reports/analytics | Operational report cards and breakdowns. **Stub; 🟠 Development.** | `/reports` renders summary. | Entirely `mockInvoices`; no exports or analytics service. | Any active member. | No validation/error/loading/log/audit. | None. | Implement tenant queries, date filters, exports, reconciliation and accuracy tests. | High |
+| Reports/analytics | Operational report cards and breakdowns from tenant invoice records. **Partially Implemented; 🟡 Beta Ready.** | `/reports` renders summary. | Tenant invoice repository; no exports or dedicated analytics service. | Any active member. | No validation/error/loading/log/audit. | None. | Implement tenant queries, date filters, exports, reconciliation and accuracy tests. | High |
 | Opportunities | No opportunity domain route, schema, API, workflow, or test exists. **Planned/absent; 🔴 Not Implemented.** | Legacy components `ExecutionPanel`, `ResearchPanel`, `ResultsTable` and `hooks/useResearch` use opportunity terminology but are not wired to a page. | `data/mockData.ts` only; no persistence/API. | None. | None. | None. | Clarify whether Opportunities remains in Oxiom One scope; otherwise remove dead components/types. | Low pending product decision |
 | Messaging | No messaging UI, service, schema or endpoint. **Planned/absent; 🔴 Not Implemented.** | None. | None. | None. | None. | None. | Define requirements before implementation. | Medium |
 | Notifications | No notification center, delivery service, preferences, schema or API. **Planned/absent; 🔴 Not Implemented.** | None. | None. | None. | None. | None. | Add domain model and delivery/audit strategy if required. | Medium |

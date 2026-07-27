@@ -18,7 +18,7 @@ export default function UploadToolbar({ items, errors, onClearErrors, onClearFin
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">Document intake</p>
           <h1 id="upload-toolbar-title" className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">Upload invoices</h1>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">Simulate invoice document intake. Files are validated and converted into temporary received invoices in client state only.</p>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">Upload invoice documents securely. Files are validated before storage and recorded in your organization&apos;s invoice queue.</p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
           <button type="button" disabled={!hasFinished} onClick={onClearFinished} className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-50">Clear finished</button>
