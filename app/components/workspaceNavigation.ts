@@ -8,6 +8,7 @@ export type NavigationItem = {
 export const navigationItems: NavigationItem[] = [
   { href: '/dashboard', label: 'Dashboard', description: 'Workspace overview', icon: '⌂' },
   { href: '/customers', label: 'Customers', description: 'Manage who you bill', icon: '☺' },
+  { href: '/products', label: 'Products & Services', description: 'Your billing catalog', icon: '◆' },
   { href: '/invoices', label: 'Invoices', description: 'Invoice intake and worklists', icon: '□' },
   { href: '/verification', label: 'Verification', description: 'Review extracted invoice data', icon: '✓' },
   { href: '/accounts-review', label: 'Accounts Review', description: 'Resolve accounting exceptions', icon: '◫' },
