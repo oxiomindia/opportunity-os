@@ -35,6 +35,14 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <InvoiceStatusBadge status={invoice.status} />
+            <a
+              href={`/api/invoices/${invoice.id}/pdf`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:text-blue-700"
+            >
+              Download PDF
+            </a>
             {isDraft && (
               <form action={sendInvoice}>
                 <input type="hidden" name="id" value={invoice.id} />
