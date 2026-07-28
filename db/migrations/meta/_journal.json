@@ -64,6 +64,20 @@
       "when": 1785066000000,
       "tag": "0008_repair_organization_onboarding",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1785262742000,
+      "tag": "0009_secure_legacy_projects_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1785264600000,
+      "tag": "0010_customer_management",
+      "breakpoints": true
     }
   ]
 }

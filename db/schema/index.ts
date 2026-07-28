@@ -54,6 +54,21 @@ export const organizationMembers = pgTable('organization_members', {
   index('organization_members_user_idx').on(table.userId),
 ]);
 
+export const customers = pgTable('customers', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  normalizedName: text('normalized_name').notNull(),
+  email: text('email'),
+  phone: text('phone'),
+  billingAddress: text('billing_address'),
+  taxIdentifier: text('tax_identifier'),
+  ...timestamps,
+}, (table) => [
+  uniqueIndex('customers_org_normalized_name_uidx').on(table.organizationId, table.normalizedName),
+  index('customers_org_idx').on(table.organizationId),
+]);
+
 export const vendors = pgTable('vendors', {
   id: uuid('id').primaryKey().defaultRandom(),
   organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
