@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Oxiom | Enterprise Invoice Processing',
-  description: 'Learn about Oxiom, our mission to automate Accounts Payable, and our commitment to helping finance teams work smarter.',
+  title: 'About Oxiom | Customer Billing & Invoicing',
+  description: 'Learn about Oxiom, our mission to make customer billing effortless, and our commitment to helping finance teams work smarter.',
 };
 
 export default function AboutPage() {
@@ -15,7 +15,7 @@ export default function AboutPage() {
             About Oxiom
           </h1>
           <p className="max-w-2xl text-lg text-slate-600">
-            Automating Accounts Payable to help finance teams focus on strategic work.
+            Making customer billing effortless, so finance teams can focus on strategic work.
           </p>
         </div>
       </div>
@@ -26,10 +26,10 @@ export default function AboutPage() {
           <div>
             <h2 className="mb-4 text-2xl font-semibold text-slate-950">Our Mission</h2>
             <p className="mb-4 text-lg text-slate-600">
-              Finance teams waste hours on manual invoice processing. We built Oxiom to automate this work so your team can focus on strategic financial operations.
+              Finance teams waste hours on manual invoice creation and collections chasing. We built Oxiom to automate this work so your team can focus on strategic financial operations.
             </p>
             <p className="text-lg text-slate-600">
-              Oxiom Invoice Processing makes vendor invoice management faster, more accurate, and audit-ready—so your team can process more invoices with fewer people.
+              Oxiom makes creating, sending, and collecting on customer invoices faster, more accurate, and audit-ready—so your team can bill more customers with fewer people.
             </p>
           </div>
           <div>
@@ -38,7 +38,7 @@ export default function AboutPage() {
               Oxiom One is an integrated business platform designed to unify your entire organization.
             </p>
             <p className="text-lg text-slate-600">
-              We start with Invoice Processing—the foundation of every business. Future modules will add CRM, Projects, HR, Inventory, and Analytics, all working together on one platform.
+              We start with customer billing—the foundation of every business. Future modules will add CRM, Projects, HR, Inventory, and Analytics, all working together on one platform.
             </p>
           </div>
         </div>
@@ -94,16 +94,16 @@ export default function AboutPage() {
         <h2 className="mb-12 text-3xl font-semibold text-slate-950">Product Roadmap</h2>
         <div className="space-y-8">
           <div className="rounded-lg border border-green-200 bg-green-50 p-6">
-            <h3 className="mb-2 text-xl font-semibold text-slate-950">✓ Oxiom Invoice Processing (Available)</h3>
-            <p className="text-slate-600">Vendor invoice capture, organization, search, workflow, and exception management.</p>
+            <h3 className="mb-2 text-xl font-semibold text-slate-950">✓ Oxiom Billing (Available)</h3>
+            <p className="text-slate-600">Customer and product/service catalogs, invoice creation, sending, payment tracking, and PDF generation.</p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 opacity-75">
-            <h3 className="mb-2 text-xl font-semibold text-slate-950">Coming Soon: AI & Automation</h3>
-            <p className="text-slate-600">Intelligent data extraction, validation, duplicate detection, and automated approval workflows.</p>
+            <h3 className="mb-2 text-xl font-semibold text-slate-950">Coming Soon: Recurring Billing & Automation</h3>
+            <p className="text-slate-600">Recurring invoices, automated payment reminders, and online payment collection.</p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 opacity-75">
-            <h3 className="mb-2 text-xl font-semibold text-slate-950">Coming Soon: ERP Integration</h3>
-            <p className="text-slate-600">Seamless integration with SAP, NetSuite, Dynamics 365, and other major ERP platforms.</p>
+            <h3 className="mb-2 text-xl font-semibold text-slate-950">Coming Soon: Accounting Integration</h3>
+            <p className="text-slate-600">Seamless integration with QuickBooks, Xero, and other major accounting platforms.</p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 opacity-75">
             <h3 className="mb-2 text-xl font-semibold text-slate-950">2027: Oxiom CRM, Projects, HR, Inventory, Analytics</h3>
