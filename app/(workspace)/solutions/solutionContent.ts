@@ -16,27 +16,27 @@ export type SolutionPageContent = {
 export const solutionPages: SolutionPageContent[] = [
   {
     "slug": "vendor-invoice-processing",
-    "pageName": "Vendor Invoice Processing",
-    "title": "Vendor Invoice Processing Software | Automate Supplier Invoices | Oxiom",
-    "description": "Streamline vendor invoice processing with Oxiom. Capture supplier invoices, automate coding and approvals, and keep AP teams aligned across locations.",
-    "heading": "Vendor invoice processing software built for enterprise AP teams",
-    "intro": "Oxiom gives finance leaders a single operating layer for supplier invoice intake, validation, approval, and handoff to payment.",
+    "pageName": "Customer Invoicing",
+    "title": "Customer Invoicing Software | Bill Customers Faster | Oxiom",
+    "description": "Streamline customer invoicing with Oxiom. Create invoices from your product and service catalog, send them, and track payment status in one place.",
+    "heading": "Customer invoicing software built for growing finance teams",
+    "intro": "Oxiom gives finance leaders a single operating layer for creating invoices, sending them to customers, and tracking every dollar until it's collected.",
     "valueProps": [
-      "Centralized intake",
-      "Supplier-ready workflows",
+      "Centralized billing",
+      "Customer-ready invoices",
       "Operational visibility",
-      "Faster cycle times"
+      "Faster collection cycles"
     ],
     "focus": [
-      "supplier documents",
-      "approval routing",
+      "customer records",
+      "invoice creation",
       "duplicate prevention",
-      "ERP handoff"
+      "accounting handoff"
     ],
     "useCases": [
-      "Shared services teams managing high supplier volume.",
-      "Manufacturers coordinating invoices across plants.",
-      "Fast-growing companies replacing email-based AP workflows."
+      "Shared services teams billing a high volume of customers.",
+      "Companies coordinating invoices across multiple business units.",
+      "Fast-growing companies replacing spreadsheet-based billing."
     ],
     "related": [
       "supplier-invoice-management",
@@ -47,10 +47,10 @@ export const solutionPages: SolutionPageContent[] = [
   {
     "slug": "invoice-processing-software",
     "pageName": "Invoice Processing Software",
-    "title": "Invoice Processing Software | End-to-End AP Automation | Oxiom",
-    "description": "Modern invoice processing software for end-to-end AP automation. Manage capture, review, approvals, and payment-ready workflows in Oxiom.",
+    "title": "Invoice Processing Software | End-to-End AR Automation | Oxiom",
+    "description": "Modern invoice processing software for end-to-end billing automation. Manage creation, sending, payment tracking, and collections in Oxiom.",
     "heading": "End-to-end invoice processing software for modern finance operations",
-    "intro": "Oxiom Invoice Processing helps AP teams manage the full lifecycle of an invoice in one platform with governance, visibility, and measurable throughput.",
+    "intro": "Oxiom Invoice Software helps finance teams manage the full lifecycle of a customer invoice in one platform with governance, visibility, and measurable collection performance.",
     "valueProps": [
       "One workflow backbone",
       "Finance-first controls",
@@ -59,14 +59,14 @@ export const solutionPages: SolutionPageContent[] = [
     ],
     "focus": [
       "lifecycle management",
-      "exception handling",
+      "payment tracking",
       "searchable worklists",
       "operational dashboards"
     ],
     "useCases": [
-      "Mid-market AP teams leaving manual processes behind.",
-      "Enterprises standardizing AP across entities.",
-      "Finance leaders improving month-end visibility."
+      "Mid-market finance teams leaving spreadsheet billing behind.",
+      "Companies standardizing invoicing across entities.",
+      "Finance leaders improving month-end receivables visibility."
     ],
     "related": [
       "accounts-payable-automation",
@@ -77,24 +77,24 @@ export const solutionPages: SolutionPageContent[] = [
   {
     "slug": "ai-invoice-processing",
     "pageName": "AI Invoice Processing",
-    "title": "AI-Powered Invoice Processing | Intelligent Automation | Oxiom",
-    "description": "Use AI-powered invoice processing to accelerate AP operations. Oxiom supports intelligent classification, data extraction, and exception prioritization.",
-    "heading": "AI-powered invoice processing that improves speed and control",
-    "intro": "Oxiom applies intelligent automation to repetitive AP work so teams can focus on exceptions, supplier relationships, and financial oversight.",
+    "title": "AI-Powered Invoicing | Intelligent Billing Automation | Oxiom",
+    "description": "Use AI-powered invoicing to accelerate billing operations. Oxiom supports smart line-item suggestions, payment-risk prioritization, and collections insight.",
+    "heading": "AI-powered invoicing that improves speed and control",
+    "intro": "Oxiom applies intelligent automation to repetitive billing work so teams can focus on customer relationships and financial oversight.",
     "valueProps": [
-      "Smarter extraction",
+      "Smarter invoice drafting",
       "Better prioritization",
       "Learning workflows",
       "Human oversight"
     ],
     "focus": [
-      "AI extraction",
-      "confidence scoring",
-      "exception prioritization",
+      "AI-assisted invoice creation",
+      "payment-risk scoring",
+      "collections prioritization",
       "review feedback loops"
     ],
     "useCases": [
-      "Teams processing mixed-format supplier invoices.",
+      "Teams billing a mix of one-time and recurring customers.",
       "Organizations rolling out automation with reviewer oversight.",
       "Finance groups absorbing growth without matching headcount growth."
     ],
@@ -106,11 +106,11 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "intelligent-document-processing",
-    "pageName": "Intelligent Document Processing",
-    "title": "Intelligent Document Processing (IDP) | Oxiom",
-    "description": "Oxiom delivers intelligent document processing for finance teams that need reliable extraction, validation, and workflow automation for invoice documents.",
-    "heading": "Intelligent document processing for invoice-driven finance workflows",
-    "intro": "Oxiom combines extraction, validation, and workflow orchestration so invoice documents become structured AP work instead of static files.",
+    "pageName": "Intelligent Invoicing & Documents",
+    "title": "Intelligent Invoicing & Document Management | Oxiom",
+    "description": "Oxiom delivers intelligent invoicing and document management for finance teams that need reliable invoice generation, supporting docs, and workflow automation.",
+    "heading": "Intelligent invoicing for document-driven finance workflows",
+    "intro": "Oxiom combines invoice generation, supporting documentation, and workflow orchestration so billing becomes structured finance work instead of scattered files.",
     "valueProps": [
       "Document understanding",
       "Workflow orchestration",
@@ -118,15 +118,15 @@ export const solutionPages: SolutionPageContent[] = [
       "Enterprise scale"
     ],
     "focus": [
-      "document classification",
-      "normalized fields",
+      "invoice templates",
+      "normalized customer fields",
       "review queues",
       "searchable archives"
     ],
     "useCases": [
-      "Global teams consolidating invoice document handling.",
-      "IT leaders replacing scan-only tools.",
-      "Finance groups standardizing intake across entities."
+      "Global teams consolidating customer billing.",
+      "IT leaders replacing scattered invoicing tools.",
+      "Finance groups standardizing billing across entities."
     ],
     "related": [
       "document-processing-software",
@@ -136,27 +136,27 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "accounts-payable-automation",
-    "pageName": "Accounts Payable Automation",
-    "title": "Accounts Payable Automation Software | AP Automation | Oxiom",
-    "description": "Automate accounts payable workflows with Oxiom. Improve invoice throughput, strengthen controls, and reduce manual work across AP operations.",
-    "heading": "Accounts payable automation software for controlled growth",
-    "intro": "Oxiom helps finance organizations modernize AP without sacrificing policy compliance, visibility, or audit readiness.",
+    "pageName": "Accounts Receivable Automation",
+    "title": "Accounts Receivable Automation Software | AR Automation | Oxiom",
+    "description": "Automate accounts receivable workflows with Oxiom. Improve invoice throughput, strengthen controls, and reduce manual work across billing and collections.",
+    "heading": "Accounts receivable automation software for controlled growth",
+    "intro": "Oxiom helps finance organizations modernize AR without sacrificing policy compliance, visibility, or audit readiness.",
     "valueProps": [
       "Process standardization",
-      "Faster approvals",
+      "Faster billing cycles",
       "Audit discipline",
       "Cash flow visibility"
     ],
     "focus": [
-      "automated intake",
-      "approval workflows",
-      "exception queues",
-      "ERP exports"
+      "automated invoice creation",
+      "send and reminder workflows",
+      "payment tracking",
+      "accounting exports"
     ],
     "useCases": [
-      "Teams scaling AP after acquisitions.",
-      "Organizations replacing paper approvals.",
-      "CFO teams tightening control over liabilities."
+      "Teams scaling billing after growth or acquisitions.",
+      "Organizations replacing manual invoicing.",
+      "CFO teams tightening control over receivables."
     ],
     "related": [
       "ap-workflow-automation",
@@ -166,27 +166,27 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "ap-workflow-automation",
-    "pageName": "AP Workflow Automation",
-    "title": "AP Workflow Automation | Streamline Approval Processes | Oxiom",
-    "description": "Streamline AP workflow automation with configurable routing, escalations, and visibility for invoice approvals, reviews, and exception handling.",
-    "heading": "AP workflow automation that keeps invoices moving",
-    "intro": "Oxiom automates the handoffs that slow invoice processing down with configurable routing, escalations, and ownership visibility.",
+    "pageName": "Billing Workflow Automation",
+    "title": "Billing Workflow Automation | Streamline Invoice Processes | Oxiom",
+    "description": "Streamline billing workflow automation with configurable creation, review, and sending steps for invoices, plus visibility into payment status.",
+    "heading": "Billing workflow automation that keeps invoices moving",
+    "intro": "Oxiom automates the handoffs that slow billing down, from draft to send to payment, with clear ownership and visibility at every step.",
     "valueProps": [
-      "Configurable routing",
-      "Escalation management",
+      "Configurable workflows",
+      "Reminder automation",
       "Clear ownership",
       "Consistent controls"
     ],
     "focus": [
-      "approval rules",
+      "draft-to-send rules",
       "task assignment",
-      "escalation triggers",
+      "reminder triggers",
       "workflow analytics"
     ],
     "useCases": [
-      "Distributed enterprises with layered approver structures.",
-      "AP managers reducing approval delays.",
-      "Finance teams formalizing delegation rules."
+      "Distributed teams with layered review structures.",
+      "Finance managers reducing time-to-send delays.",
+      "Finance teams formalizing billing responsibilities."
     ],
     "related": [
       "invoice-approval-workflow",
@@ -196,27 +196,27 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "supplier-invoice-management",
-    "pageName": "Supplier Invoice Management",
-    "title": "Supplier Invoice Management | Centralize Vendor Invoices | Oxiom",
-    "description": "Centralize supplier invoice management with Oxiom. Gain visibility into vendor submissions, approvals, exceptions, and payment readiness across AP teams.",
-    "heading": "Supplier invoice management with stronger visibility and control",
-    "intro": "Oxiom gives AP teams a unified way to manage vendor invoices from receipt through payment preparation.",
+    "pageName": "Customer Account Management",
+    "title": "Customer Account Management | Centralize Billing Records | Oxiom",
+    "description": "Centralize customer account management with Oxiom. Gain visibility into invoices, payment history, and account standing across your billing operation.",
+    "heading": "Customer account management with stronger visibility and control",
+    "intro": "Oxiom gives finance teams a unified way to manage customer billing relationships from invoice creation through payment collection.",
     "valueProps": [
-      "Vendor-centric records",
-      "Central AP visibility",
+      "Customer-centric records",
+      "Central billing visibility",
       "Collaboration support",
       "Operational resilience"
     ],
     "focus": [
-      "supplier invoice repository",
-      "vendor-level views",
-      "exception routing",
-      "supplier reporting"
+      "customer invoice history",
+      "account-level views",
+      "payment status routing",
+      "customer reporting"
     ],
     "useCases": [
-      "AP organizations managing thousands of suppliers.",
-      "Procurement and AP teams resolving discrepancies together.",
-      "Shared services groups improving supplier experience."
+      "Finance teams managing thousands of customer accounts.",
+      "Sales and finance teams resolving billing questions together.",
+      "Shared services groups improving customer billing experience."
     ],
     "related": [
       "vendor-invoice-processing",
@@ -227,26 +227,26 @@ export const solutionPages: SolutionPageContent[] = [
   {
     "slug": "invoice-approval-workflow",
     "pageName": "Invoice Approval Workflow",
-    "title": "Invoice Approval Workflow Software | Multi-Level Approvals | Oxiom",
-    "description": "Manage invoice approval workflows with Oxiom. Support multi-level approvals, delegation, escalations, and audit-ready review histories.",
-    "heading": "Invoice approval workflow software for multi-level enterprise review",
-    "intro": "Oxiom helps finance teams formalize invoice approvals without making the process harder for business stakeholders.",
+    "title": "Invoice Approval Workflow Software | Review Before You Send | Oxiom",
+    "description": "Manage invoice approval workflows with Oxiom. Support multi-level review before sending, delegation, and audit-ready decision histories.",
+    "heading": "Invoice approval workflow software for confident sending",
+    "intro": "Oxiom helps finance teams formalize invoice review before it reaches a customer, without slowing the business down.",
     "valueProps": [
-      "Approval policy alignment",
+      "Review policy alignment",
       "Flexible escalation",
       "Full traceability",
-      "Faster routing"
+      "Faster sending"
     ],
     "focus": [
-      "multi-level routing",
+      "multi-level review",
       "delegated approvals",
       "decision history",
       "bottleneck visibility"
     ],
     "useCases": [
-      "Enterprises enforcing delegated authority matrices.",
-      "Teams reducing payment delays from unclear ownership.",
-      "Organizations with layered approval hierarchies."
+      "Finance teams enforcing sign-off before invoices go out.",
+      "Teams reducing send delays from unclear ownership.",
+      "Organizations with layered review hierarchies."
     ],
     "related": [
       "ap-workflow-automation",
@@ -256,27 +256,27 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "invoice-capture",
-    "pageName": "Invoice Capture",
-    "title": "Invoice Capture Technology | Automated Data Extraction | Oxiom",
-    "description": "Capture invoices digitally with Oxiom. Centralize intake, automate classification, and prepare invoice data for validation and downstream AP workflows.",
-    "heading": "Invoice capture technology that organizes intake from day one",
-    "intro": "Oxiom provides a controlled front door for invoice intake so AP teams can stop losing time to scattered inboxes and manual handling.",
+    "pageName": "Invoice Creation",
+    "title": "Invoice Creation Software | From Catalog to Customer | Oxiom",
+    "description": "Create invoices quickly with Oxiom. Pull from your product and service catalog, add line items, and prepare invoices for review and sending.",
+    "heading": "Invoice creation that starts with your catalog, not a blank page",
+    "intro": "Oxiom provides a controlled way to build invoices from your customers and product/service catalog so billing stays consistent and fast.",
     "valueProps": [
-      "Unified intake",
-      "Document readiness",
+      "Catalog-driven creation",
+      "Invoice readiness",
       "Operational consistency",
       "Immediate visibility"
     ],
     "focus": [
-      "digital uploads",
-      "shared mailbox intake",
-      "metadata capture",
-      "source document retention"
+      "product/service line items",
+      "customer selection",
+      "line-item pricing",
+      "draft management"
     ],
     "useCases": [
-      "Teams replacing paper or manual scanning.",
-      "Organizations consolidating invoice submission channels.",
-      "Finance groups seeking better receipt visibility."
+      "Teams replacing manual, document-based invoicing.",
+      "Organizations consolidating billing into one system.",
+      "Finance groups seeking better draft-to-send visibility."
     ],
     "related": [
       "ocr-invoice-processing",
@@ -286,26 +286,26 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "ocr-invoice-processing",
-    "pageName": "OCR Invoice Processing",
-    "title": "OCR Invoice Processing | Extract Invoice Data Automatically | Oxiom",
-    "description": "Use OCR invoice processing to extract invoice data automatically. Oxiom helps AP teams reduce manual entry and improve document throughput.",
-    "heading": "OCR invoice processing for cleaner, faster AP data capture",
-    "intro": "Oxiom uses OCR-enabled workflows to convert invoice documents into structured AP data and reduce repetitive keying.",
+    "pageName": "Recurring Invoice Automation",
+    "title": "Recurring Invoice Automation | Bill on a Schedule | Oxiom",
+    "description": "Automate recurring invoices with Oxiom. Generate and send invoices for subscriptions and repeat billing without manual re-entry each cycle.",
+    "heading": "Recurring invoice automation for predictable billing",
+    "intro": "Oxiom automates the invoices you send on a schedule, so subscription and repeat billing doesn't depend on someone remembering to create them.",
     "valueProps": [
-      "Automated extraction",
+      "Automated generation",
       "Review by exception",
       "Data consistency",
       "Faster processing"
     ],
     "focus": [
-      "header capture",
-      "layout support",
+      "billing schedules",
+      "template reuse",
       "confidence review",
       "searchable metadata"
     ],
     "useCases": [
-      "AP teams spending too much time rekeying invoices.",
-      "Organizations moving from basic scanning to structured records.",
+      "Teams billing customers on subscription or retainer terms.",
+      "Organizations moving from manual re-entry to structured recurring billing.",
       "Finance groups needing automation with oversight."
     ],
     "related": [
@@ -318,9 +318,9 @@ export const solutionPages: SolutionPageContent[] = [
     "slug": "invoice-validation",
     "pageName": "Invoice Validation",
     "title": "Invoice Validation Software | Automated Validation Rules | Oxiom",
-    "description": "Automate invoice validation with business rules in Oxiom. Catch duplicates, missing fields, policy issues, and data mismatches before approval.",
-    "heading": "Invoice validation software that strengthens AP controls",
-    "intro": "Oxiom helps finance teams validate invoices before they move deeper into the approval process.",
+    "description": "Automate invoice validation with business rules in Oxiom. Catch duplicates, missing fields, and pricing mismatches before an invoice reaches a customer.",
+    "heading": "Invoice validation software that strengthens billing controls",
+    "intro": "Oxiom helps finance teams validate invoices before they're sent, catching problems while they're still cheap to fix.",
     "valueProps": [
       "Control-first processing",
       "Duplicate defense",
@@ -330,12 +330,12 @@ export const solutionPages: SolutionPageContent[] = [
     "focus": [
       "required field checks",
       "duplicate detection",
-      "tolerance rules",
+      "pricing tolerance rules",
       "exception reporting"
     ],
     "useCases": [
-      "AP teams enforcing stricter controls before posting.",
-      "Organizations reducing duplicate payment risk.",
+      "Finance teams enforcing stricter controls before sending.",
+      "Organizations reducing duplicate or incorrect invoices.",
       "Finance leaders standardizing policy checks after growth."
     ],
     "related": [
@@ -346,11 +346,11 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "erp-invoice-integration",
-    "pageName": "ERP Invoice Integration",
-    "title": "ERP Invoice Integration | SAP, Oracle, NetSuite | Oxiom",
-    "description": "Connect Oxiom with ERP systems for invoice integration. Support finance workflows across SAP, Oracle, NetSuite, and other enterprise platforms.",
-    "heading": "ERP invoice integration that keeps AP workflows connected",
-    "intro": "Oxiom fits into enterprise finance architecture by connecting invoice operations to ERP master data and downstream posting processes.",
+    "pageName": "Accounting & ERP Integration",
+    "title": "Accounting & ERP Integration | Sync Billing Data | Oxiom",
+    "description": "Connect Oxiom with accounting and ERP systems for invoice and payment data. Support finance workflows across SAP, Oracle, NetSuite, and other platforms.",
+    "heading": "Accounting and ERP integration that keeps billing data connected",
+    "intro": "Oxiom fits into enterprise finance architecture by connecting billing operations to customer master data and downstream revenue recognition processes.",
     "valueProps": [
       "Connected data flow",
       "Less swivel-chair work",
@@ -358,13 +358,13 @@ export const solutionPages: SolutionPageContent[] = [
       "Flexible architecture"
     ],
     "focus": [
-      "master data alignment",
+      "customer master data alignment",
       "export mappings",
       "sync exceptions",
       "integration governance"
     ],
     "useCases": [
-      "IT and finance teams deploying AP automation alongside ERP investments.",
+      "IT and finance teams deploying billing automation alongside ERP investments.",
       "Global organizations synchronizing multiple ERP instances.",
       "Teams reducing manual re-entry between systems."
     ],
@@ -378,8 +378,8 @@ export const solutionPages: SolutionPageContent[] = [
     "slug": "finance-process-automation",
     "pageName": "Finance Process Automation",
     "title": "Finance Process Automation | Automate Financial Operations | Oxiom",
-    "description": "Automate finance processes with Oxiom. Improve invoice operations, approvals, controls, and reporting across shared services and enterprise teams.",
-    "heading": "Finance process automation that starts with invoice operations",
+    "description": "Automate finance processes with Oxiom. Improve billing operations, approvals, controls, and reporting across shared services and finance teams.",
+    "heading": "Finance process automation that starts with billing operations",
     "intro": "Oxiom helps finance organizations modernize operational processes that still rely on inboxes, spreadsheets, and manual follow-up.",
     "valueProps": [
       "Operational standardization",
@@ -406,27 +406,27 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "digital-invoice-processing",
-    "pageName": "Digital Invoice Processing",
-    "title": "Digital Invoice Processing | Paperless AP Automation | Oxiom",
-    "description": "Move to digital invoice processing with Oxiom. Replace paper, email, and spreadsheet-driven AP workflows with a controlled paperless process.",
-    "heading": "Digital invoice processing for paperless AP operations",
-    "intro": "Oxiom helps finance teams shift from paper-heavy and email-heavy invoice handling to a digital process built for scale.",
+    "pageName": "Digital Invoicing",
+    "title": "Digital Invoicing | Paperless Billing Automation | Oxiom",
+    "description": "Move to digital invoicing with Oxiom. Replace paper, email, and spreadsheet-driven billing with a controlled, paperless process for sending invoices.",
+    "heading": "Digital invoicing for paperless billing operations",
+    "intro": "Oxiom helps finance teams shift from paper-heavy and email-heavy invoicing to a digital process built for scale.",
     "valueProps": [
-      "Paperless intake",
+      "Paperless billing",
       "Accessible records",
       "Modern workflow control",
       "Audit-ready storage"
     ],
     "focus": [
-      "digital intake",
+      "digital invoice delivery",
       "status-linked records",
       "paperless approvals",
       "retention support"
     ],
     "useCases": [
-      "Organizations retiring paper-based AP processes.",
-      "Remote or hybrid approvers needing digital access.",
-      "Shared services groups centralizing records."
+      "Organizations retiring paper-based invoicing.",
+      "Remote or hybrid finance teams needing digital access.",
+      "Shared services groups centralizing billing records."
     ],
     "related": [
       "invoice-capture",
@@ -438,9 +438,9 @@ export const solutionPages: SolutionPageContent[] = [
     "slug": "enterprise-workflow-automation",
     "pageName": "Enterprise Workflow Automation",
     "title": "Enterprise Workflow Automation | Oxiom One Platform",
-    "description": "Enterprise workflow automation for finance teams on the Oxiom One platform. Standardize approvals, controls, and process visibility across operations.",
+    "description": "Enterprise workflow automation for finance teams on the Oxiom One platform. Standardize billing, controls, and process visibility across operations.",
     "heading": "Enterprise workflow automation for controlled finance execution",
-    "intro": "Oxiom One provides workflow automation patterns that help enterprise teams coordinate work reliably across business units and control functions.",
+    "intro": "Oxiom One provides workflow automation patterns that help enterprise teams coordinate billing work reliably across business units and control functions.",
     "valueProps": [
       "Reusable workflow model",
       "Governed execution",
@@ -454,7 +454,7 @@ export const solutionPages: SolutionPageContent[] = [
       "security-aligned access"
     ],
     "useCases": [
-      "Enterprises standardizing approvals after organizational change.",
+      "Enterprises standardizing billing after organizational change.",
       "Finance transformation teams seeking a platform approach.",
       "IT leaders avoiding isolated point solutions."
     ],
@@ -467,9 +467,9 @@ export const solutionPages: SolutionPageContent[] = [
   {
     "slug": "business-process-automation",
     "pageName": "Business Process Automation",
-    "title": "Business Process Automation (BPA) | Finance & AP | Oxiom",
-    "description": "Use business process automation in finance and AP with Oxiom. Standardize repetitive workflows, approvals, and controls with better visibility.",
-    "heading": "Business process automation for finance and AP teams",
+    "title": "Business Process Automation (BPA) | Finance & Billing | Oxiom",
+    "description": "Use business process automation in finance and billing with Oxiom. Standardize repetitive workflows, reviews, and controls with better visibility.",
+    "heading": "Business process automation for finance and billing teams",
     "intro": "Oxiom brings business process automation discipline to finance operations that still rely on manual coordination.",
     "valueProps": [
       "Structured work execution",
@@ -486,7 +486,7 @@ export const solutionPages: SolutionPageContent[] = [
     "useCases": [
       "Finance leaders formalizing organic processes.",
       "Organizations creating repeatable operating models.",
-      "AP teams laying groundwork for broader automation."
+      "Finance teams laying groundwork for broader automation."
     ],
     "related": [
       "enterprise-workflow-automation",
@@ -496,27 +496,27 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "document-processing-software",
-    "pageName": "Document Processing Software",
-    "title": "Document Processing Software | Intelligent Automation | Oxiom",
-    "description": "Document processing software for finance teams that need intelligent capture, validation, and workflow coordination for invoices and related records.",
-    "heading": "Document processing software designed for finance operations",
-    "intro": "Oxiom helps finance teams transform high-volume invoice documents into structured, actionable records.",
+    "pageName": "Billing Document Management",
+    "title": "Billing Document Management | Intelligent Automation | Oxiom",
+    "description": "Billing document management for finance teams that need intelligent invoice generation, supporting docs, and workflow coordination.",
+    "heading": "Billing document management designed for finance operations",
+    "intro": "Oxiom helps finance teams keep invoices and their supporting records organized, searchable, and tied to the right customer and payment status.",
     "valueProps": [
-      "Capture to workflow",
+      "Invoice to workflow",
       "Document context",
       "Control-friendly processing",
       "Searchable retention"
     ],
     "focus": [
-      "email and scan intake",
-      "classification and extraction",
+      "invoice and attachment intake",
+      "customer-linked records",
       "role-based access",
-      "reporting on document volume"
+      "reporting on billing volume"
     ],
     "useCases": [
-      "Finance organizations centralizing document-heavy AP operations.",
-      "IT teams replacing disconnected scan repositories.",
-      "Shared services groups serving multiple entities."
+      "Finance organizations centralizing document-heavy billing.",
+      "IT teams replacing disconnected invoicing tools.",
+      "Shared services groups serving multiple business units."
     ],
     "related": [
       "intelligent-document-processing",
@@ -527,10 +527,10 @@ export const solutionPages: SolutionPageContent[] = [
   {
     "slug": "invoice-lifecycle-management",
     "pageName": "Invoice Lifecycle Management",
-    "title": "Invoice Lifecycle Management | Capture to Payment | Oxiom",
-    "description": "Manage the full invoice lifecycle with Oxiom, from capture and validation through approval, payment readiness, and historical reporting.",
-    "heading": "Invoice lifecycle management from capture to payment readiness",
-    "intro": "Oxiom gives finance teams an end-to-end view of how invoices move through the business.",
+    "title": "Invoice Lifecycle Management | Draft to Paid | Oxiom",
+    "description": "Manage the full invoice lifecycle with Oxiom, from draft and review through sending, payment tracking, and historical reporting.",
+    "heading": "Invoice lifecycle management from draft to paid",
+    "intro": "Oxiom gives finance teams an end-to-end view of how invoices move through the business, from creation to collected payment.",
     "valueProps": [
       "End-to-end visibility",
       "Stage-based governance",
@@ -541,11 +541,11 @@ export const solutionPages: SolutionPageContent[] = [
       "status-aware worklists",
       "stage transitions",
       "audit history",
-      "throughput reporting"
+      "collections reporting"
     ],
     "useCases": [
-      "AP managers reducing bottlenecks across the invoice journey.",
-      "Finance teams improving month-end liability visibility.",
+      "Finance managers reducing bottlenecks across the invoice journey.",
+      "Finance teams improving month-end receivables visibility.",
       "Organizations formalizing lifecycle ownership."
     ],
     "related": [
@@ -556,27 +556,27 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "procure-to-pay",
-    "pageName": "Procure to Pay Automation",
-    "title": "Procure to Pay (P2P) Automation | End-to-End P2P | Oxiom",
-    "description": "Support procure-to-pay automation with Oxiom by connecting invoice workflows, approvals, controls, and ERP handoff across the AP cycle.",
-    "heading": "Procure-to-pay automation for tighter finance and procurement alignment",
-    "intro": "Oxiom strengthens the downstream invoice and approval layers of the procure-to-pay process so finance and procurement can work from shared controls.",
+    "pageName": "Order to Cash Automation",
+    "title": "Order to Cash (O2C) Automation | End-to-End O2C | Oxiom",
+    "description": "Support order-to-cash automation with Oxiom by connecting invoice creation, review, sending, and payment tracking across the billing cycle.",
+    "heading": "Order-to-cash automation for tighter finance and sales alignment",
+    "intro": "Oxiom strengthens the invoicing and collections layers of the order-to-cash process so finance and sales can work from shared visibility.",
     "valueProps": [
-      "AP and procurement alignment",
+      "Finance and sales alignment",
       "Downstream discipline",
       "Connected visibility",
       "Enterprise readiness"
     ],
     "focus": [
-      "PO and non-PO workflows",
-      "purchasing validation",
-      "stakeholder approvals",
-      "P2P reporting"
+      "order-linked invoicing",
+      "billing validation",
+      "customer approvals",
+      "O2C reporting"
     ],
     "useCases": [
-      "Organizations connecting procurement controls with AP execution.",
-      "Shared services teams managing PO and non-PO invoices together.",
-      "Finance leaders improving downstream P2P visibility."
+      "Organizations connecting sales agreements with billing execution.",
+      "Shared services teams managing recurring and one-time invoices together.",
+      "Finance leaders improving downstream O2C visibility."
     ],
     "related": [
       "erp-invoice-integration",
@@ -588,7 +588,7 @@ export const solutionPages: SolutionPageContent[] = [
     "slug": "financial-operations-automation",
     "pageName": "Financial Operations Automation",
     "title": "Financial Operations Automation | FinOps Automation | Oxiom",
-    "description": "Financial operations automation for AP and finance teams. Oxiom improves execution, visibility, and controls across invoice-driven processes.",
+    "description": "Financial operations automation for billing and finance teams. Oxiom improves execution, visibility, and controls across invoice-driven processes.",
     "heading": "Financial operations automation for scalable execution and control",
     "intro": "Oxiom helps finance leaders automate operational work that affects accuracy, close timing, and stakeholder responsiveness.",
     "valueProps": [
@@ -616,11 +616,11 @@ export const solutionPages: SolutionPageContent[] = [
   },
   {
     "slug": "ap-analytics",
-    "pageName": "AP Analytics & Insights",
-    "title": "AP Analytics & Insights | Accounts Payable Intelligence | Oxiom",
-    "description": "Gain AP analytics and insights with Oxiom. Monitor invoice throughput, exceptions, approvals, aging, and team performance with finance-ready visibility.",
-    "heading": "AP analytics and insights for better finance decisions",
-    "intro": "Oxiom turns day-to-day invoice activity into operational intelligence that finance leaders can act on.",
+    "pageName": "AR Analytics & Insights",
+    "title": "AR Analytics & Insights | Receivables Intelligence | Oxiom",
+    "description": "Gain accounts receivable analytics and insights with Oxiom. Monitor invoice throughput, aging, DSO, and collections performance with finance-ready visibility.",
+    "heading": "AR analytics and insights for better finance decisions",
+    "intro": "Oxiom turns day-to-day billing activity into operational intelligence that finance leaders can act on.",
     "valueProps": [
       "Operational visibility",
       "Management insight",
@@ -629,13 +629,13 @@ export const solutionPages: SolutionPageContent[] = [
     ],
     "focus": [
       "throughput dashboards",
-      "exception analytics",
+      "aging and DSO analytics",
       "trend analysis",
       "drill-down reporting"
     ],
     "useCases": [
-      "AP leaders reporting service levels.",
-      "Controllers monitoring liabilities and close readiness.",
+      "Finance leaders reporting on collections performance.",
+      "Controllers monitoring receivables and close readiness.",
       "Shared services managers comparing team performance."
     ],
     "related": [

@@ -46,7 +46,7 @@ export function SolutionPageTemplate({ slug }: { slug: string }) {
                 {page.focus.map((item) => (
                   <div key={item} className="rounded-lg border border-slate-200 bg-white p-6">
                     <h3 className="mb-3 text-lg font-semibold text-slate-950">{item}</h3>
-                    <p className="text-sm leading-6 text-slate-600">Use Oxiom to manage {item} with role-based workflow controls, audit history, and visibility for AP leaders, approvers, and IT stakeholders.</p>
+                    <p className="text-sm leading-6 text-slate-600">Use Oxiom to manage {item} with role-based workflow controls, audit history, and visibility for finance leaders, approvers, and IT stakeholders.</p>
                   </div>
                 ))}
                 {['search and filters', 'audit-ready history', 'exception visibility'].map((item) => (
@@ -76,7 +76,7 @@ export function SolutionPageTemplate({ slug }: { slug: string }) {
             <div className="grid gap-6 md:grid-cols-3">
               {[
                 ['Lower processing effort', `Reduce manual touches across ${page.pageName.toLowerCase()} workflows.`],
-                ['Faster turnaround', 'Move invoices through review, approval, and payment readiness with fewer bottlenecks.'],
+                ['Faster turnaround', 'Move invoices through review, approval, and sending with fewer bottlenecks.'],
                 ['Higher control confidence', 'Document every action with clear workflow status and audit history.'],
               ].map(([title, description]) => (
                 <div key={title} className="rounded-lg border border-slate-200 bg-white p-6">
@@ -120,8 +120,8 @@ export function SolutionPageTemplate({ slug }: { slug: string }) {
         </div>
         <div className="border-t border-slate-100 bg-slate-50 py-16 sm:py-20">
           <div className="mx-auto max-w-4xl px-6 text-center sm:px-8 lg:px-10">
-            <h2 className="mb-4 text-3xl font-semibold text-slate-950">Ready to transform your invoice processing?</h2>
-            <p className="mb-8 text-lg text-slate-600">See how Oxiom can help your team automate intake, approvals, controls, and reporting with an enterprise-ready workflow platform.</p>
+            <h2 className="mb-4 text-3xl font-semibold text-slate-950">Ready to transform your billing?</h2>
+            <p className="mb-8 text-lg text-slate-600">See how Oxiom can help your team automate invoicing, approvals, controls, and reporting with an enterprise-ready billing platform.</p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/contact" className="rounded-full bg-blue-600 px-7 py-3.5 text-base font-semibold text-white hover:bg-blue-700">Contact Oxiom</Link>
               <Link href="/dashboard" className="rounded-full border border-slate-300 px-7 py-3.5 text-base font-semibold text-slate-700 hover:border-slate-400 hover:text-slate-950">View the product</Link>

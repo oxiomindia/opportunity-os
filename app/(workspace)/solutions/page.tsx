@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { SolutionsGrid } from './SolutionPageTemplate';
 
 export const metadata: Metadata = {
-  title: 'Invoice Processing Solutions | Oxiom',
-  description: 'Enterprise invoice processing and accounts payable automation solutions. AI, OCR, ERP integration, and workflow automation.',
+  title: 'Invoice & Billing Solutions | Oxiom',
+  description: 'Enterprise invoicing and accounts receivable automation solutions. AI-assisted creation, ERP integration, and billing workflow automation.',
 };
 
 const pillars = [
-  'Capture and classify incoming invoices',
+  'Create and send customer invoices',
   'Automate workflow and approvals',
   'Strengthen validation and controls',
   'Improve reporting and audit readiness',
@@ -20,8 +20,8 @@ export default function SolutionsPage() {
     <div className="min-h-screen bg-white">
       <div className="border-b border-slate-100 bg-slate-50 py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-          <h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">Invoice processing solutions for enterprise finance teams</h1>
-          <p className="max-w-3xl text-lg text-slate-600">Oxiom helps AP, finance, and IT leaders modernize invoice operations with controlled workflows, AI-assisted capture, validation, ERP integration, and analytics.</p>
+          <h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">Invoicing and billing solutions for enterprise finance teams</h1>
+          <p className="max-w-3xl text-lg text-slate-600">Oxiom helps finance and IT leaders modernize billing operations with controlled workflows, AI-assisted invoice creation, validation, ERP integration, and analytics.</p>
         </div>
       </div>
       <div className="mx-auto max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-10">
@@ -36,7 +36,7 @@ export default function SolutionsPage() {
           <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <h2 className="text-3xl font-semibold text-slate-950">Browse every solution page</h2>
-              <p className="mt-3 max-w-3xl text-lg text-slate-600">Explore solution pages tailored to AP automation, invoice controls, document processing, ERP integration, and finance operations.</p>
+              <p className="mt-3 max-w-3xl text-lg text-slate-600">Explore solution pages tailored to billing automation, invoice controls, document management, ERP integration, and finance operations.</p>
             </div>
             <div className="flex gap-3">
               <Link href="/docs" className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 hover:border-slate-400 hover:text-slate-950">Read documentation</Link>
