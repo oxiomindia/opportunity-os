@@ -16,7 +16,7 @@ import {
 } from 'drizzle-orm/pg-core';
 
 export const memberRole = pgEnum('member_role', ['owner', 'admin', 'reviewer', 'member', 'viewer']);
-export const invoiceStatus = pgEnum('invoice_status', ['received', 'processing', 'needs-review', 'verified', 'accounts-review', 'approved', 'rejected', 'payment-ready', 'paid', 'archived']);
+export const invoiceStatus = pgEnum('invoice_status', ['draft', 'sent', 'viewed', 'partially-paid', 'paid', 'overdue', 'void']);
 export const attachmentStatus = pgEnum('attachment_status', ['pending', 'stored', 'processing', 'ready', 'failed', 'quarantined']);
 export const auditAction = pgEnum('audit_action', ['create', 'update', 'status-change', 'archive', 'restore', 'delete', 'upload', 'extract']);
 export const feedbackStatus = pgEnum('feedback_status', ['new','under-review','more-information-needed','planned','in-progress','resolved','declined','duplicate']);
@@ -101,6 +101,7 @@ export const invoices = pgTable('invoices', {
   id: uuid('id').primaryKey().defaultRandom(),
   organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
   vendorId: uuid('vendor_id').references(() => vendors.id, { onDelete: 'set null' }),
+  customerId: uuid('customer_id').references(() => customers.id),
   invoiceNumber: text('invoice_number'),
   invoiceDate: date('invoice_date'),
   dueDate: date('due_date'),
@@ -108,9 +109,7 @@ export const invoices = pgTable('invoices', {
   subtotal: numeric('subtotal', { precision: 18, scale: 2 }),
   taxTotal: numeric('tax_total', { precision: 18, scale: 2 }),
   total: numeric('total', { precision: 18, scale: 2 }),
-  status: invoiceStatus('status').notNull().default('received'),
-  extractionConfidence: numeric('extraction_confidence', { precision: 5, scale: 2 }),
-  source: text('source').notNull().default('manual-upload'),
+  status: invoiceStatus('status').notNull().default('draft'),
   assignedTo: uuid('assigned_to').references(() => profiles.id, { onDelete: 'set null' }),
   archivedAt: timestamp('archived_at', { withTimezone: true }),
   deletedAt: timestamp('deleted_at', { withTimezone: true }),
@@ -120,6 +119,7 @@ export const invoices = pgTable('invoices', {
 }, (table) => [
   index('invoices_org_status_created_idx').on(table.organizationId, table.status, table.createdAt),
   index('invoices_org_vendor_idx').on(table.organizationId, table.vendorId),
+  index('invoices_org_customer_idx').on(table.organizationId, table.customerId),
   index('invoices_org_due_date_idx').on(table.organizationId, table.dueDate),
   uniqueIndex('invoices_org_vendor_number_uidx').on(table.organizationId, table.vendorId, table.invoiceNumber),
 ]);
@@ -128,6 +128,7 @@ export const invoiceItems = pgTable('invoice_items', {
   id: uuid('id').primaryKey().defaultRandom(),
   organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
   invoiceId: uuid('invoice_id').notNull().references(() => invoices.id, { onDelete: 'cascade' }),
+  productId: uuid('product_id').references(() => productsServices.id),
   position: integer('position').notNull(),
   description: text('description').notNull(),
   quantity: numeric('quantity', { precision: 18, scale: 4 }),

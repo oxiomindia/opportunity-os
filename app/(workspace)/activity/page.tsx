@@ -10,10 +10,7 @@ const severityClasses: Record<ActivitySeverity, string> = {
 };
 
 const categoryLabels: Record<ActivityCategory, string> = {
-  intake: 'Intake',
-  verification: 'Verification',
-  'accounts-review': 'Accounts review',
-  payment: 'Payment',
+  invoice: 'Invoice',
   system: 'System',
 };
 
@@ -38,7 +35,7 @@ export default function ActivityPage() {
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">Notifications</p>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">Activity center</h1>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-          Monitor workflow alerts, exception escalations, payment updates, and system events across Oxiom from one audit-friendly feed.
+          Monitor invoice status changes, payment updates, and system events across Oxiom from one audit-friendly feed.
         </p>
       </section>
 
@@ -92,8 +89,8 @@ export default function ActivityPage() {
         <aside className="rounded-xl border border-slate-200 bg-white p-5">
           <h2 className="text-base font-semibold text-slate-950">Notification routing</h2>
           <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-600">
-            <li>Critical verification alerts notify the assigned reviewer immediately.</li>
-            <li>Payment-ready events are grouped into the daily treasury digest.</li>
+            <li>Critical invoice alerts, like overdue payments, notify you immediately.</li>
+            <li>Payment confirmations are grouped into the daily billing digest.</li>
             <li>System events remain available for audit and operational reporting.</li>
           </ul>
         </aside>

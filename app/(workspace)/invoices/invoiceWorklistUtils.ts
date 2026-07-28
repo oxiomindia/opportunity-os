@@ -1,7 +1,7 @@
 import type { DateFilter } from './InvoiceFilters';
 import type { Invoice, InvoiceStatus } from '../../../types/invoice';
 
-export type InvoiceSortKey = 'invoiceDate' | 'dueDate' | 'total' | 'confidence';
+export type InvoiceSortKey = 'invoiceDate' | 'dueDate' | 'total';
 export type InvoiceSortDirection = 'asc' | 'desc';
 
 export interface InvoiceSortState {
@@ -35,7 +35,7 @@ export function filterInvoices(
   return invoices.filter((invoice) => {
     const matchesSearch =
       normalizedSearch === '' ||
-      invoice.vendorName.toLowerCase().includes(normalizedSearch) ||
+      invoice.customerName.toLowerCase().includes(normalizedSearch) ||
       invoice.invoiceNumber.toLowerCase().includes(normalizedSearch);
     const matchesStatus = filters.status === 'all' || invoice.status === filters.status;
 

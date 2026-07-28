@@ -5,8 +5,8 @@ interface InvoiceBulkToolbarProps {
   onMessage: (message: string) => void;
 }
 
-const reviewedMessage = 'Selected invoices were marked reviewed in the workspace queue.';
-const assignMessage = 'Selected invoices were routed to owner assignment.';
+const reminderMessage = 'Payment reminders queued for the selected invoices.';
+const exportMessage = 'Selected invoices were queued for export.';
 
 export default function InvoiceBulkToolbar({ selectedCount, onClearSelection, message, onMessage }: Readonly<InvoiceBulkToolbarProps>) {
   if (selectedCount === 0) return null;
@@ -16,14 +16,14 @@ export default function InvoiceBulkToolbar({ selectedCount, onClearSelection, me
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-sm font-semibold text-blue-950">{selectedCount} {selectedCount === 1 ? 'invoice' : 'invoices'} selected</p>
-          <p className="mt-1 text-sm text-blue-800">Use bulk actions to move selected invoices through review operations.</p>
+          <p className="mt-1 text-sm text-blue-800">Use bulk actions to follow up on selected invoices.</p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
-          <button type="button" onClick={() => onMessage(reviewedMessage)} className="rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 hover:border-blue-300">
-            Mark reviewed
+          <button type="button" onClick={() => onMessage(reminderMessage)} className="rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 hover:border-blue-300">
+            Send reminder
           </button>
-          <button type="button" onClick={() => onMessage(assignMessage)} className="rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 hover:border-blue-300">
-            Assign owner
+          <button type="button" onClick={() => onMessage(exportMessage)} className="rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 hover:border-blue-300">
+            Export
           </button>
           <button type="button" onClick={onClearSelection} className="rounded-lg border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 hover:border-blue-300">
             Clear selection

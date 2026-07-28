@@ -9,27 +9,23 @@ const currencyLocales: Record<InvoiceCurrency, string> = {
 };
 
 export const invoiceStatusLabels: Record<InvoiceStatus, string> = {
-  received: 'Received',
-  processing: 'Processing',
-  'needs-review': 'Needs review',
-  verified: 'Verified',
-  'accounts-review': 'Accounts review',
-  approved: 'Approved',
-  rejected: 'Rejected',
-  'payment-ready': 'Payment ready',
+  draft: 'Draft',
+  sent: 'Sent',
+  viewed: 'Viewed',
+  'partially-paid': 'Partially paid',
   paid: 'Paid',
+  overdue: 'Overdue',
+  void: 'Void',
 };
 
 export const invoiceStatusBadgeVariants: Record<InvoiceStatus, InvoiceStatusBadgeVariant> = {
-  received: 'neutral',
-  processing: 'info',
-  'needs-review': 'warning',
-  verified: 'success',
-  'accounts-review': 'accent',
-  approved: 'success',
-  rejected: 'danger',
-  'payment-ready': 'info',
+  draft: 'neutral',
+  sent: 'info',
+  viewed: 'accent',
+  'partially-paid': 'warning',
   paid: 'success',
+  overdue: 'danger',
+  void: 'neutral',
 };
 
 export function formatInvoiceCurrency(amount: number, currency: InvoiceCurrency) {

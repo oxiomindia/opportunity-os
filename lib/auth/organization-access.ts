@@ -1,6 +1,5 @@
 const organizationRequiredPrefixes = [
-  '/invoices', '/upload', '/verification', '/reviews', '/accounts-review',
-  '/payment-queue', '/reports', '/activity', '/settings', '/feedback',
+  '/customers', '/products', '/invoices', '/reports', '/activity', '/settings', '/feedback',
 ] as const;
 
 export function requiresOrganization(pathname: string) {

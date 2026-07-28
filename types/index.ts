@@ -48,8 +48,7 @@ export interface KPIData {
 export type {
   Invoice,
   InvoiceCurrency,
-  InvoiceFileType,
-  InvoiceSource,
+  InvoiceLineItem,
   InvoiceStatus,
 } from './invoice';
 export { invoiceStatuses } from './invoice';

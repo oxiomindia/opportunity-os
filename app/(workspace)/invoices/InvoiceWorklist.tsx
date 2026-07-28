@@ -93,18 +93,18 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
       <section className="rounded-xl border border-slate-200 bg-white p-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">Invoice intake</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">Billing</p>
             <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">Invoices</h1>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-              Monitor invoice intake, review confidence signals, and route exceptions before invoices move into verification and payment preparation.
+              Track invoices you&apos;ve billed to customers, from draft through payment.
             </p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
             <button type="button" className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700" onClick={() => handleActionMessage('Export queued for the current filtered invoice worklist.')}>
               Export
             </button>
-            <Link href="/upload" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700">
-              Upload Invoice
+            <Link href="/invoices/new" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700">
+              New Invoice
             </Link>
           </div>
         </div>

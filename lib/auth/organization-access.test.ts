@@ -9,7 +9,7 @@ test('keeps the dashboard and organization setup available without a membership'
 });
 
 test('protects organization-dependent workspace routes', () => {
-  for (const pathname of ['/invoices', '/invoices/new', '/upload', '/reports', '/settings', '/feedback']) {
+  for (const pathname of ['/invoices', '/invoices/new', '/customers', '/products', '/reports', '/settings', '/feedback']) {
     assert.equal(requiresOrganization(pathname), true, pathname);
   }
 });
