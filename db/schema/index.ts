@@ -69,6 +69,21 @@ export const customers = pgTable('customers', {
   index('customers_org_idx').on(table.organizationId),
 ]);
 
+export const productsServices = pgTable('products_services', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  description: text('description'),
+  sku: text('sku'),
+  unitPrice: numeric('unit_price', { precision: 18, scale: 2 }).notNull(),
+  currency: text('currency').notNull().default('USD'),
+  active: boolean('active').notNull().default(true),
+  ...timestamps,
+}, (table) => [
+  index('products_services_org_idx').on(table.organizationId),
+  uniqueIndex('products_services_org_sku_uidx').on(table.organizationId, table.sku),
+]);
+
 export const vendors = pgTable('vendors', {
   id: uuid('id').primaryKey().defaultRandom(),
   organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
