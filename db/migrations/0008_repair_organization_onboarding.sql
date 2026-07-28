@@ -11,7 +11,7 @@ SECURITY DEFINER
 SET search_path = public, auth
 AS $$
 DECLARE
-  current_user auth.users%ROWTYPE;
+  signup_user auth.users%ROWTYPE;
   created_organization_id uuid;
   existing_organization_id uuid;
   display_name text;
@@ -27,11 +27,11 @@ BEGIN
     RAISE EXCEPTION 'Invalid organization slug' USING ERRCODE = '22023';
   END IF;
 
-  SELECT * INTO current_user FROM auth.users WHERE id = auth.uid();
-  IF current_user.id IS NULL THEN
+  SELECT * INTO signup_user FROM auth.users WHERE id = auth.uid();
+  IF signup_user.id IS NULL THEN
     RAISE EXCEPTION 'Authenticated user record not found' USING ERRCODE = 'P0002';
   END IF;
-  IF current_user.email_confirmed_at IS NULL THEN
+  IF signup_user.email_confirmed_at IS NULL THEN
     RAISE EXCEPTION 'Email verification required' USING ERRCODE = '42501';
   END IF;
 
@@ -44,14 +44,14 @@ BEGIN
     RETURN existing_organization_id;
   END IF;
 
-  display_name := trim(COALESCE(current_user.raw_user_meta_data->>'display_name', ''));
+  display_name := trim(COALESCE(signup_user.raw_user_meta_data->>'display_name', ''));
   IF length(display_name) NOT BETWEEN 2 AND 100 THEN
-    display_name := split_part(current_user.email, '@', 1);
+    display_name := split_part(signup_user.email, '@', 1);
   END IF;
-  phone := NULLIF(trim(COALESCE(current_user.raw_user_meta_data->>'phone_number', '')), '');
+  phone := NULLIF(trim(COALESCE(signup_user.raw_user_meta_data->>'phone_number', '')), '');
 
   INSERT INTO public.profiles (id, display_name, email, phone_number)
-  VALUES (current_user.id, display_name, lower(current_user.email), phone)
+  VALUES (signup_user.id, display_name, lower(signup_user.email), phone)
   ON CONFLICT (id) DO UPDATE
     SET display_name = EXCLUDED.display_name,
         email = EXCLUDED.email,
@@ -63,10 +63,10 @@ BEGIN
   RETURNING id INTO created_organization_id;
 
   INSERT INTO public.organization_members (organization_id, user_id, role, active)
-  VALUES (created_organization_id, current_user.id, 'owner', true);
+  VALUES (created_organization_id, signup_user.id, 'owner', true);
 
   INSERT INTO public.audit_logs (organization_id, actor_id, action, entity_type, entity_id, changes)
-  VALUES (created_organization_id, current_user.id, 'create', 'organization', created_organization_id,
+  VALUES (created_organization_id, signup_user.id, 'create', 'organization', created_organization_id,
     jsonb_build_object('source', 'manual-onboarding', 'profile_repaired', true));
 
   RETURN created_organization_id;
