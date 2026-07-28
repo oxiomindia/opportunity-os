@@ -29,7 +29,7 @@ export default function InvoiceFilters({ value, onChange, onClear, hasFilters }:
             type="search"
             value={value.search}
             onChange={(event) => onChange({ ...value, search: event.target.value })}
-            placeholder="Search vendor or invoice number"
+            placeholder="Search customer or invoice number"
             className="mt-1 h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none placeholder:text-slate-400 focus:border-blue-500"
           />
         </div>

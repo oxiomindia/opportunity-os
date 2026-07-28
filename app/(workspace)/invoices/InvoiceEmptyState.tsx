@@ -10,7 +10,7 @@ export default function InvoiceEmptyState({ hasFilters }: Readonly<{ hasFilters:
       <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
         {hasFilters
           ? 'Try clearing filters or adjusting your search to see invoices in this worklist.'
-          : 'Uploaded or received invoices will appear here after intake processing creates worklist records.'}
+          : 'Invoices you create will appear here.'}
       </p>
     </div>
   );

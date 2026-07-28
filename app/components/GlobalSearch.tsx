@@ -11,8 +11,6 @@ const categoryLabels: Record<SearchResultCategory, string> = {
   account: 'Accounts',
   activity: 'Activity',
   report: 'Reports',
-  payment: 'Payment queue',
-  verification: 'Verification',
 };
 
 const categoryClasses: Record<SearchResultCategory, string> = {
@@ -21,8 +19,6 @@ const categoryClasses: Record<SearchResultCategory, string> = {
   account: 'bg-violet-50 text-violet-700',
   activity: 'bg-cyan-50 text-cyan-700',
   report: 'bg-emerald-50 text-emerald-700',
-  payment: 'bg-indigo-50 text-indigo-700',
-  verification: 'bg-amber-50 text-amber-800',
 };
 
 function groupResults(results: GlobalSearchResult[]) {
@@ -92,14 +88,14 @@ export default function GlobalSearch() {
   return (
     <div className="relative w-full max-w-xl">
       <label className="sr-only" htmlFor="global-search">
-        Search invoices, accounts, activity, reports, payments, and routes
+        Search invoices, accounts, activity, reports, and routes
       </label>
       <button
         type="button"
         onClick={openSearch}
         className="flex h-9 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 text-left text-sm text-slate-500 outline-none hover:border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
       >
-        <span>Search invoices, vendors, alerts, and reports</span>
+        <span>Search invoices, customers, alerts, and reports</span>
         <kbd className="hidden rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] font-semibold text-slate-500 sm:inline">⌘K</kbd>
       </button>
 
@@ -117,7 +113,7 @@ export default function GlobalSearch() {
                 setIsLoading(event.target.value.trim().length > 0);
               }}
               onKeyDown={handleKeyDown}
-              placeholder="Try vendor, invoice number, payment, exception, report…"
+              placeholder="Try customer, invoice number, status, report…"
               className="h-11 w-full rounded-lg border border-slate-200 px-3 text-sm outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               aria-controls="global-search-results"
               aria-activedescendant={results[activeIndex] ? `global-search-result-${results[activeIndex].id}` : undefined}
@@ -127,7 +123,7 @@ export default function GlobalSearch() {
           <div id="global-search-results" className="max-h-[32rem] overflow-y-auto p-3" role="listbox" aria-label="Global search results">
             {!query.trim() && (
               <div className="rounded-lg bg-slate-50 p-5 text-sm leading-6 text-slate-600">
-                Start typing to search across invoices, vendor accounts, verification, payment queue, activity, reports, and workspace navigation.
+                Start typing to search across invoices, customer accounts, activity, reports, and workspace navigation.
               </div>
             )}
 
@@ -141,7 +137,7 @@ export default function GlobalSearch() {
 
             {query.trim() && !isLoading && !error && results.length === 0 && (
               <div className="rounded-lg bg-slate-50 p-5 text-sm leading-6 text-slate-600">
-                No results found for <span className="font-semibold text-slate-900">{query}</span>. Try an invoice number, vendor, workflow, or report keyword.
+                No results found for <span className="font-semibold text-slate-900">{query}</span>. Try an invoice number, customer, or report keyword.
               </div>
             )}
 

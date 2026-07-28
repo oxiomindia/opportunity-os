@@ -1,4 +1,4 @@
-export type SearchResultCategory = 'navigation' | 'invoice' | 'account' | 'activity' | 'report' | 'payment' | 'verification';
+export type SearchResultCategory = 'navigation' | 'invoice' | 'account' | 'activity' | 'report';
 
 export interface GlobalSearchResult {
   id: string;

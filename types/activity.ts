@@ -1,5 +1,5 @@
 export type ActivitySeverity = 'info' | 'warning' | 'success' | 'critical';
-export type ActivityCategory = 'intake' | 'verification' | 'accounts-review' | 'payment' | 'system';
+export type ActivityCategory = 'invoice' | 'system';
 
 export interface ActivityEvent {
   id: string;

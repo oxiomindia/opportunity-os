@@ -1,13 +1,5 @@
 import type { Invoice } from '../../../types/invoice';
 
-function isDueSoon(dueDate: string) {
-  const today = new Date('2026-07-24T00:00:00Z');
-  const due = new Date(`${dueDate}T00:00:00Z`);
-  const daysUntilDue = Math.ceil((due.getTime() - today.getTime()) / 86_400_000);
-
-  return daysUntilDue >= 0 && daysUntilDue <= 7;
-}
-
 export default function InvoiceSummaryCards({ invoices }: Readonly<{ invoices: Invoice[] }>) {
   const cards = [
     {
@@ -17,21 +9,21 @@ export default function InvoiceSummaryCards({ invoices }: Readonly<{ invoices: I
       tone: 'bg-blue-50 text-blue-700',
     },
     {
-      label: 'Needs review',
-      value: invoices.filter((invoice) => invoice.status === 'needs-review').length.toString(),
-      helper: 'Require human validation',
-      tone: 'bg-amber-50 text-amber-700',
+      label: 'Drafts',
+      value: invoices.filter((invoice) => invoice.status === 'draft').length.toString(),
+      helper: 'Not yet sent to a customer',
+      tone: 'bg-slate-100 text-slate-700',
     },
     {
-      label: 'Due soon',
-      value: invoices.filter((invoice) => isDueSoon(invoice.dueDate)).length.toString(),
-      helper: 'Due within 7 days',
-      tone: 'bg-violet-50 text-violet-700',
+      label: 'Overdue',
+      value: invoices.filter((invoice) => invoice.status === 'overdue').length.toString(),
+      helper: 'Past their due date',
+      tone: 'bg-red-50 text-red-700',
     },
     {
-      label: 'Payment ready',
-      value: invoices.filter((invoice) => invoice.status === 'payment-ready').length.toString(),
-      helper: 'Ready for payment prep',
+      label: 'Paid',
+      value: invoices.filter((invoice) => invoice.status === 'paid').length.toString(),
+      helper: 'Fully collected',
       tone: 'bg-emerald-50 text-emerald-700',
     },
   ];
