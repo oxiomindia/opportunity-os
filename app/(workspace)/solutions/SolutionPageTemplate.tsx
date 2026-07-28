@@ -14,9 +14,9 @@ export function SolutionPageTemplate({ slug }: { slug: string }) {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://oxiom.one' },
-          { name: 'Solutions', url: 'https://oxiom.one/solutions' },
-          { name: page.pageName, url: `https://oxiom.one/solutions/${page.slug}` },
+          { name: 'Home', url: 'https://oxiom.in' },
+          { name: 'Solutions', url: 'https://oxiom.in/solutions' },
+          { name: page.pageName, url: `https://oxiom.in/solutions/${page.slug}` },
         ]}
       />
       <div className="min-h-screen bg-white">

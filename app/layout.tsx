@@ -4,9 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Oxiom Invoice Processing | Vendor Invoice & AP Automation",
   description: "Automate vendor invoice processing and Accounts Payable workflows with AI-powered extraction, validation, approval, and audit-ready processing on the Oxiom One platform.",
-  metadataBase: new URL("https://oxiom.one"),
+  metadataBase: new URL("https://oxiom.in"),
   alternates: {
-    canonical: "https://oxiom.one",
+    canonical: "https://oxiom.in",
   },
   keywords: [
     "vendor invoice processing software",
@@ -27,13 +27,13 @@ export const metadata: Metadata = {
   // Open Graph
   openGraph: {
     type: "website",
-    url: "https://oxiom.one",
+    url: "https://oxiom.in",
     title: "Oxiom Invoice Processing | Vendor Invoice & AP Automation",
     description: "Automate vendor invoice processing and Accounts Payable workflows with AI-powered extraction, validation, approval, and audit-ready processing.",
     siteName: "Oxiom",
     images: [
       {
-        url: "https://oxiom.one/og-image.png",
+        url: "https://oxiom.in/og-image.png",
         width: 1200,
         height: 630,
         alt: "Oxiom Invoice Processing",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Oxiom Invoice Processing | AP Automation",
     description: "Automate vendor invoice processing and Accounts Payable workflows with AI.",
-    images: ["https://oxiom.one/twitter-image.png"],
+    images: ["https://oxiom.in/twitter-image.png"],
     creator: "@oxiom",
   },
 

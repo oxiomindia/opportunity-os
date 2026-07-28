@@ -6,7 +6,7 @@ Disallow: /.next/
 Disallow: /node_modules/
 
 # Sitemaps
-Sitemap: https://oxiom.one/sitemap.xml
+Sitemap: https://oxiom.in/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1
