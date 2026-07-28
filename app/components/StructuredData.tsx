@@ -11,7 +11,7 @@ export function OrganizationSchema() {
     name: 'Oxiom',
     url: 'https://oxiom.in',
     logo: 'https://oxiom.in/logo.png',
-    description: 'Enterprise business platform for vendor invoice processing and Accounts Payable automation',
+    description: 'Enterprise business platform for customer invoicing and accounts receivable automation',
     sameAs: [
       'https://www.linkedin.com/company/oxiom',
       'https://x.com/oxiom',
@@ -40,8 +40,8 @@ export function SoftwareApplicationSchema() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: 'Oxiom Invoice Processing',
-    description: 'AI-powered vendor invoice processing and Accounts Payable automation solution built on the Oxiom One platform. Automate invoice capture, data extraction, validation, approval workflows, exception management, and audit-ready processing.',
+    name: 'Oxiom Invoice Software',
+    description: 'AI-powered customer invoicing and accounts receivable automation solution built on the Oxiom One platform. Automate invoice creation, sending, validation, payment tracking, and audit-ready billing.',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     url: 'https://oxiom.in',
@@ -57,11 +57,11 @@ export function SoftwareApplicationSchema() {
       name: 'Oxiom',
     },
     featureList: [
-      'Invoice capture and centralized repository',
-      'Vendor and invoice search with intelligent filtering',
+      'Customer and invoice search with intelligent filtering',
+      'Product and service catalog for invoice line items',
       'Multi-currency invoice support (INR, USD, EUR)',
       'Invoice status tracking through complete lifecycle',
-      'Exception identification and management',
+      'Payment tracking and collections visibility',
       'Audit trail and compliance documentation',
       'Real-time dashboard and visibility',
     ],
@@ -81,7 +81,7 @@ export function WebSiteSchema() {
     '@type': 'WebSite',
     name: 'Oxiom',
     url: 'https://oxiom.in',
-    description: 'Enterprise vendor invoice processing and Accounts Payable automation platform',
+    description: 'Enterprise customer invoicing and accounts receivable automation platform',
     potentialAction: {
       '@type': 'SearchAction',
       target: {

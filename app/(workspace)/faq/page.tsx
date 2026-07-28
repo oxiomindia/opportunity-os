@@ -10,26 +10,26 @@ export const metadata: Metadata = {
 const faqs = [
   // Product Overview
   {
-    question: 'What is Oxiom Invoice Processing?',
-    answer: 'Oxiom Invoice Processing is an AI-powered vendor invoice processing and Accounts Payable automation solution. It helps finance teams manage incoming supplier invoices from capture through payment, with intelligent organization, status tracking, exception management, and audit-ready processing—all on the Oxiom One platform.',
+    question: 'What is Oxiom Invoice Software?',
+    answer: 'Oxiom Invoice Software is an AI-powered customer invoicing and accounts receivable automation solution. It helps finance teams create invoices, send them to customers, and track payment status from draft through paid, with intelligent organization, status tracking, and audit-ready billing—all on the Oxiom One platform.',
   },
   {
-    question: 'Is Oxiom Invoice Processing an invoice generator?',
-    answer: 'No. Oxiom Invoice Processing is designed to automate the processing of incoming vendor invoices, not to create customer invoices. It is not a billing, invoicing, or quotation tool. It focuses entirely on managing supplier invoices received by your organization.',
+    question: 'Is Oxiom Invoice Software an invoice generator?',
+    answer: 'Yes. Oxiom Invoice Software is designed to create and send invoices to your customers. Build invoices from your customer and product/service catalog, review them, send them, and track payment through to collection.',
   },
   {
     question: 'What is Oxiom One?',
-    answer: 'Oxiom One is an enterprise business platform designed to unify business operations. Oxiom Invoice Processing is the first production application. Future modules will include CRM, Projects, HR, Inventory, and Analytics—all integrated on a single platform.',
+    answer: 'Oxiom One is an enterprise business platform designed to unify business operations. Oxiom Invoice Software is the first production application. Future modules will include CRM, Projects, HR, Inventory, and Analytics—all integrated on a single platform.',
   },
   {
-    question: 'How does Oxiom Invoice Processing differ from accounting software?',
-    answer: 'Oxiom Invoice Processing is specialized for vendor invoice processing and Accounts Payable automation. It is not accounting software. It focuses on capturing, organizing, validating, and routing supplier invoices, but does not handle general ledger, financial reporting, or other accounting functions.',
+    question: 'How does Oxiom Invoice Software differ from accounting software?',
+    answer: 'Oxiom Invoice Software is specialized for customer invoicing and accounts receivable automation. It is not accounting software. It focuses on creating, sending, validating, and tracking customer invoices, but does not handle general ledger, financial reporting, or other accounting functions.',
   },
 
   // Capabilities & Features
   {
-    question: 'What can I do with Oxiom Invoice Processing today?',
-    answer: 'You can capture vendor invoices, organize them in a centralized repository, search across invoices and vendors, track invoice status through the complete lifecycle (received → processing → verified → approved → payment-ready → paid), identify exceptions, and maintain an audit trail.',
+    question: 'What can I do with Oxiom Invoice Software today?',
+    answer: 'You can manage a customer directory and product/service catalog, create invoices, organize them in a centralized repository, search across invoices and customers, track invoice status through the complete lifecycle (draft → sent → viewed → partially paid → paid → overdue → void), and maintain an audit trail.',
   },
   {
     question: 'What features are coming soon?',
