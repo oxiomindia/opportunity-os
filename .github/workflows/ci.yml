@@ -9,6 +9,14 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      # Public Supabase project URL and publishable/anon key -- safe to
+      # commit, matches NEXT_PUBLIC_* client-exposed conventions. Without
+      # these, the app builds and starts but sign-in stays disabled (by
+      # design, see app/login/LoginForm.tsx), so any e2e test that reaches
+      # the login form times out waiting for an enabled button.
+      NEXT_PUBLIC_SUPABASE_URL: https://mptcqivbdcdqgnknsnoy.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: sb_publishable_5tCr-RjvvLLoKpPwB9zEgQ_wUU8jiby
 
     steps:
       - uses: actions/checkout@v4
