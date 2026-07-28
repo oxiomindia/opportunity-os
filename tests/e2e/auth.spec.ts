@@ -32,7 +32,7 @@ test('invalid credentials show a non-enumerating error', async ({ page }) => {
   await page.getByLabel('Email address').fill(`missing-${crypto.randomUUID()}@example.invalid`);
   await page.getByLabel('Password').fill('incorrect-password');
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page.getByRole('alert')).toHaveText('Invalid email address or password.');
+  await expect(page.locator('p[role="alert"]')).toHaveText('Invalid email address or password.');
 });
 
 const demoTest = process.env.E2E_DEMO_LOGIN === 'true' ? test : test.skip;
