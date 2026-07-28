@@ -538,8 +538,8 @@ export default function FAQPage() {
     <div className="min-h-screen bg-white">
       <FAQSchema faqs={faqs} />
       <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://oxiom.one' },
-        { name: 'FAQ', url: 'https://oxiom.one/faq' },
+        { name: 'Home', url: 'https://oxiom.in' },
+        { name: 'FAQ', url: 'https://oxiom.in/faq' },
       ]} />
 
       {/* Header */}

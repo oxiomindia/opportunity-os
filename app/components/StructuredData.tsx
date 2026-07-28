@@ -9,8 +9,8 @@ export function OrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Oxiom',
-    url: 'https://oxiom.one',
-    logo: 'https://oxiom.one/logo.png',
+    url: 'https://oxiom.in',
+    logo: 'https://oxiom.in/logo.png',
     description: 'Enterprise business platform for vendor invoice processing and Accounts Payable automation',
     sameAs: [
       'https://www.linkedin.com/company/oxiom',
@@ -44,8 +44,8 @@ export function SoftwareApplicationSchema() {
     description: 'AI-powered vendor invoice processing and Accounts Payable automation solution built on the Oxiom One platform. Automate invoice capture, data extraction, validation, approval workflows, exception management, and audit-ready processing.',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
-    url: 'https://oxiom.one',
-    image: 'https://oxiom.one/app-screenshot.png',
+    url: 'https://oxiom.in',
+    image: 'https://oxiom.in/app-screenshot.png',
     offers: {
       '@type': 'Offer',
       priceCurrency: 'USD',
@@ -80,13 +80,13 @@ export function WebSiteSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Oxiom',
-    url: 'https://oxiom.one',
+    url: 'https://oxiom.in',
     description: 'Enterprise vendor invoice processing and Accounts Payable automation platform',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://oxiom.one/search?q={search_term_string}',
+        urlTemplate: 'https://oxiom.in/search?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },
