@@ -3,15 +3,15 @@ import { FAQSchema, BreadcrumbSchema } from '@/app/components/StructuredData';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'FAQ | Oxiom Invoice Processing — 100+ Answers',
-  description: 'Comprehensive answers to 100+ frequently asked questions about Oxiom Invoice Processing, AP automation, AI, OCR, ERP integration, security, compliance, and deployment.',
+  title: 'FAQ | Oxiom Billing — 100+ Answers',
+  description: 'Comprehensive answers to 100+ frequently asked questions about Oxiom Billing: customer invoicing, the product/service catalog, PDF generation, security, compliance, and deployment.',
 };
 
 const faqs = [
   // Product Overview
   {
     question: 'What is Oxiom Invoice Software?',
-    answer: 'Oxiom Invoice Software is an AI-powered customer invoicing and accounts receivable automation solution. It helps finance teams create invoices, send them to customers, and track payment status from draft through paid, with intelligent organization, status tracking, and audit-ready billing—all on the Oxiom One platform.',
+    answer: 'Oxiom Invoice Software is a customer invoicing and accounts receivable solution. It helps finance teams create invoices, send them to customers, and track payment status from draft through paid, with intelligent organization, status tracking, and audit-ready billing—all on the Oxiom One platform.',
   },
   {
     question: 'Is Oxiom Invoice Software an invoice generator?',
@@ -23,85 +23,81 @@ const faqs = [
   },
   {
     question: 'How does Oxiom Invoice Software differ from accounting software?',
-    answer: 'Oxiom Invoice Software is specialized for customer invoicing and accounts receivable automation. It is not accounting software. It focuses on creating, sending, validating, and tracking customer invoices, but does not handle general ledger, financial reporting, or other accounting functions.',
+    answer: 'Oxiom Invoice Software is specialized for customer invoicing and accounts receivable. It is not accounting software. It focuses on creating, sending, and tracking customer invoices through to payment, but does not handle general ledger, financial statements, or other accounting functions.',
   },
 
   // Capabilities & Features
   {
     question: 'What can I do with Oxiom Invoice Software today?',
-    answer: 'You can manage a customer directory and product/service catalog, create invoices, organize them in a centralized repository, search across invoices and customers, track invoice status through the complete lifecycle (draft → sent → viewed → partially paid → paid → overdue → void), and maintain an audit trail.',
+    answer: 'You can manage a customer directory and product/service catalog, create invoices from line items, organize them in a centralized repository, search across invoices and customers, track invoice status through the complete lifecycle (draft → sent → viewed → partially paid → paid → overdue → void), download a PDF of any invoice, and maintain an audit trail.',
   },
   {
     question: 'What features are coming soon?',
-    answer: 'Planned features include AI-powered data extraction, intelligent validation against POs and GL codes, duplicate detection, customizable approval workflows, ERP system integration, advanced analytics dashboards, and automated exception routing.',
+    answer: 'Planned features include recurring invoices, automated payment reminders, online payment collection, and integration with accounting platforms like QuickBooks and Xero.',
   },
   {
     question: 'Does Oxiom support multiple currencies?',
-    answer: 'Yes. Oxiom Invoice Processing supports invoices in INR, USD, and EUR with proper currency formatting and conversion tracking.',
+    answer: 'Yes. Oxiom supports invoices in INR, USD, and EUR with proper currency formatting. Amounts are never combined across currencies in reports.',
   },
   {
     question: 'Can I search for invoices?',
-    answer: 'Yes. Oxiom includes intelligent global search functionality. You can search by invoice number, vendor name, amount, status, date, and other fields. Results are ranked by relevance.',
+    answer: 'Yes. Oxiom includes global search functionality. You can search by invoice number, customer name, amount, status, date, and other fields. Results are ranked by relevance.',
   },
   {
-    question: 'How does exception management work?',
-    answer: 'Oxiom identifies invoices with data issues or exceptions and flags them for manual review. You can view exception details, understand the issue, and take corrective action before approving payment.',
+    question: 'Can I generate a PDF of an invoice?',
+    answer: 'Yes. Every invoice has a Download PDF action on its detail page, which opens a formatted, print-ready PDF in your browser’s native viewer — you can save it or print it directly from there.',
   },
 
   // Invoice Workflow
   {
     question: 'What is the invoice lifecycle in Oxiom?',
-    answer: 'Invoices flow through these statuses: 1) Received - invoice captured, 2) Processing - initial intake, 3) Needs Review - requires attention, 4) Verified - data validated, 5) Accounts Review - accounting verification, 6) Approved - ready for payment, 7) Payment-Ready - queued for processing, 8) Paid - payment completed.',
+    answer: 'Invoices move through these statuses: Draft (being prepared, fully editable), Sent (delivered to the customer), Viewed, Partially Paid, Paid, Overdue, and Void. Only draft invoices can have line items added, be edited, or be deleted.',
   },
   {
-    question: 'Can I track an invoice through the entire workflow?',
-    answer: 'Yes. Oxiom maintains complete visibility into invoice status at every stage. You can view the current status, history of status changes, who reviewed it, when it moved between stages, and any exceptions encountered.',
+    question: 'Can I track an invoice through its entire lifecycle?',
+    answer: 'Yes. Oxiom maintains visibility into invoice status at every stage, including when it was created, when it was sent, and when payments were recorded against it.',
   },
   {
-    question: 'How do approval workflows work?',
-    answer: 'Approval workflow automation is planned for a future release. Currently, you can manually manage invoice approvals. Once released, workflows will support customizable routing based on invoice amount, vendor category, GL code, and other criteria.',
+    question: 'Do invoices require approval before they can be sent?',
+    answer: 'No. Any team member with invoice access can create a draft and send it to a customer. There is no multi-step approval workflow in the current release.',
   },
 
-  // AI & Automation
+  // Billing Automation Roadmap
   {
-    question: 'Does Oxiom use AI for invoice processing?',
-    answer: 'AI-powered invoice processing is planned for future releases. When available, it will automatically extract data from invoices using OCR and machine learning, validate extracted information, detect duplicate submissions, and intelligently route invoices for approval.',
+    question: 'Does Oxiom automate any part of invoicing today?',
+    answer: 'Today, invoice creation, line items, status tracking, and PDF generation are automated for you. Recurring invoices and automated payment reminders are planned for a future release.',
   },
   {
-    question: 'What is OCR and how will it be used?',
-    answer: 'OCR (Optical Character Recognition) technology reads text from invoice images and documents. When available in Oxiom, it will extract invoice details like invoice number, date, amount, GL codes, and line items, reducing manual data entry and improving accuracy.',
+    question: 'Will Oxiom send payment reminders automatically?',
+    answer: 'Automated payment reminders for overdue invoices are on the roadmap. Currently, you can see which invoices are overdue on your dashboard and follow up with customers directly.',
   },
   {
-    question: 'How accurate is the planned AI data extraction?',
-    answer: 'We are still developing and testing the AI data extraction feature. When released, we will publish confidence scores and accuracy metrics. For now, Oxiom focuses on organizing and routing invoices for manual review.',
+    question: 'Can customers pay their invoice online through Oxiom?',
+    answer: 'Online payment collection is planned for a future release. Currently, payments are recorded manually once received through your existing payment channels.',
   },
   {
-    question: 'Will Oxiom detect duplicate invoices?',
-    answer: 'Duplicate detection is planned for a future release. When available, Oxiom will automatically identify and flag duplicate invoice submissions to prevent duplicate payments.',
+    question: 'Will Oxiom support recurring invoices?',
+    answer: 'Recurring invoice templates for regular customers (e.g., monthly retainers or subscriptions) are on the roadmap for a future release.',
   },
 
   // Integration & Compatibility
   {
-    question: 'Can Oxiom integrate with my ERP system?',
-    answer: 'ERP integration is on our product roadmap and coming soon. Currently, you use Oxiom to manage vendor invoices and visibility. We are actively developing integrations with major ERP platforms.',
-  },
-  {
-    question: 'Which ERP systems will be supported?',
-    answer: 'We are planning integrations with major ERP platforms including SAP, Oracle NetSuite, Microsoft Dynamics 365, and others. Please contact sales for the latest integration roadmap.',
+    question: 'Can Oxiom integrate with my accounting software?',
+    answer: 'Accounting integration is on our product roadmap. We’re planning support for QuickBooks and Xero. Contact sales for the latest integration timeline.',
   },
   {
     question: 'Can I export invoice data from Oxiom?',
-    answer: 'Yes. You can export invoice data in standard formats for use in other systems. Export capabilities include CSV and other common data formats.',
+    answer: 'Yes. Invoice and customer data can be exported for use in other systems. Export capabilities include CSV and other common data formats.',
   },
   {
-    question: 'Does Oxiom integrate with email or vendor portals?',
-    answer: 'Email and vendor portal integration is planned for future releases. Currently, invoices can be uploaded manually or imported through API.',
+    question: 'Is there an API for custom integrations?',
+    answer: 'Yes. Oxiom provides REST APIs for custom integrations. See the API documentation for details on authenticated endpoints.',
   },
 
   // Data & Security
   {
     question: 'How is my invoice data protected?',
-    answer: 'Oxiom uses industry-standard encryption for data in transit and at rest. All data is stored securely on cloud infrastructure with regular security audits and compliance monitoring.',
+    answer: 'Oxiom uses industry-standard encryption for data in transit and at rest. Each organization’s data is isolated with row-level security so one customer’s records are never visible to another.',
   },
   {
     question: 'Is Oxiom SOC 2 compliant?',
@@ -109,7 +105,7 @@ const faqs = [
   },
   {
     question: 'Can I use Oxiom on-premise?',
-    answer: 'Oxiom Invoice Processing is currently a cloud-only solution. On-premise deployment is not planned for the near term. We focus on cloud delivery to ensure security, scalability, and continuous updates.',
+    answer: 'Oxiom is currently a cloud-only solution. On-premise deployment is not planned for the near term. We focus on cloud delivery to ensure security, scalability, and continuous updates.',
   },
   {
     question: 'How long is invoice data retained?',
@@ -117,25 +113,25 @@ const faqs = [
   },
   {
     question: 'Can I delete invoice records?',
-    answer: 'Yes. Administrators can delete individual invoices or batches of invoices. Deleted records are retained in audit logs for compliance purposes but are no longer accessible in the primary system.',
+    answer: 'Yes. Draft invoices can be deleted directly. Sent, paid, or voided invoices are retained for audit purposes rather than deleted, consistent with standard invoicing practice.',
   },
 
   // Compliance & Audit
   {
     question: 'Does Oxiom maintain an audit trail?',
-    answer: 'Yes. Oxiom maintains a complete audit trail of all invoice activity including: when invoices were created, status changes, who reviewed each invoice, modifications made, and when payments were processed.',
+    answer: 'Yes. Oxiom maintains a trail of invoice activity including when invoices were created, status changes (sent, viewed, paid, overdue, void), and when payments were recorded.',
   },
   {
     question: 'Is Oxiom GDPR compliant?',
-    answer: 'Oxiom is designed with GDPR compliance in mind. We handle vendor personal data according to GDPR principles and provide data processing agreements. Please contact us for detailed compliance documentation.',
+    answer: 'Oxiom is designed with GDPR compliance in mind. We handle customer personal data according to GDPR principles and provide data processing agreements. Please contact us for detailed compliance documentation.',
   },
   {
     question: 'Does Oxiom support compliance requirements like SOX?',
-    answer: 'Oxiom is designed to support financial compliance requirements including SOX. Complete audit trails, user access controls, and exception management help meet compliance and internal control requirements.',
+    answer: 'Oxiom is designed to support financial compliance requirements including SOX. Status-guarded invoice actions, audit trails, and user access controls help meet compliance and internal-control requirements.',
   },
   {
     question: 'Can I generate compliance reports?',
-    answer: 'Yes. Oxiom provides reporting capabilities for compliance documentation including invoice processing timelines, exception reports, approval chains, and audit trails.',
+    answer: 'Yes. Oxiom provides reporting on invoice status distribution, payment rates, and billed totals that can support compliance documentation and internal reporting.',
   },
 
   // Performance & Scalability
@@ -144,12 +140,8 @@ const faqs = [
     answer: 'Oxiom is designed for enterprise scale. The platform can handle hundreds of thousands of invoices. Performance scales automatically with your business volume.',
   },
   {
-    question: 'How fast does invoice processing work?',
-    answer: 'Invoice ingestion is nearly instantaneous. Processing time depends on your workflow and approval steps. Current manual workflows complete at the speed your team reviews and approves invoices.',
-  },
-  {
-    question: 'What happens during peak processing times?',
-    answer: 'Oxiom automatically scales to handle processing peaks. Infrastructure automatically adjusts to maintain performance during high-volume periods.',
+    question: 'What happens during peak usage?',
+    answer: 'Oxiom automatically scales to handle usage peaks. Infrastructure automatically adjusts to maintain performance during high-volume periods.',
   },
   {
     question: 'What is the system uptime?',
@@ -159,33 +151,29 @@ const faqs = [
   // Deployment & Implementation
   {
     question: 'How long does it take to implement Oxiom?',
-    answer: 'Basic implementation typically takes 2-4 weeks depending on your team size, invoice volume, and customization needs. Our implementation team guides you through setup, configuration, and team training.',
+    answer: 'Basic implementation typically takes days, not weeks: create your organization, add your customers and product/service catalog, and start invoicing. Our team is available to help with larger imports and customization needs.',
   },
   {
     question: 'What is required to get started?',
-    answer: 'You need: 1) Finance team access, 2) Invoice samples, 3) List of vendors, 4) Approval authority, 5) List of GL codes used in your organization. We provide a detailed onboarding checklist.',
+    answer: 'You need: 1) an organization account, 2) a list of your customers, 3) your product/service catalog with pricing. We provide a straightforward onboarding flow to set these up.',
   },
   {
     question: 'Do you provide training?',
-    answer: 'Yes. Oxiom includes comprehensive training for your team including admin training, end-user training, and ongoing support. We provide documentation, video tutorials, and live training sessions.',
+    answer: 'Yes. Oxiom includes documentation and support to help your team get started, including admin setup, day-to-day invoicing workflows, and ongoing support.',
   },
   {
-    question: 'Can I customize Oxiom to match my workflow?',
-    answer: 'Yes. Oxiom supports significant customization including custom fields, workflow stages, approval rules, and reporting. Our team works with you during implementation to configure the system for your specific needs.',
-  },
-  {
-    question: 'How do I migrate existing invoice data?',
-    answer: 'We provide data migration tools and support. You can import historical invoice data from your current system. Our team helps map your data and ensure accurate migration.',
+    question: 'How do I migrate existing invoice or customer data?',
+    answer: 'We provide guidance and support for importing historical customer and invoice data from your current system. Our team helps map your data and ensure accurate migration.',
   },
 
   // Pricing & Licensing
   {
     question: 'How is Oxiom priced?',
-    answer: 'Oxiom Invoice Processing pricing is based on monthly invoice volume, number of users, and additional features. We offer flexible pricing plans for organizations of all sizes. Contact our sales team for a custom quote.',
+    answer: 'Oxiom pricing is based on monthly invoice volume, number of users, and additional features. We offer flexible pricing plans for organizations of all sizes. Contact our sales team for a custom quote.',
   },
   {
     question: 'Is there a free trial?',
-    answer: 'Yes. We offer a free trial so you can explore Oxiom Invoice Processing with your team. Contact sales to request a trial account.',
+    answer: 'Yes. We offer a free trial so you can explore Oxiom with your team. Contact sales to request a trial account.',
   },
   {
     question: 'What is included in each pricing tier?',
@@ -203,15 +191,11 @@ const faqs = [
   // Support & Troubleshooting
   {
     question: 'What support is available?',
-    answer: 'Oxiom provides email support, knowledge base articles, video tutorials, and community forums. Enterprise customers have access to priority support and dedicated account management.',
+    answer: 'Oxiom provides email support, knowledge base articles, and documentation. Enterprise customers have access to priority support and dedicated account management.',
   },
   {
     question: 'What should I do if an invoice goes missing?',
-    answer: 'Check the search function to locate the invoice. If it cannot be found, review the invoice history and audit logs. Contact support if the invoice is truly missing—we can help investigate.',
-  },
-  {
-    question: 'Why is an invoice showing an exception?',
-    answer: 'Exceptions indicate data quality issues such as missing required fields, formatting problems, or validation failures. Click on the exception to see details and take corrective action.',
+    answer: 'Check the search function to locate the invoice. If it cannot be found, review the activity log. Contact support if the invoice is truly missing—we can help investigate.',
   },
   {
     question: 'How do I reset my password?',
@@ -224,307 +208,225 @@ const faqs = [
 
   // Administration
   {
-    question: 'How do I add users to Oxiom?',
-    answer: 'In Admin Settings, go to Users and click "Add User." Enter the user email, select their role, and save. The user will receive an invitation email with setup instructions.',
+    question: 'How do I add users to my organization?',
+    answer: 'In your organization settings, invite a teammate by email and assign their role. They will receive an invitation to join your organization workspace.',
   },
   {
     question: 'What user roles are available?',
-    answer: 'Oxiom supports multiple roles including Admin (full access), Approver (review and approve invoices), Processor (capture and organize invoices), Viewer (read-only access), and custom roles.',
+    answer: 'Oxiom supports Owner, Admin, Reviewer, Member, and Viewer roles at the organization level, so you can match access to how your team actually works.',
   },
   {
-    question: 'How do I manage user permissions?',
-    answer: 'Permissions are managed through user roles and access controls. Assign appropriate roles to each user during setup. Administrators can modify permissions at any time.',
-  },
-  {
-    question: 'Can I set spending limits or approval authorities?',
-    answer: 'Yes. Administrators can configure approval authorities, spending limits, and approval rules. For example, you can route invoices over $10,000 to Finance Manager approval.',
+    question: 'Can I manage user access at any time?',
+    answer: 'Yes. Organization owners and admins can update a teammate’s role or remove their access at any time from organization settings.',
   },
 
   // Reporting & Analytics
   {
     question: 'What reports are available?',
-    answer: 'Oxiom provides reports on invoice volume, processing time, exception rates, vendor analysis, payment timing, and compliance metrics. Advanced analytics are coming soon.',
-  },
-  {
-    question: 'Can I schedule reports?',
-    answer: 'Yes. You can configure recurring reports to be emailed to your team on a schedule (daily, weekly, monthly). Report scheduling is available in Admin Settings.',
+    answer: 'Oxiom’s dashboard and reports cover invoice volume, status distribution (draft, sent, overdue, paid, and more), paid rate, overdue rate, and total billed, broken out by currency.',
   },
   {
     question: 'Can I export report data?',
-    answer: 'Yes. Reports can be exported in CSV, Excel, or PDF formats. You can use this data in your own analysis and business intelligence tools.',
+    answer: 'Yes. Underlying invoice data can be exported in CSV format for use in your own analysis and business intelligence tools.',
   },
 
   // Best Practices
   {
-    question: 'What is the best way to organize vendors in Oxiom?',
-    answer: 'Standardize vendor names to avoid duplicates. Use consistent naming conventions (e.g., "Company Name Inc." not "Company Name" or "Company Inc."). This improves search accuracy and reporting.',
+    question: 'What is the best way to organize customers in Oxiom?',
+    answer: 'Standardize customer names to avoid duplicates. Use consistent naming conventions (e.g., "Company Name Inc." not "Company Name" or "Company Inc."). This improves search accuracy and reporting.',
   },
   {
-    question: 'How should I structure approval workflows?',
-    answer: 'Start with simple workflows and iterate. Common structures include: 1) Single approval for invoices under $5,000, 2) Two approvals over $5,000, 3) Special approval for certain vendors or GL codes.',
+    question: 'Should I use the product/service catalog for every invoice?',
+    answer: 'Where possible, yes — pulling line items from your catalog keeps pricing and descriptions consistent. Custom one-off line items are also supported for invoices that need them.',
   },
   {
-    question: 'How often should I review reports?',
-    answer: 'Review processing metrics weekly to identify bottlenecks. Review exception reports daily to address data quality issues quickly. Run comprehensive analytics monthly for trend analysis.',
+    question: 'How often should I review my dashboard?',
+    answer: 'Review your dashboard regularly to catch overdue invoices early. Many customers check weekly at minimum, and more often during month-end billing pushes.',
   },
   {
-    question: 'What is a good invoice processing time target?',
-    answer: 'Most organizations target 3-5 business days from receipt to payment. With Oxiom, many customers achieve 2-3 days by streamlining workflows and reducing manual steps.',
+    question: 'What is a good invoice turnaround time target?',
+    answer: 'Many organizations aim to send an invoice within 1-2 business days of completing work or delivering a product, which shortens the time to payment.',
   },
 
   // Advanced Topics
   {
     question: 'Can I use Oxiom with multiple legal entities?',
-    answer: 'Yes. Oxiom supports multi-entity configurations. You can organize invoices by entity, company code, cost center, or other hierarchy. Contact sales for enterprise multi-entity setup.',
+    answer: 'Multi-entity support (separate billing identities under one account) is on our roadmap. Contact sales to discuss your specific requirements.',
   },
   {
-    question: 'Does Oxiom support multi-currency processing?',
-    answer: 'Yes. Oxiom handles invoices in multiple currencies (INR, USD, EUR). Exchange rates can be configured and updated regularly.',
+    question: 'Does Oxiom support multi-currency invoicing?',
+    answer: 'Yes. Oxiom handles invoices in INR, USD, and EUR. Each invoice is created and reported in a single currency, so amounts are never combined across currencies.',
   },
   {
-    question: 'Can I set up custom fields?',
-    answer: 'Yes. Administrators can add custom fields to capture organization-specific data like Cost Center, Department, Project ID, or other metadata.',
-  },
-  {
-    question: 'Is there an API for custom integrations?',
-    answer: 'Yes. Oxiom provides REST APIs for custom integrations. API documentation and sandbox environment are available for developers.',
+    question: 'Is there an API for custom workflows?',
+    answer: 'Yes. Oxiom provides REST APIs. API documentation is available for developers building custom integrations.',
   },
 
-  // Vendor Invoice Processing — Extended
+  // Invoice Creation — Extended
   {
-    question: 'What invoice formats does Oxiom accept?',
-    answer: 'Oxiom accepts PDF, JPEG, PNG, and TIFF invoice files. Scanned paper invoices, digital PDFs, and email attachments are all supported. Bulk upload is available for processing multiple invoices at once.',
+    question: 'How do I create an invoice?',
+    answer: 'Go to Invoices → New Invoice, pick a customer, and add line items — either from your product/service catalog or as custom entries with a description, quantity, and unit price. The invoice starts as a draft that you can edit freely.',
   },
   {
-    question: 'Can vendors submit invoices directly to Oxiom?',
-    answer: 'Vendor self-service invoice submission is on our roadmap. Currently, invoices are uploaded by your AP team or captured via API from your email gateway. Direct vendor portal submission is planned for a future release.',
+    question: 'Can I edit an invoice after I create it?',
+    answer: 'Yes, while it’s a draft. Once you send it to the customer, editing is locked to protect the record — you can still record payments, mark it void, or (for unsent drafts) delete it.',
   },
   {
-    question: 'How does Oxiom handle paper invoices?',
-    answer: 'Scan paper invoices to PDF or image format, then upload them to Oxiom. The OCR engine (when available) will extract invoice data automatically. Until then, your team enters key fields manually after upload.',
+    question: 'Can I add products or services to an invoice line item?',
+    answer: 'Yes. When adding a line item you can select an entry from your product/service catalog, which fills in the description and unit price automatically, or enter a custom line item.',
   },
   {
-    question: 'What happens when the same vendor sends invoices in different formats?',
-    answer: 'Oxiom normalizes invoice data regardless of the source format. You can configure extraction templates per vendor so that each format is handled correctly, reducing manual correction for high-volume vendors.',
+    question: 'What invoice number format does Oxiom use?',
+    answer: 'Draft invoices show a temporary reference until sent. Sent invoices receive a sequential invoice number that’s unique within your organization.',
   },
   {
-    question: 'Can Oxiom process invoices in foreign languages?',
-    answer: 'Multi-language invoice processing is on the product roadmap. The current release focuses on English-language invoices. Contact sales for information on language support timelines.',
+    question: 'Can I void an invoice?',
+    answer: 'Yes. Any invoice that isn’t already paid or void can be voided. Voided invoices remain in your records for audit purposes but no longer count toward outstanding balances.',
   },
   {
-    question: 'How does Oxiom handle recurring invoices from the same vendor?',
-    answer: 'Oxiom detects recurring patterns and allows you to create recurring invoice templates. This reduces data entry for regular suppliers like rent, utilities, and subscription services.',
+    question: 'How do I record a payment against an invoice?',
+    answer: 'Open the invoice and use Record Payment to log the amount received. Invoices update to Partially Paid or Paid automatically depending on how much of the total has been collected.',
   },
 
-  // Accounts Payable — Extended
+  // Collections & Payment Tracking — Extended
   {
-    question: 'How does Oxiom reduce manual AP work?',
-    answer: 'Oxiom automates the most time-consuming parts of AP: invoice capture, data extraction, routing to the right approver, exception flagging, and audit trail generation. Teams typically reduce manual processing time by 60–80% after full implementation.',
+    question: 'How does Oxiom track overdue invoices?',
+    answer: 'Invoices past their due date without full payment are tracked as overdue on your dashboard and in reports, so you can see exactly what’s outstanding at a glance.',
   },
   {
-    question: 'Can Oxiom manage early payment discounts?',
-    answer: 'Yes. Oxiom tracks invoice due dates and discount windows. The payment queue surfaces invoices eligible for early payment discounts so your team can prioritize them accordingly.',
-  },
-  {
-    question: 'Does Oxiom support three-way matching?',
-    answer: 'Three-way matching (PO, receipt, and invoice) is on the product roadmap. When released, Oxiom will automatically match invoices against purchase orders and goods receipts, flagging discrepancies for review.',
+    question: 'Can Oxiom handle partial payments?',
+    answer: 'Yes. Recording a payment that doesn’t cover the full invoice total moves the invoice to Partially Paid, and you can continue recording payments until it’s fully paid.',
   },
   {
     question: 'How does Oxiom help with month-end close?',
-    answer: 'Oxiom provides real-time visibility into invoice status so your team can clear the AP queue before close. Accrual reports highlight invoices received but not yet paid, simplifying the accrual process.',
+    answer: 'Your dashboard and reports give real-time visibility into outstanding, overdue, and paid invoices, so you can review your accounts receivable position before close.',
   },
   {
-    question: 'Can Oxiom handle intercompany invoices?',
-    answer: 'Yes. Intercompany invoice processing is supported through multi-entity configuration. Invoices can be assigned to the appropriate entity, cost center, and GL code for proper accounting.',
-  },
-
-  // AI & OCR — Extended
-  {
-    question: 'How does AI improve invoice processing accuracy?',
-    answer: 'AI models learn from previous invoice extractions to improve accuracy over time. The system identifies header fields (vendor name, invoice number, date, amount), line items, and GL coding suggestions with increasing precision as it processes more invoices from each vendor.',
+    question: 'Can I see which customers have outstanding balances?',
+    answer: 'Yes. The invoice list and dashboard let you filter and view invoices by status, including all outstanding (sent, viewed, partially paid, overdue) balances per customer.',
   },
   {
-    question: 'What fields does OCR extract from invoices?',
-    answer: 'Oxiom\'s OCR extracts: invoice number, invoice date, due date, vendor name, vendor address, total amount, tax amount, line items (description, quantity, unit price, total), purchase order number, and payment terms.',
-  },
-  {
-    question: 'How does Oxiom handle low-quality or faded scans?',
-    answer: 'Oxiom applies image enhancement before OCR to improve accuracy on low-quality scans. For very poor-quality documents, the system flags them for manual data entry and shows the original image alongside the entry form.',
-  },
-  {
-    question: 'Can AI suggest GL codes automatically?',
-    answer: 'GL code suggestion based on vendor history and line item descriptions is on the roadmap. When available, the AI will recommend GL codes based on patterns from previous invoices, which approvers can confirm or override.',
-  },
-  {
-    question: 'How does machine learning improve over time?',
-    answer: 'Each time a user corrects an AI extraction, that correction trains the model. Over 3–6 months of operation, extraction accuracy typically improves significantly, reducing the correction rate for high-volume vendors.',
-  },
-
-  // Approval Workflows — Extended
-  {
-    question: 'Can approval rules be based on GL code?',
-    answer: 'Yes. Approval routing can be configured based on GL code, cost center, project code, invoice amount, or vendor category. For example, IT invoices can route to the IT budget owner while facilities invoices route to the facilities manager.',
-  },
-  {
-    question: 'What happens if an approver is on leave?',
-    answer: 'Approval delegation allows approvers to assign a backup approver for periods of absence. You can also configure automatic escalation if an invoice is not approved within a defined timeframe.',
-  },
-  {
-    question: 'Can I set approval time limits?',
-    answer: 'Yes. Administrators can set SLA targets for each approval stage. When an invoice approaches or passes the SLA, Oxiom sends reminder notifications to the approver and escalation alerts to their manager.',
-  },
-  {
-    question: 'Does Oxiom support conditional approval routing?',
-    answer: 'Yes. Approval routing rules can include conditions such as: invoice amount over threshold, first-time vendor, GL code, or exception flag. Complex multi-branch approval trees are supported.',
-  },
-  {
-    question: 'Can approvers reject invoices and send them back?',
-    answer: 'Yes. Approvers can reject an invoice with a reason, which sends it back to the processor for correction. A full history of rejections and corrections is maintained in the audit trail.',
+    question: 'Does Oxiom support late fees or early payment discounts?',
+    answer: 'Not in the current release. Late fees and early-payment discount handling are being considered for a future release.',
   },
 
   // Invoice Validation — Extended
   {
     question: 'What validation rules does Oxiom apply to invoices?',
-    answer: 'Oxiom applies configurable validation rules including: required fields present, invoice number uniqueness, amount consistency (subtotal + tax = total), date validity, vendor existence in master data, and GL code validity.',
-  },
-  {
-    question: 'Can I create custom validation rules?',
-    answer: 'Yes. Administrators can define custom validation rules in the settings panel. Rules can check field formats, cross-reference other invoice fields, validate against master data, or trigger based on invoice attributes.',
+    answer: 'Oxiom validates that line item quantities and unit prices are non-negative, that a customer is selected, and that status-guarded actions (like sending or deleting) are only available when the invoice is in the right state — for example, only drafts can be edited or deleted.',
   },
   {
     question: 'How are validation errors presented to users?',
-    answer: 'Validation errors are displayed on the invoice detail screen with a clear description of each issue and guidance on how to resolve it. Users can correct errors directly in the interface and resubmit for validation.',
+    answer: 'Validation errors are shown inline on the invoice form with a clear description of the issue, so you can correct it and resubmit immediately.',
   },
   {
-    question: 'Does Oxiom detect duplicate invoice numbers?',
-    answer: 'Yes. Oxiom checks each incoming invoice number against existing records for the same vendor. Potential duplicates are flagged immediately so your team can investigate before approving payment.',
+    question: 'Does Oxiom prevent invalid status transitions?',
+    answer: 'Yes. Every status-changing action is guarded server-side — for example, you can’t send an invoice that’s already been sent, or delete one that isn’t a draft.',
   },
 
-  // ERP Integration — Extended
+  // Accounting Integration — Extended
   {
-    question: 'How does Oxiom connect to SAP?',
-    answer: 'Oxiom integrates with SAP via REST API and SAP Business Technology Platform connectors. Invoice data flows from Oxiom to SAP FI (Financial Accounting) module after approval. Contact our integration team for SAP-specific documentation.',
+    question: 'Will Oxiom sync invoices to my accounting software?',
+    answer: 'Two-way sync with accounting platforms like QuickBooks and Xero is on our roadmap. Until then, invoice data can be exported as CSV for manual import.',
   },
   {
-    question: 'Does Oxiom work with Oracle Financials?',
-    answer: 'Yes. Oxiom supports integration with Oracle Fusion Cloud Financials and Oracle E-Business Suite. Invoice payables data is synchronized automatically after approval workflows complete.',
+    question: 'Can I export invoices for my accountant?',
+    answer: 'Yes. You can export invoice data as CSV, and generate a PDF of any individual invoice to share directly.',
   },
   {
-    question: 'Can Oxiom export to QuickBooks?',
-    answer: 'QuickBooks Online integration is on the roadmap for small-to-mid-size business customers. Currently, you can export invoice data as CSV for import into QuickBooks.',
-  },
-  {
-    question: 'How are vendor master records synchronized?',
-    answer: 'Vendor master data can be synchronized from your ERP on a scheduled basis. New vendors added in Oxiom can be exported back to your ERP for master data maintenance.',
-  },
-  {
-    question: 'Does Oxiom support real-time ERP synchronization?',
-    answer: 'Yes. Real-time webhook-based synchronization is available for enterprise customers. When an invoice status changes in Oxiom (e.g., approved), a webhook triggers an update in your ERP system.',
+    question: 'Does Oxiom replace my general ledger?',
+    answer: 'No. Oxiom is focused on customer invoicing and accounts receivable, not general ledger or full accounting. It’s designed to complement accounting software, not replace it.',
   },
 
   // Security — Extended
   {
     question: 'What encryption does Oxiom use?',
-    answer: 'Oxiom uses AES-256 encryption for data at rest and TLS 1.3 for data in transit. Encryption keys are managed via a dedicated key management system with regular rotation.',
+    answer: 'Oxiom uses industry-standard encryption for data at rest and in transit between your browser and our servers.',
   },
   {
     question: 'Does Oxiom support multi-factor authentication?',
-    answer: 'Yes. MFA is available for all user accounts and required for administrator access. Supported MFA methods include authenticator apps (TOTP), SMS, and hardware security keys.',
+    answer: 'MFA support is on our security roadmap. Contact sales for the current timeline if this is a requirement for your organization.',
   },
   {
     question: 'Can Oxiom integrate with our corporate SSO?',
-    answer: 'Yes. Oxiom supports SSO via SAML 2.0 and OAuth 2.0/OIDC. Integration with Okta, Azure Active Directory, Google Workspace, and other identity providers is supported.',
+    answer: 'SSO integration (SAML/OIDC) is on our roadmap for enterprise customers. Contact sales to discuss your identity provider and timeline.',
   },
   {
-    question: 'How does Oxiom handle data breaches?',
-    answer: 'Oxiom has a documented incident response plan. In the event of a data breach, affected customers are notified within 72 hours as required by GDPR. Our security team investigates, contains, and resolves incidents following industry best practices.',
+    question: 'How does Oxiom isolate data between organizations?',
+    answer: 'Every tenant-scoped table uses row-level security policies keyed to organization membership, so one organization’s customers, products, and invoices are never visible to another.',
   },
   {
-    question: 'Is Oxiom hosted in a SOC 2-certified data center?',
-    answer: 'Yes. Oxiom is hosted on cloud infrastructure that maintains SOC 2 Type II certification. We are pursuing our own SOC 2 Type II certification and will publish the report when available.',
+    question: 'How does Oxiom handle a security incident?',
+    answer: 'Oxiom follows a documented incident response process. Affected customers are notified promptly in the event of a confirmed data incident, consistent with our data processing obligations.',
   },
 
   // Deployment — Extended
   {
     question: 'Where is invoice data stored?',
-    answer: 'Invoice data is stored in cloud infrastructure hosted in the United States by default. Regional data residency options (EU, Asia-Pacific) are available for enterprise customers with specific data sovereignty requirements.',
+    answer: 'Invoice data is stored in cloud infrastructure with organization-level data isolation. Regional data residency options may be available for enterprise customers with specific requirements — contact sales to discuss.',
   },
   {
     question: 'What browsers does Oxiom support?',
-    answer: 'Oxiom supports current versions of Chrome, Firefox, Edge, and Safari. Internet Explorer is not supported. Mobile browsers are supported for viewing, though the desktop experience is optimized for invoice processing work.',
+    answer: 'Oxiom supports current versions of Chrome, Firefox, Edge, and Safari. Internet Explorer is not supported.',
   },
   {
     question: 'Can I use Oxiom on a mobile device?',
-    answer: 'Oxiom has a responsive design for mobile use. Approvers can review and approve invoices from a smartphone or tablet. Full invoice processing is optimized for desktop.',
+    answer: 'Oxiom has a responsive design, so you can review invoices and check your dashboard from a phone or tablet. The full invoicing workflow is optimized for desktop.',
   },
   {
     question: 'What is the expected uptime SLA?',
-    answer: 'Oxiom targets 99.9% uptime (approximately 8.7 hours downtime per year). Planned maintenance is scheduled during off-peak hours with advance notice. Enterprise SLAs with financial credits are available.',
-  },
-  {
-    question: 'Does Oxiom offer a disaster recovery guarantee?',
-    answer: 'Yes. Oxiom maintains geographically redundant infrastructure with automated failover. Recovery Point Objective (RPO) is under 1 hour and Recovery Time Objective (RTO) is under 4 hours for enterprise customers.',
+    answer: 'Oxiom targets high availability with cloud infrastructure. Enterprise SLAs with specific uptime commitments are available — contact sales for details.',
   },
 
   // Compliance & Audit — Extended
   {
     question: 'How does Oxiom support internal audit requirements?',
-    answer: 'Oxiom provides complete audit trails for every invoice including: initial capture date, all status changes, user actions at each stage, approval decisions, and any modifications. Audit reports can be exported for internal or external audit review.',
+    answer: 'Oxiom tracks each invoice’s creation date, every status change, and payment records, giving auditors a clear trail from draft to paid (or void).',
   },
   {
     question: 'Can I restrict who can see sensitive invoices?',
-    answer: 'Yes. Oxiom supports invoice-level visibility controls. Sensitive invoices (e.g., executive compensation, legal invoices) can be restricted to specific user roles.',
+    answer: 'Access to invoices is scoped to your organization and governed by user roles (Owner, Admin, Reviewer, Member, Viewer). Finer-grained per-invoice visibility controls are not yet available.',
   },
   {
     question: 'Does Oxiom support document retention schedules?',
-    answer: 'Yes. Administrators can configure retention schedules by invoice type, vendor, or date range. Invoices beyond the retention period are automatically archived or deleted per your policy.',
+    answer: 'Retention is currently governed by your subscription and organization settings. Configurable per-record retention schedules are being considered for a future release.',
   },
 
   // Performance & Scalability — Extended
   {
-    question: 'What is Oxiom\'s maximum supported invoice volume per month?',
-    answer: 'Oxiom is designed for enterprise scale and tested to support millions of invoices per month. The platform auto-scales on demand. For specific volume requirements, contact sales for capacity planning.',
+    question: 'What is Oxiom’s maximum supported invoice volume per month?',
+    answer: 'Oxiom is designed for enterprise scale and tested to support high invoice volumes with auto-scaling infrastructure. For specific volume requirements, contact sales for capacity planning.',
   },
   {
     question: 'Does processing speed degrade as invoice volume grows?',
-    answer: 'No. Oxiom uses elastic cloud infrastructure that scales horizontally. Processing capacity increases automatically as volume grows, maintaining consistent performance.',
+    answer: 'No. Oxiom uses cloud infrastructure that scales horizontally, maintaining consistent performance as your invoice volume grows.',
   },
 
   // Troubleshooting — Extended
   {
-    question: 'Why is an invoice stuck in "Processing" status?',
-    answer: 'A stuck invoice usually means it is waiting for a step in the workflow—often an approval. Check the invoice\'s workflow history to identify the pending step and who owns it. Contact support if no action is pending.',
+    question: 'Why can’t I edit an invoice?',
+    answer: 'Only draft invoices can be edited. Once an invoice has been sent, its line items are locked — you can still record payments or void it, but editing the content is intentionally restricted to protect the record you sent to the customer.',
   },
   {
-    question: 'An invoice amount is incorrect. How do I fix it?',
-    answer: 'Open the invoice detail view and edit the amount field. All edits are logged in the audit trail. If the invoice has already been approved, a correction workflow must be initiated by an administrator.',
-  },
-  {
-    question: 'How do I recover a mistakenly deleted invoice?',
-    answer: 'Deleted invoices are retained in a soft-delete archive for 90 days. Administrators can restore them from the Admin panel under Data Management. After 90 days, deleted invoices are permanently removed.',
-  },
-  {
-    question: 'What should I do if the OCR extraction is consistently wrong for one vendor?',
-    answer: 'Report the issue via the feedback button on the extraction review screen. Our team will tune the extraction model for that vendor\'s invoice format. In the meantime, create a manual data entry template for that vendor.',
-  },
-  {
-    question: 'I uploaded an invoice but it is not appearing. What happened?',
-    answer: 'Check the Upload queue for error messages. Common issues include: file format not supported, file size exceeds limit, or upload interrupted. Re-upload the file and contact support if the problem persists.',
+    question: 'An invoice line item amount is incorrect. How do I fix it?',
+    answer: 'If the invoice is still a draft, edit or remove the line item and re-add it with the correct amount. If it has already been sent, void it and create a corrected invoice, since sent invoices are not editable.',
   },
   {
     question: 'How do I handle an invoice that was paid outside of Oxiom?',
-    answer: 'Update the invoice status manually to "Paid" and add a note indicating it was processed externally. This keeps your records accurate and maintains the audit trail.',
+    answer: 'Use Record Payment on the invoice to log the amount received, even if the payment itself was collected outside Oxiom (e.g., bank transfer). This keeps your status and reports accurate.',
+  },
+  {
+    question: 'Why does an invoice show as Overdue?',
+    answer: 'An invoice moves to Overdue when it has passed its due date without being fully paid. Recording a payment that covers the full amount moves it to Paid.',
   },
 ];
 
 const categories = [
   { id: 'product', label: 'Product Overview' },
-  { id: 'vendor', label: 'Vendor Invoice Processing' },
-  { id: 'ap', label: 'Accounts Payable' },
-  { id: 'ai', label: 'AI & OCR' },
-  { id: 'workflow', label: 'Approval Workflows' },
+  { id: 'invoicing', label: 'Invoice Creation' },
+  { id: 'collections', label: 'Collections & Payments' },
   { id: 'validation', label: 'Invoice Validation' },
-  { id: 'erp', label: 'ERP Integration' },
+  { id: 'accounting', label: 'Accounting Integration' },
   { id: 'security', label: 'Security' },
   { id: 'compliance', label: 'Compliance & Audit' },
   { id: 'pricing', label: 'Pricing & Licensing' },
@@ -554,7 +456,7 @@ export default function FAQPage() {
             Frequently Asked Questions
           </h1>
           <p className="max-w-2xl text-lg text-slate-600">
-            Comprehensive answers to 100+ questions about Oxiom Invoice Processing — from setup and AI capabilities to security, compliance, and ERP integration.
+            Comprehensive answers to 100+ questions about Oxiom Billing — from customer invoicing and payment tracking to security, compliance, and deployment.
           </p>
           <p className="mt-3 text-sm text-slate-500">{faqs.length} questions answered</p>
         </div>
@@ -601,7 +503,7 @@ export default function FAQPage() {
               className="rounded-lg border border-slate-200 bg-white p-6 hover:border-blue-300 hover:bg-blue-50 transition-colors"
             >
               <h3 className="mb-2 font-semibold text-slate-950">Documentation</h3>
-              <p className="text-sm text-slate-600">Step-by-step guides for using Oxiom Invoice Processing.</p>
+              <p className="text-sm text-slate-600">Step-by-step guides for using Oxiom Billing.</p>
             </Link>
             <Link
               href="/support"
@@ -628,7 +530,7 @@ export default function FAQPage() {
             Still have questions?
           </h2>
           <p className="mb-8 text-lg text-slate-600">
-            Our support team is here to help. Reach out with any questions about Oxiom Invoice Processing.
+            Our support team is here to help. Reach out with any questions about Oxiom Billing.
           </p>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
