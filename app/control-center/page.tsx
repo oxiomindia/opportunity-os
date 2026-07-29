@@ -3,8 +3,8 @@ import { getVisibleModules } from '../../lib/control-center/navigation';
 
 const checkpoints = [
   { label: 'Foundation — shell, navigation, authentication, authorization', done: true },
-  { label: 'Database — schema, migrations, RLS policies', done: false },
-  { label: 'Products & Pricing modules', done: false },
+  { label: 'Database — schema, migrations, RLS policies', done: true },
+  { label: 'Products & Pricing modules', done: true },
   { label: 'Customers module', done: false },
   { label: 'Audit Logs & Notifications', done: false },
   { label: 'Testing & verification', done: false },

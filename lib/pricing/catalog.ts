@@ -1,14 +1,7 @@
-/**
- * PLACEHOLDER DATA -- not the "Commercial Management module" described in
- * the product spec. There is no database table, admin panel, or Owner
- * role behind these numbers yet; changing a price today means editing
- * this file and redeploying, exactly the opposite of "no deployment
- * required." This file exists so the public Pricing page has a real,
- * working UI to build against now, with a shape (ProductPricing /
- * PromoBanner) designed to be a drop-in replacement for a real
- * database-backed read once that module exists -- swap the two functions
- * below for real queries and nothing else on the page needs to change.
- */
+import 'server-only';
+
+import { getAuthCapabilities } from '../supabase/config';
+import { createSupabaseServerClient } from '../supabase/server';
 
 export interface ProductPricing {
   productId: string;
@@ -20,32 +13,53 @@ export interface ProductPricing {
 }
 
 export interface PromoBanner {
-  active: boolean;
   headline: string;
   description: string;
 }
 
-const pricingCatalog: ProductPricing[] = [
-  { productId: 'accounts-payable', monthlyPriceInr: 999, annualPriceInr: 9999, visible: true },
-  { productId: 'accounts-receivable', monthlyPriceInr: 999, annualPriceInr: 9999, visible: true },
-  { productId: 'finance-suite', monthlyPriceInr: 1999, annualPriceInr: 19999, visible: true },
-  { productId: 'itc-recovery-bot', monthlyPriceInr: 499, annualPriceInr: 4999, addOnLabel: 'Early Access Add-on', visible: true },
-];
-
-const activePromoBanner: PromoBanner = {
-  active: true,
-  headline: 'Founding Customer Offer',
-  description: 'Lock in launch pricing before general availability — rates increase once Oxiom exits early access.',
-};
-
-export function getProductPricing(productId: string): ProductPricing | undefined {
-  return pricingCatalog.find((entry) => entry.productId === productId);
+interface PublicPricingRow {
+  slug: string;
+  badge_label: string | null;
+  status_override: string | null;
+  monthly_price_paise: number | null;
+  annual_price_paise: number | null;
+  currency: string;
+  effective_from: string;
 }
 
-export function getVisiblePricing(): ProductPricing[] {
-  return pricingCatalog.filter((entry) => entry.visible);
+interface ActivePromotionRow {
+  headline: string;
+  description: string | null;
+  discount_percent: number | null;
 }
 
-export function getPromoBanner(): PromoBanner | undefined {
-  return activePromoBanner.active ? activePromoBanner : undefined;
+/**
+ * Reads from get_public_pricing() — a SECURITY DEFINER function that is the
+ * only path the website has into commercial data, returning just the
+ * current effective price for visible products. No admin-only field
+ * (updated_by, pricing history, hidden products) can leak through it.
+ */
+export async function getVisiblePricing(): Promise<ProductPricing[]> {
+  if (!getAuthCapabilities(process.env).supabase) return [];
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.rpc('get_public_pricing');
+  if (error || !data) return [];
+  return (data as PublicPricingRow[])
+    .filter((row) => row.monthly_price_paise != null && row.annual_price_paise != null)
+    .map((row) => ({
+      productId: row.slug,
+      monthlyPriceInr: row.monthly_price_paise! / 100,
+      annualPriceInr: row.annual_price_paise! / 100,
+      addOnLabel: row.badge_label ?? undefined,
+      visible: true,
+    }));
+}
+
+export async function getPromoBanner(): Promise<PromoBanner | undefined> {
+  if (!getAuthCapabilities(process.env).supabase) return undefined;
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.rpc('get_active_promotion');
+  if (error || !data || data.length === 0) return undefined;
+  const promo = (data as ActivePromotionRow[])[0];
+  return { headline: promo.headline, description: promo.description ?? '' };
 }

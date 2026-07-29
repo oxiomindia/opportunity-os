@@ -22,8 +22,8 @@ export interface ControlCenterModule {
  */
 export const controlCenterModules: ControlCenterModule[] = [
   { id: 'dashboard', route: '/control-center', title: 'Dashboard', description: 'Overview and pending actions', icon: '⌂', availability: 'available', requiredPermission: 'canAccessControlCenter' },
-  { id: 'pricing', route: '/control-center/pricing', title: 'Pricing', description: 'Public pricing and promotions', icon: '₹', availability: 'planned', requiredPermission: 'canManageCommercial' },
-  { id: 'products', route: '/control-center/products', title: 'Products', description: 'Visibility and status', icon: '◆', availability: 'planned', requiredPermission: 'canManageProducts' },
+  { id: 'pricing', route: '/control-center/pricing', title: 'Pricing', description: 'Public pricing and promotions', icon: '₹', availability: 'available', requiredPermission: 'canManageCommercial' },
+  { id: 'products', route: '/control-center/products', title: 'Products', description: 'Visibility and status', icon: '◆', availability: 'available', requiredPermission: 'canManageProducts' },
   { id: 'trials', route: '/control-center/trials', title: 'Trials', description: 'Trial requests and approvals', icon: '◷', availability: 'planned', requiredPermission: 'canManageCommercial' },
   { id: 'subscriptions', route: '/control-center/subscriptions', title: 'Subscriptions', description: 'Active subscriptions', icon: '↻', availability: 'planned', requiredPermission: 'canManageCommercial' },
   { id: 'customers', route: '/control-center/customers', title: 'Customers', description: 'Customer directory and profiles', icon: '☺', availability: 'planned', requiredPermission: 'canManageCustomers' },

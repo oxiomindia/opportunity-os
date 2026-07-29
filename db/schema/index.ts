@@ -295,21 +295,23 @@ export const commercialProductSettings = pgTable('commercial_product_settings', 
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
-// Pricing is a distinct commercial model from product configuration:
-// supports multiple named plans per product and preserves price history
-// (superseding a price marks the old row inactive rather than overwriting it).
+// Pricing is a distinct commercial model from product configuration, and is
+// purely effective-dated (no "active" flag — see migration 0019): the
+// current price for a (product, plan, region) is always the row with the
+// latest effectiveFrom that is <= now(). Rows are never updated after
+// insert, so historical pricing a customer subscribed under is preserved.
 export const commercialProductPricing = pgTable('commercial_product_pricing', {
   id: uuid('id').primaryKey().defaultRandom(),
   productId: uuid('product_id').notNull().references(() => platformProducts.id, { onDelete: 'cascade' }),
   planName: text('plan_name').notNull().default('standard'),
+  region: text('region').notNull().default('global'),
   monthlyPricePaise: integer('monthly_price_paise'),
   annualPricePaise: integer('annual_price_paise'),
   currency: text('currency').notNull().default('INR'),
-  active: boolean('active').notNull().default(true),
   effectiveFrom: timestamp('effective_from', { withTimezone: true }).notNull().defaultNow(),
   createdBy: uuid('created_by').references(() => profiles.id),
-  ...timestamps,
-}, (table) => [index('commercial_product_pricing_product_idx').on(table.productId, table.effectiveFrom)]);
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index('commercial_product_pricing_lookup_idx').on(table.productId, table.planName, table.region, table.effectiveFrom)]);
 
 export const commercialPromotions = pgTable('commercial_promotions', {
   id: uuid('id').primaryKey().defaultRandom(),

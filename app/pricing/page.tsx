@@ -43,9 +43,9 @@ function resolvePlans(pricingEntries: ProductPricing[]): Array<{ product: Produc
   return plans;
 }
 
-export default function PricingPage() {
-  const plans = resolvePlans(getVisiblePricing());
-  const promoBanner = getPromoBanner();
+export default async function PricingPage() {
+  const [visiblePricing, promoBanner] = await Promise.all([getVisiblePricing(), getPromoBanner()]);
+  const plans = resolvePlans(visiblePricing);
 
   return (
     <div className="min-h-screen bg-white text-slate-950">
