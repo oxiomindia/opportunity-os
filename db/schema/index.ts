@@ -35,6 +35,7 @@ export const organizations = pgTable('organizations', {
   name: text('name').notNull(),
   slug: text('slug').notNull(),
   edition: text('edition').notNull().default('finance_suite'),
+  invoiceNumberCounter: integer('invoice_number_counter').notNull().default(0),
   ...timestamps,
 }, (table) => [uniqueIndex('organizations_slug_uidx').on(table.slug)]);
 
@@ -193,6 +194,7 @@ export const invoices = pgTable('invoices', {
   index('invoices_org_customer_idx').on(table.organizationId, table.customerId),
   index('invoices_org_due_date_idx').on(table.organizationId, table.dueDate),
   uniqueIndex('invoices_org_vendor_number_uidx').on(table.organizationId, table.vendorId, table.invoiceNumber),
+  uniqueIndex('invoices_org_number_uidx').on(table.organizationId, table.invoiceNumber),
 ]);
 
 export const invoiceItems = pgTable('invoice_items', {
