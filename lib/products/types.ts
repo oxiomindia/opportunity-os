@@ -40,7 +40,21 @@ export interface Product {
   badge?: string;
   icon: ProductIconKey;
   learnMoreHref: string;
-  bookDemoHref: string;
+  /** Primary conversion CTA destination — trial request for live products, interest capture otherwise. */
+  trialHref: string;
+  /**
+   * Entry point into the actual authenticated application for this product,
+   * e.g. "/bills" for Accounts Payable. Omitted for products with no
+   * application yet (early-access, available-soon, ...) -- in that case
+   * the detail page offers no "sign in" link, only the trial/interest CTA.
+   */
+  appHref?: string;
+  /**
+   * IDs of other products to recommend alongside this one -- the whole
+   * cross-sell mechanism. A future product joins the ecosystem purely by
+   * listing itself here (and being listed by others); no UI changes.
+   */
+  relatedProducts?: string[];
 }
 
 /** Enforces the "every product name begins with the brand" rule structurally, not by convention. */
@@ -99,9 +113,28 @@ const availabilityMessages: Partial<Record<ProductStatus, (displayName: string) 
 
 /**
  * Honest, status-specific context shown wherever a product's availability
- * needs explaining (detail page, book-demo page). Returns undefined for
- * "live" products, which need no extra explanation.
+ * needs explaining (detail page, trial page). Returns undefined for "live"
+ * products, which need no extra explanation.
  */
 export function getAvailabilityMessage(product: Pick<Product, 'status' | 'brand' | 'name'>): string | undefined {
   return availabilityMessages[product.status]?.(getProductDisplayName(product));
+}
+
+/**
+ * Primary CTA label. "Request a Free 7-Day Trial" is the standard action
+ * across the site, but only for products that actually exist to be
+ * trialed -- promising a trial of something not yet built would be
+ * dishonest, so every other status gets its own accurate call to action.
+ */
+const primaryCtaLabels: Record<ProductStatus, string> = {
+  live: 'Request a Free 7-Day Trial',
+  'early-access': 'Join Early Access',
+  'available-soon': 'Get Notified',
+  beta: 'Apply for Beta',
+  enterprise: 'Contact Sales',
+  retired: 'Learn More',
+};
+
+export function getPrimaryCtaLabel(status: ProductStatus): string {
+  return primaryCtaLabels[status];
 }

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Product } from '../../../lib/products/types';
-import { getProductBadge, getStatusTone } from '../../../lib/products/types';
+import { getProductBadge, getStatusTone, getPrimaryCtaLabel } from '../../../lib/products/types';
 import { ProductIcon, CheckIcon, ArrowRightIcon } from './icons';
 
 /**
@@ -55,10 +55,10 @@ export default function ProductCard({ product }: Readonly<{ product: Product }>)
           <ArrowRightIcon size={14} />
         </Link>
         <Link
-          href={product.bookDemoHref}
-          className="inline-flex flex-1 items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          href={product.trialHref}
+          className="inline-flex flex-1 items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         >
-          Book Demo
+          {getPrimaryCtaLabel(product.status)}
         </Link>
       </div>
     </article>

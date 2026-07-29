@@ -2,7 +2,7 @@ import { industries } from '../../../lib/industries/catalog';
 
 export default function Industries() {
   return (
-    <section aria-labelledby="industries-title" className="py-20 sm:py-24">
+    <section id="industries" aria-labelledby="industries-title" className="scroll-mt-24 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="max-w-2xl">
           <p className="text-sm font-semibold text-blue-700">Industries we serve</p>

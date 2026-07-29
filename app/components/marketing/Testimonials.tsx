@@ -44,7 +44,7 @@ export default function Testimonials() {
             <QuoteIcon size={26} className="mx-auto text-slate-300" />
             <p className="mt-4 text-sm leading-6 text-slate-600">
               We&apos;re early — customer stories will appear here as businesses go live on Oxiom.{' '}
-              <a href="/book-demo" className="font-semibold text-blue-700 hover:text-blue-800">Book a demo</a> to be one of the first.
+              <a href="/trial" className="font-semibold text-blue-700 hover:text-blue-800">Request a free trial</a> to be one of the first.
             </p>
           </div>
         )}

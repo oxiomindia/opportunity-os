@@ -7,9 +7,10 @@ import { getProductDisplayName } from '../../../lib/products/types';
 import { ProductIcon, ChevronDownIcon, MenuIcon, CloseIcon } from './icons';
 
 const staticNavLinks = [
-  { href: '/solutions', label: 'Solutions' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/#industries', label: 'Industries' },
   { href: '/about', label: 'About' },
-  { href: '/docs', label: 'Docs' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export default function SiteHeader() {
@@ -52,7 +53,7 @@ export default function SiteHeader() {
               aria-haspopup="true"
               className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
-              Products
+              Platform
               <ChevronDownIcon size={14} className={`transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
             </button>
             {productsOpen && (
@@ -111,8 +112,8 @@ export default function SiteHeader() {
           <Link href="/login" className="rounded-lg px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
             Login
           </Link>
-          <Link href="/book-demo" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-            Book Demo
+          <Link href="/trial" className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+            Start Free Trial
           </Link>
         </div>
 
@@ -130,7 +131,7 @@ export default function SiteHeader() {
       {mobileOpen && (
         <div className="border-t border-slate-200 bg-white lg:hidden">
           <nav aria-label="Mobile navigation" className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4 sm:px-8">
-            <p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Products</p>
+            <p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Platform</p>
             {categoriesWithProducts.flatMap(({ products }) => products).map((product) => (
               <Link
                 key={product.id}
@@ -151,8 +152,8 @@ export default function SiteHeader() {
               <Link href="/login" onClick={() => setMobileOpen(false)} className="rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-semibold text-slate-800">
                 Login
               </Link>
-              <Link href="/book-demo" onClick={() => setMobileOpen(false)} className="rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white">
-                Book Demo
+              <Link href="/trial" onClick={() => setMobileOpen(false)} className="rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white">
+                Start Free Trial
               </Link>
             </div>
           </nav>

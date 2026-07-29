@@ -1,14 +1,16 @@
 import 'server-only';
 import type { ProductEdition } from '../types/edition';
+import { getSessionContext } from './auth/dal';
 
-// TODO(product-edition): organizations.edition exists in the schema
-// (migration 0015) but isn't selected by getSessionContext yet -- that
-// migration hasn't been applied to production in this session (no
-// Supabase MCP tool available). Once it's applied, read the edition
-// from session.organization.edition here instead of returning a
-// constant. Selecting a not-yet-existing column would break session
-// loading for every workspace page, so this is deliberately not wired
-// until then.
+/**
+ * Reads the current organization's licensed edition. Backed by
+ * organizations.edition (migration 0015, live in production). Only ever
+ * called from within the authenticated (workspace) route group, where
+ * getSessionContext() is guaranteed non-null by the layout's
+ * requireSessionContext() check -- the 'finance_suite' fallback below is
+ * defensive, not expected to be exercised.
+ */
 export async function getCurrentEdition(): Promise<ProductEdition> {
-  return 'finance_suite';
+  const session = await getSessionContext();
+  return session?.organization.edition ?? 'finance_suite';
 }

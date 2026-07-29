@@ -5,7 +5,9 @@ import { getProductDisplayName } from '../../../lib/products/types';
 const salesEmail = 'oximindia@gmail.com';
 
 const companyLinks = [
+  { href: '/pricing', label: 'Pricing' },
   { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
   { href: '/solutions', label: 'Solutions' },
   { href: '/docs', label: 'Docs' },
   { href: '/security', label: 'Security' },

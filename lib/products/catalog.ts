@@ -45,6 +45,12 @@ export const productCategories: ProductCategoryDef[] = [
  * product requires only a new entry here — every page that lists or
  * renders products (homepage, /platform, /platform/[slug]) reads from
  * this catalog and needs no further changes.
+ *
+ * relatedProducts is the entire cross-sell mechanism: list the ids of
+ * products worth recommending alongside this one, and RelatedProducts
+ * renders them wherever it's placed (marketing detail pages, inside the
+ * workspace app). A new product joins the ecosystem by being added to
+ * other products' relatedProducts arrays -- no UI changes required.
  */
 export const products: Product[] = [
   {
@@ -64,7 +70,9 @@ export const products: Product[] = [
     status: 'live',
     icon: 'accounts-payable',
     learnMoreHref: '/platform/accounts-payable',
-    bookDemoHref: '/book-demo?product=accounts-payable',
+    trialHref: '/trial?product=accounts-payable',
+    appHref: '/bills',
+    relatedProducts: ['accounts-receivable', 'finance-suite', 'itc-recovery-bot'],
   },
   {
     id: 'accounts-receivable',
@@ -83,7 +91,9 @@ export const products: Product[] = [
     status: 'live',
     icon: 'accounts-receivable',
     learnMoreHref: '/platform/accounts-receivable',
-    bookDemoHref: '/book-demo?product=accounts-receivable',
+    trialHref: '/trial?product=accounts-receivable',
+    appHref: '/invoices',
+    relatedProducts: ['accounts-payable', 'finance-suite', 'itc-recovery-bot'],
   },
   {
     id: 'finance-suite',
@@ -103,7 +113,9 @@ export const products: Product[] = [
     badge: 'Most Popular',
     icon: 'finance-suite',
     learnMoreHref: '/platform/finance-suite',
-    bookDemoHref: '/book-demo?product=finance-suite',
+    trialHref: '/trial?product=finance-suite',
+    appHref: '/dashboard',
+    relatedProducts: ['itc-recovery-bot'],
   },
   {
     id: 'itc-recovery-bot',
@@ -122,7 +134,8 @@ export const products: Product[] = [
     status: 'early-access',
     icon: 'itc-recovery',
     learnMoreHref: '/platform/itc-recovery-bot',
-    bookDemoHref: '/book-demo?product=itc-recovery-bot',
+    trialHref: '/trial?product=itc-recovery-bot',
+    relatedProducts: ['accounts-payable', 'accounts-receivable', 'finance-suite'],
   },
 ];
 
@@ -146,4 +159,25 @@ export function getProductsByCategory(categoryId: string): Product[] {
 /** Categories that currently have at least one public product, in catalog order. */
 export function getActiveCategories(): ProductCategoryDef[] {
   return productCategories.filter((category) => getProductsByCategory(category.id).length > 0);
+}
+
+/**
+ * Resolves a product's relatedProducts ids into real Product records,
+ * silently dropping any id that doesn't resolve (typo-safe) or that isn't
+ * currently public (e.g. retired). This is the entire recommendation
+ * engine -- everything else is just rendering.
+ */
+export function getRelatedProducts(productId: string): Product[] {
+  const product = getProductById(productId);
+  if (!product?.relatedProducts) return [];
+  const publicIds = new Set(getPublicProducts().map((entry) => entry.id));
+  return product.relatedProducts
+    .filter((id) => publicIds.has(id))
+    .map((id) => getProductById(id))
+    .filter((entry): entry is Product => Boolean(entry));
+}
+
+/** Which product (if any) an organization's edition maps to, for edition-aware cross-sell inside the app. */
+export function getProductIdForEdition(edition: 'ap' | 'ar' | 'finance_suite'): string {
+  return { ap: 'accounts-payable', ar: 'accounts-receivable', finance_suite: 'finance-suite' }[edition];
 }

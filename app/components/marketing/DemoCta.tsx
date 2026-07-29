@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 export default function DemoCta({
   title = 'See Oxiom in your finance workflow',
-  description = 'Book a focused walkthrough with our team to see how Oxiom fits your Accounts Payable and Accounts Receivable process.',
-  href = '/book-demo',
-  label = 'Book Demo',
+  description = 'Request a free 7-day trial — full-featured, no restrictions — and see how Oxiom fits your Accounts Payable and Accounts Receivable process.',
+  href = '/trial',
+  label = 'Request a Free 7-Day Trial',
 }: Readonly<{ title?: string; description?: string; href?: string; label?: string }>) {
   return (
     <section aria-labelledby="demo-cta-title" className="bg-blue-700 py-16 sm:py-20">

@@ -17,10 +17,10 @@ export default function Hero() {
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              href="/book-demo"
+              href="/trial"
               className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
-              Book Demo
+              Request a Free 7-Day Trial
             </Link>
             <Link
               href="/platform"

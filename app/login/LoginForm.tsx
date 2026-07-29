@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { useActionState } from 'react';
 import { login, type LoginState } from './actions';
 
-export default function LoginForm({ demoEnabled, configured }: Readonly<{ demoEnabled: boolean; configured: boolean }>) {
+export default function LoginForm({ demoEnabled, configured, next }: Readonly<{ demoEnabled: boolean; configured: boolean; next?: string }>) {
   const [state, action, pending] = useActionState<LoginState, FormData>(login, {});
   return (
     <form action={action} className="mt-8 space-y-5">
+      {next && <input type="hidden" name="next" value={next} />}
       <div>
         <label htmlFor="username" className="text-sm font-semibold text-slate-700">Email address or username</label>
         <input id="username" name="username" autoComplete="username" required className="mt-2 h-11 w-full rounded-lg border border-slate-300 px-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
