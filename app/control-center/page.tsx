@@ -1,4 +1,5 @@
-import { controlCenterModules } from '../../lib/control-center/navigation';
+import { getControlCenterAdmin } from '../../lib/control-center/auth';
+import { getVisibleModules } from '../../lib/control-center/navigation';
 
 const checkpoints = [
   { label: 'Foundation — shell, navigation, authentication, authorization', done: true },
@@ -9,8 +10,11 @@ const checkpoints = [
   { label: 'Testing & verification', done: false },
 ];
 
-export default function ControlCenterDashboardPage() {
-  const plannedModules = controlCenterModules.filter((module) => module.status === 'planned');
+export default async function ControlCenterDashboardPage() {
+  // Cached by React's cache() — this re-reads the same request-scoped result
+  // the layout already fetched, not a second database round trip.
+  const admin = await getControlCenterAdmin();
+  const plannedModules = admin ? getVisibleModules(admin.role).filter((module) => module.availability === 'planned') : [];
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -43,7 +47,7 @@ export default function ControlCenterDashboardPage() {
         <ul className="mt-3 grid gap-3 sm:grid-cols-2">
           {plannedModules.map((module) => (
             <li key={module.id} className="rounded-lg border border-slate-100 bg-slate-50 p-3">
-              <p className="text-sm font-semibold text-slate-700">{module.label}</p>
+              <p className="text-sm font-semibold text-slate-700">{module.title}</p>
               <p className="mt-0.5 text-xs text-slate-500">{module.description}</p>
             </li>
           ))}

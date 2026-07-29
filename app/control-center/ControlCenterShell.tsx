@@ -2,18 +2,19 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { controlCenterModules } from '../../lib/control-center/navigation';
+import type { ControlCenterModule } from '../../lib/control-center/navigation';
 import { logout } from '../login/actions';
 
 interface ControlCenterShellProps {
   children: React.ReactNode;
   userEmail: string;
   role: string;
+  modules: ControlCenterModule[];
 }
 
-export default function ControlCenterShell({ children, userEmail, role }: Readonly<ControlCenterShellProps>) {
+export default function ControlCenterShell({ children, userEmail, role, modules }: Readonly<ControlCenterShellProps>) {
   const pathname = usePathname();
-  const activeModule = controlCenterModules.find((module) => module.href === pathname);
+  const activeModule = modules.find((module) => module.route === pathname);
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-950">
@@ -25,19 +26,19 @@ export default function ControlCenterShell({ children, userEmail, role }: Readon
           </div>
         </div>
 
-        <nav className="flex flex-1 flex-col gap-1 px-2 py-3" aria-label="Control Center navigation">
-          {controlCenterModules.map((module) => {
-            const active = pathname === module.href;
-            if (module.status === 'planned') {
+        <nav className="flex flex-1 flex-col gap-1 px-2 py-3" aria-label="Oxiom Control Center navigation">
+          {modules.map((module) => {
+            const active = pathname === module.route;
+            if (module.availability === 'planned') {
               return (
                 <div
                   key={module.id}
                   className="flex h-10 items-center justify-between rounded-md px-3 text-sm font-medium text-slate-400"
-                  title={`${module.label} — planned for a later checkpoint`}
+                  title={`${module.title} — planned for a later checkpoint`}
                 >
                   <span className="flex items-center gap-3">
                     <span className="flex w-4 justify-center text-[15px]" aria-hidden="true">{module.icon}</span>
-                    {module.label}
+                    {module.title}
                   </span>
                   <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">Planned</span>
                 </div>
@@ -46,13 +47,13 @@ export default function ControlCenterShell({ children, userEmail, role }: Readon
             return (
               <Link
                 key={module.id}
-                href={module.href}
+                href={module.route}
                 className={`flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium ${
                   active ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
                 }`}
               >
                 <span className="flex w-4 justify-center text-[15px]" aria-hidden="true">{module.icon}</span>
-                {module.label}
+                {module.title}
               </Link>
             );
           })}
@@ -67,7 +68,9 @@ export default function ControlCenterShell({ children, userEmail, role }: Readon
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-5">
-          <p className="text-sm font-semibold text-slate-900">{activeModule?.label ?? 'Control Center'}</p>
+          <p className="text-sm font-semibold text-slate-900">
+            Oxiom Control Center{activeModule ? ` — ${activeModule.title}` : ''}
+          </p>
           <div className="flex items-center gap-3">
             <span className="text-right">
               <span className="block max-w-48 truncate text-xs font-semibold text-slate-800">{userEmail}</span>
