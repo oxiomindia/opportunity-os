@@ -52,7 +52,7 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
             {isAwaitingPayment && (
               <form action={recordPayment} className="flex items-center gap-2">
                 <input type="hidden" name="id" value={invoice.id} />
-                <input name="amount" type="number" step="0.01" min="0.01" required placeholder="Amount" className="w-28 rounded-lg border border-slate-300 px-2 py-2 text-sm" />
+                <input name="amount" type="number" step="0.01" min="0.01" required placeholder="Amount" aria-label="Payment amount" className="w-28 rounded-lg border border-slate-300 px-2 py-2 text-sm" />
                 <button className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-800 hover:border-emerald-300">Record payment</button>
               </form>
             )}

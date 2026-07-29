@@ -77,7 +77,7 @@ export default function AppShell({ children, userEmail, organizationName, role }
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-blue-600 text-xs font-semibold text-white">
               O
             </span>
-            <h1 className="truncate text-sm font-semibold text-slate-900">{pageTitle}</h1>
+            <p className="truncate text-sm font-semibold text-slate-900">{pageTitle}</p>
           </div>
 
           <div className="hidden w-full max-w-xl md:block">
