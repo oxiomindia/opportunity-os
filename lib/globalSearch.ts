@@ -1,12 +1,15 @@
 import { mockActivityEvents } from '../data/mockActivity';
 import { mockInvoices } from '../data/mockInvoices';
+import { mockVendorInvoices } from '../data/mockVendorInvoices';
 import { formatInvoiceCurrency, formatInvoiceDate, getInvoiceStatusLabel } from './invoiceFormatters';
+import { formatVendorInvoiceCurrency, formatVendorInvoiceDate, getVendorInvoiceStatusLabel } from './vendorInvoiceFormatters';
 import { navigationItems } from '../app/components/workspaceNavigation';
 import type { GlobalSearchResult, SearchResultCategory } from '../types/search';
 
 const categoryRank: Record<SearchResultCategory, number> = {
   navigation: 0,
   invoice: 1,
+  bill: 1,
   account: 2,
   activity: 3,
   report: 4,
@@ -74,6 +77,39 @@ function buildInvoiceResults(): GlobalSearchResult[] {
   });
 }
 
+function buildVendorInvoiceResults(): GlobalSearchResult[] {
+  return mockVendorInvoices.flatMap((bill) => {
+    const baseMetadata = [
+      bill.vendorName,
+      getVendorInvoiceStatusLabel(bill.status),
+      formatVendorInvoiceCurrency(bill.total, bill.currency),
+      `Due ${formatVendorInvoiceDate(bill.dueDate)}`,
+    ];
+
+    const billResult: GlobalSearchResult = {
+      id: `bill-${bill.id}`,
+      title: bill.vendorInvoiceNumber ?? bill.vendorName,
+      description: `${bill.vendorName} bill for ${formatVendorInvoiceCurrency(bill.total, bill.currency)}.`,
+      category: 'bill',
+      href: `/bills/${bill.id}`,
+      metadata: baseMetadata,
+      keywords: [bill.vendorInvoiceNumber ?? '', bill.vendorName, bill.status],
+    };
+
+    const vendorResult: GlobalSearchResult = {
+      id: `account-vendor-${bill.vendorName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+      title: bill.vendorName,
+      description: bill.vendorEmail ? `Vendor account contact ${bill.vendorEmail}.` : 'Vendor account pending contact enrichment.',
+      category: 'account',
+      href: `/bills?query=${encodeURIComponent(bill.vendorName)}`,
+      metadata: [bill.vendorEmail ?? 'No vendor email', bill.currency],
+      keywords: [bill.vendorName, bill.vendorEmail ?? '', bill.currency, 'vendor', 'account'],
+    };
+
+    return [billResult, vendorResult];
+  });
+}
+
 function buildNavigationResults(): GlobalSearchResult[] {
   return navigationItems.map((item) => ({
     id: `nav-${item.href}`,
@@ -99,7 +135,7 @@ function buildActivityResults(): GlobalSearchResult[] {
 }
 
 export function getGlobalSearchResults(query: string) {
-  const allResults = [...buildNavigationResults(), ...buildInvoiceResults(), ...buildActivityResults(), ...reportResults];
+  const allResults = [...buildNavigationResults(), ...buildInvoiceResults(), ...buildVendorInvoiceResults(), ...buildActivityResults(), ...reportResults];
   const normalizedQuery = normalize(query);
 
   if (!normalizedQuery) return [];

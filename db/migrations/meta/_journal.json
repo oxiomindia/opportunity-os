@@ -99,6 +99,13 @@
       "when": 1785269400000,
       "tag": "0013_vendor_management",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1785271000000,
+      "tag": "0014_vendor_invoice_lifecycle",
+      "breakpoints": true
     }
   ]
 }
