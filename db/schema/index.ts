@@ -90,6 +90,8 @@ export const vendors = pgTable('vendors', {
   name: text('name').notNull(),
   normalizedName: text('normalized_name').notNull(),
   email: text('email'),
+  phone: text('phone'),
+  address: text('address'),
   taxIdentifier: text('tax_identifier'),
   ...timestamps,
 }, (table) => [
