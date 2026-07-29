@@ -34,6 +34,7 @@ export const organizations = pgTable('organizations', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   slug: text('slug').notNull(),
+  edition: text('edition').notNull().default('finance_suite'),
   ...timestamps,
 }, (table) => [uniqueIndex('organizations_slug_uidx').on(table.slug)]);
 
