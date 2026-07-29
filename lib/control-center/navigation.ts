@@ -26,7 +26,7 @@ export const controlCenterModules: ControlCenterModule[] = [
   { id: 'products', route: '/control-center/products', title: 'Products', description: 'Visibility and status', icon: '◆', availability: 'available', requiredPermission: 'canManageProducts' },
   { id: 'trials', route: '/control-center/trials', title: 'Trials', description: 'Trial requests and approvals', icon: '◷', availability: 'planned', requiredPermission: 'canManageCommercial' },
   { id: 'subscriptions', route: '/control-center/subscriptions', title: 'Subscriptions', description: 'Active subscriptions', icon: '↻', availability: 'planned', requiredPermission: 'canManageCommercial' },
-  { id: 'customers', route: '/control-center/customers', title: 'Customers', description: 'Customer directory and profiles', icon: '☺', availability: 'planned', requiredPermission: 'canManageCustomers' },
+  { id: 'customers', route: '/control-center/customers', title: 'Customers', description: 'Customer directory and profiles', icon: '☺', availability: 'available', requiredPermission: 'canManageCustomers' },
   { id: 'revenue', route: '/control-center/revenue', title: 'Revenue', description: 'Business metrics', icon: '▲', availability: 'planned', requiredPermission: 'canManageCommercial' },
   { id: 'promotions', route: '/control-center/promotions', title: 'Promotions', description: 'Promotional banners', icon: '◈', availability: 'planned', requiredPermission: 'canManageCommercial' },
   { id: 'coupons', route: '/control-center/coupons', title: 'Coupons', description: 'Discount codes', icon: '▣', availability: 'planned', requiredPermission: 'canManageCommercial' },

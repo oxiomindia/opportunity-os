@@ -155,6 +155,20 @@
       "when": 1785281200000,
       "tag": "0021_commercial_plans",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1785282400000,
+      "tag": "0022_customer_profile_and_last_login",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1785282900000,
+      "tag": "0023_owner_cross_tenant_read",
+      "breakpoints": true
     }
   ]
 }

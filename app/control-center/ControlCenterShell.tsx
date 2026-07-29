@@ -12,9 +12,16 @@ interface ControlCenterShellProps {
   modules: ControlCenterModule[];
 }
 
+/** Exact match, or a nested sub-page (e.g. a customer profile under /control-center/customers/[id]). The dashboard's own route is excluded from prefix matching since every other route also starts with it. */
+function isModuleActive(pathname: string, route: string): boolean {
+  if (pathname === route) return true;
+  if (route === '/control-center') return false;
+  return pathname.startsWith(`${route}/`);
+}
+
 export default function ControlCenterShell({ children, userEmail, role, modules }: Readonly<ControlCenterShellProps>) {
   const pathname = usePathname();
-  const activeModule = modules.find((module) => module.route === pathname);
+  const activeModule = modules.find((module) => isModuleActive(pathname, module.route));
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-950">
@@ -28,7 +35,7 @@ export default function ControlCenterShell({ children, userEmail, role, modules 
 
         <nav className="flex flex-1 flex-col gap-1 px-2 py-3" aria-label="Oxiom Control Center navigation">
           {modules.map((module) => {
-            const active = pathname === module.route;
+            const active = isModuleActive(pathname, module.route);
             if (module.availability === 'planned') {
               return (
                 <div

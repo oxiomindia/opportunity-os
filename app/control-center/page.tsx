@@ -5,7 +5,7 @@ const checkpoints = [
   { label: 'Foundation — shell, navigation, authentication, authorization', done: true },
   { label: 'Database — schema, migrations, RLS policies', done: true },
   { label: 'Products & Pricing modules', done: true },
-  { label: 'Customers module', done: false },
+  { label: 'Customers module', done: true },
   { label: 'Audit Logs & Notifications', done: false },
   { label: 'Testing & verification', done: false },
 ];
