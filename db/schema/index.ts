@@ -299,7 +299,7 @@ export const commercialProductSettings = pgTable('commercial_product_settings', 
 // Product -> Commercial Plan -> Price History. Every product has at least
 // a "Standard" plan today; Professional/Enterprise/partner/legacy plans are
 // additional rows, not a schema change. Customers subscribe to a Plan (see
-// organizationCommercialProfile.currentPlanId below), not a Product.
+// organizationCommercialProfile.primaryPlanId below), not a Product.
 export const commercialPlans = pgTable('commercial_plans', {
   id: uuid('id').primaryKey().defaultRandom(),
   productId: uuid('product_id').notNull().references(() => platformProducts.id, { onDelete: 'cascade' }),
@@ -367,7 +367,11 @@ export const organizationCommercialProfile = pgTable('organization_commercial_pr
   trialStartedAt: timestamp('trial_started_at', { withTimezone: true }),
   trialEndsAt: timestamp('trial_ends_at', { withTimezone: true }),
   subscriptionStatus: commercialSubscriptionStatus('subscription_status').notNull().default('none'),
-  currentPlanId: uuid('current_plan_id').references(() => commercialPlans.id, { onDelete: 'set null' }),
+  // The headline/primary plan shown on the Customer Directory — not the
+  // source of truth for what an organization actually holds. A real
+  // one-to-many organization-to-plan relationship belongs to the future
+  // Subscriptions module.
+  primaryPlanId: uuid('primary_plan_id').references(() => commercialPlans.id, { onDelete: 'set null' }),
   renewalDate: date('renewal_date'),
   updatedBy: uuid('updated_by').references(() => profiles.id),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),

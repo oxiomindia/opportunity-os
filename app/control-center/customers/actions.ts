@@ -19,7 +19,7 @@ const updateProfileSchema = z.object({
   trialStartedAt: z.string().optional(),
   trialEndsAt: z.string().optional(),
   subscriptionStatus: z.enum(subscriptionStatuses),
-  currentPlanId: z.string().optional(),
+  primaryPlanId: z.string().optional(),
   renewalDate: z.string().optional(),
   reason: z.string().trim().max(500).optional(),
 });
@@ -42,7 +42,7 @@ export async function updateCustomerProfile(formData: FormData) {
     next_trial_started_at: data.trialStartedAt || null,
     next_trial_ends_at: data.trialEndsAt || null,
     next_subscription_status: data.subscriptionStatus,
-    next_current_plan_id: data.currentPlanId || null,
+    next_primary_plan_id: data.primaryPlanId || null,
     next_renewal_date: data.renewalDate || null,
     change_reason: data.reason || null,
     request_id: crypto.randomUUID(),

@@ -98,8 +98,8 @@ export default async function CustomerProfilePage({ params }: Readonly<{ params:
           </div>
 
           <label className="block">
-            <span className="text-xs font-semibold text-slate-600">Current plan</span>
-            <select name="currentPlanId" defaultValue={customer.currentPlanId ?? ''} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
+            <span className="text-xs font-semibold text-slate-600">Primary plan</span>
+            <select name="primaryPlanId" defaultValue={customer.primaryPlanId ?? ''} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
               <option value="">No plan set</option>
               {plans.map((plan) => (
                 <option key={plan.id} value={plan.id}>
@@ -107,6 +107,9 @@ export default async function CustomerProfilePage({ params }: Readonly<{ params:
                 </option>
               ))}
             </select>
+            <span className="mt-0.5 block text-[11px] text-slate-400">
+              The headline plan shown on the directory — an org holding several concurrent plans is tracked by the future Subscriptions module.
+            </span>
           </label>
           <label className="block">
             <span className="text-xs font-semibold text-slate-600">Renewal date</span>

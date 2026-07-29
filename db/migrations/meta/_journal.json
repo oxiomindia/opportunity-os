@@ -169,6 +169,13 @@
       "when": 1785282900000,
       "tag": "0023_owner_cross_tenant_read",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1785283300000,
+      "tag": "0024_rename_current_plan_to_primary_plan",
+      "breakpoints": true
     }
   ]
 }

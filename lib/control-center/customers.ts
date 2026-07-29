@@ -17,7 +17,7 @@ export interface CustomerDirectoryRow {
   trialStartedAt: string | null;
   trialEndsAt: string | null;
   subscriptionStatus: string;
-  currentPlanId: string | null;
+  primaryPlanId: string | null;
   planName: string | null;
   renewalDate: string | null;
   lastLoginAt: string | null;
@@ -82,7 +82,7 @@ export async function listCustomerDirectory(search?: string): Promise<CustomerDi
       trialStartedAt: (profile?.trial_started_at as string | null) ?? null,
       trialEndsAt: (profile?.trial_ends_at as string | null) ?? null,
       subscriptionStatus: (profile?.subscription_status as string | undefined) ?? 'none',
-      currentPlanId: (profile?.current_plan_id as string | null) ?? null,
+      primaryPlanId: (profile?.primary_plan_id as string | null) ?? null,
       planName: plan?.name ?? null,
       renewalDate: (profile?.renewal_date as string | null) ?? null,
       lastLoginAt: lastLoginByOrg.get(org.id) ?? null,
