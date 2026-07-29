@@ -3,8 +3,8 @@ import Link from 'next/link';
 import SiteHeader from '../components/marketing/SiteHeader';
 import SiteFooter from '../components/marketing/SiteFooter';
 import { ProductIcon } from '../components/marketing/icons';
-import { getProductById, products } from '../../lib/products/catalog';
-import { getProductDisplayName } from '../../lib/products/types';
+import { getProductById, getPublicProducts } from '../../lib/products/catalog';
+import { getProductDisplayName, getAvailabilityMessage } from '../../lib/products/types';
 
 const salesEmail = 'oximindia@gmail.com';
 
@@ -16,15 +16,16 @@ export const metadata: Metadata = {
 export default async function BookDemoPage({ searchParams }: { searchParams: Promise<{ product?: string }> }) {
   const { product: productId } = await searchParams;
   const product = productId ? getProductById(productId) : undefined;
-  const isComingSoon = product?.status === 'coming-soon';
+  const availabilityMessage = product ? getAvailabilityMessage(product) : undefined;
+  const isPrelaunch = Boolean(availabilityMessage);
 
   const subject = product
-    ? isComingSoon
+    ? isPrelaunch
       ? `Early interest: ${getProductDisplayName(product)}`
       : `Book a demo: ${getProductDisplayName(product)}`
     : 'Book a demo: Oxiom';
   const body = product
-    ? `Hi Oxiom team,\n\nI'm interested in ${getProductDisplayName(product)}${isComingSoon ? ' and would like to be notified when early access opens.' : ' and would like to book a demo.'}\n\nCompany:\nTeam size:\nBest time to reach me:\n`
+    ? `Hi Oxiom team,\n\nI'm interested in ${getProductDisplayName(product)}${isPrelaunch ? ' and would like to be notified as it becomes available.' : ' and would like to book a demo.'}\n\nCompany:\nTeam size:\nBest time to reach me:\n`
     : `Hi Oxiom team,\n\nI'd like to book a demo. A little about us:\n\nCompany:\nProduct(s) of interest:\nTeam size:\nBest time to reach me:\n`;
   const mailtoHref = `mailto:${salesEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
@@ -42,14 +43,12 @@ export default async function BookDemoPage({ searchParams }: { searchParams: Pro
               <p className="text-sm font-semibold uppercase tracking-[.18em] text-blue-700">Oxiom</p>
             )}
             <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-              {product ? (isComingSoon ? `Get early access to ${getProductDisplayName(product)}` : `Book a demo of ${getProductDisplayName(product)}`) : 'Book a demo'}
+              {product ? `Book a demo of ${getProductDisplayName(product)}` : 'Book a demo'}
             </h1>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              {product
-                ? isComingSoon
-                  ? `${getProductDisplayName(product)} is currently in development. Register your interest and our team will reach out as soon as early access opens.`
-                  : `Tell us a bit about your team and we’ll set up a focused walkthrough of ${getProductDisplayName(product)}.`
-                : 'Tell us a bit about your team and we’ll set up a focused walkthrough of the right Oxiom product for you.'}
+              {availabilityMessage ?? (product
+                ? `Tell us a bit about your team and we’ll set up a focused walkthrough of ${getProductDisplayName(product)}.`
+                : 'Tell us a bit about your team and we’ll set up a focused walkthrough of the right Oxiom product for you.')}
             </p>
 
             <div className="mx-auto mt-10 max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-left shadow-sm">
@@ -61,7 +60,7 @@ export default async function BookDemoPage({ searchParams }: { searchParams: Pro
                 href={mailtoHref}
                 className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               >
-                {isComingSoon ? 'Email us your interest' : 'Open email to book a demo'}
+                Book Demo
               </a>
               <p className="mt-3 text-center text-xs text-slate-500">
                 Prefer to email directly? <a href={`mailto:${salesEmail}`} className="font-semibold text-blue-700 hover:text-blue-800">{salesEmail}</a>
@@ -72,7 +71,7 @@ export default async function BookDemoPage({ searchParams }: { searchParams: Pro
               <div className="mt-12">
                 <p className="text-sm font-semibold text-slate-700">Or pick a product first</p>
                 <div className="mt-4 flex flex-wrap justify-center gap-3">
-                  {products.map((entry) => (
+                  {getPublicProducts().map((entry) => (
                     <Link
                       key={entry.id}
                       href={`/book-demo?product=${entry.id}`}

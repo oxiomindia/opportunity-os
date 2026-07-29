@@ -3,8 +3,9 @@ import SiteHeader from './components/marketing/SiteHeader';
 import SiteFooter from './components/marketing/SiteFooter';
 import Hero from './components/marketing/Hero';
 import WhyOxiom from './components/marketing/WhyOxiom';
-import FeaturedProducts from './components/marketing/FeaturedProducts';
+import BusinessSolutions from './components/marketing/BusinessSolutions';
 import ProductCategoriesOverview from './components/marketing/ProductCategoriesOverview';
+import Industries from './components/marketing/Industries';
 import WhyChooseOxiom from './components/marketing/WhyChooseOxiom';
 import Testimonials from './components/marketing/Testimonials';
 import DemoCta from './components/marketing/DemoCta';
@@ -22,8 +23,9 @@ export default function HomePage() {
       <main>
         <Hero />
         <WhyOxiom />
-        <FeaturedProducts />
+        <BusinessSolutions />
         <ProductCategoriesOverview />
+        <Industries />
         <WhyChooseOxiom />
         <Testimonials />
         <DemoCta />

@@ -4,6 +4,18 @@ import type { Product, ProductCategoryDef } from './types';
  * The full Oxiom product categories. Adding a new category requires only a
  * new entry here — ProductCategorySection renders one section per category
  * automatically, so no homepage/page structure changes are needed.
+ *
+ * Categories are named broadly on purpose so a growing family of related
+ * products fits under one heading without renaming it later — e.g.
+ * "Finance & Compliance" is meant to hold ITC Recovery Bot today and GST
+ * Intelligence, TDS Manager, Audit Assistant, or an E-Invoice Manager
+ * tomorrow, not just today's single product.
+ *
+ * Categories outside finance (Human Resources, Operations, Sales & CRM, AI
+ * & Automation, Industry Solutions, ...) are expected here in time — adding
+ * one is exactly this: a new entry, nothing else. getActiveCategories()
+ * only surfaces categories that already have at least one product, so an
+ * empty future category never shows up half-built.
  */
 export const productCategories: ProductCategoryDef[] = [
   {
@@ -22,9 +34,9 @@ export const productCategories: ProductCategoryDef[] = [
     description: 'The complete Oxiom platform, unified in one workspace.',
   },
   {
-    id: 'compliance-automation',
-    label: 'Compliance & Recovery Automation',
-    description: 'Purpose-built automation for regulatory and recovery workflows.',
+    id: 'finance-compliance',
+    label: 'Finance & Compliance',
+    description: 'Tax, regulatory, and reconciliation automation for compliance-heavy finance teams.',
   },
 ];
 
@@ -32,7 +44,7 @@ export const productCategories: ProductCategoryDef[] = [
  * The full Oxiom product catalog. Adding a fifth, tenth, or fiftieth
  * product requires only a new entry here — every page that lists or
  * renders products (homepage, /platform, /platform/[slug]) reads from
- * this array and needs no further changes.
+ * this catalog and needs no further changes.
  */
 export const products: Product[] = [
   {
@@ -97,17 +109,17 @@ export const products: Product[] = [
     id: 'itc-recovery-bot',
     brand: 'Oxiom',
     name: 'ITC Recovery Bot',
-    categoryId: 'compliance-automation',
+    categoryId: 'finance-compliance',
     tagline: 'Automated input tax credit recovery and reconciliation.',
     description:
-      'Oxiom ITC Recovery Bot automates the reconciliation of input tax credit against purchase records and filed returns — reducing manual GST reconciliation work and helping finance teams recover eligible credit they might otherwise miss. Currently in development.',
+      'Oxiom ITC Recovery Bot automates the reconciliation of input tax credit against purchase records and filed returns — reducing manual GST reconciliation work and helping finance teams recover eligible credit they might otherwise miss. Now taking early access signups.',
     highlights: [
       'Automated purchase-to-return reconciliation',
       'Built for Indian GST input tax credit workflows',
       'Audit-ready reconciliation trail',
-      'Early access available for design partners',
+      'Early access open for design partners',
     ],
-    status: 'coming-soon',
+    status: 'early-access',
     icon: 'itc-recovery',
     learnMoreHref: '/platform/itc-recovery-bot',
     bookDemoHref: '/book-demo?product=itc-recovery-bot',
@@ -122,11 +134,16 @@ export function getCategoryById(id: string): ProductCategoryDef | undefined {
   return productCategories.find((category) => category.id === id);
 }
 
-export function getProductsByCategory(categoryId: string): Product[] {
-  return products.filter((product) => product.categoryId === categoryId);
+/** Every product except retired ones — the set that belongs in nav, cards, and listings. */
+export function getPublicProducts(): Product[] {
+  return products.filter((product) => product.status !== 'retired');
 }
 
-/** Categories that currently have at least one product, in catalog order. */
+export function getProductsByCategory(categoryId: string): Product[] {
+  return getPublicProducts().filter((product) => product.categoryId === categoryId);
+}
+
+/** Categories that currently have at least one public product, in catalog order. */
 export function getActiveCategories(): ProductCategoryDef[] {
   return productCategories.filter((category) => getProductsByCategory(category.id).length > 0);
 }

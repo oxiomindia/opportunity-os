@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { products } from '../../../lib/products/catalog';
+import { getPublicProducts } from '../../../lib/products/catalog';
 import { getProductDisplayName } from '../../../lib/products/types';
 
 const salesEmail = 'oximindia@gmail.com';
@@ -23,7 +23,7 @@ export default function SiteFooter() {
   // Cap the footer's product list so it stays a fixed, predictable size no
   // matter how many products the catalog grows to — the full, always-current
   // list lives at /platform.
-  const featuredProducts = products.slice(0, 5);
+  const featuredProducts = getPublicProducts().slice(0, 5);
 
   return (
     <footer className="border-t border-slate-200 bg-slate-950 text-slate-300">

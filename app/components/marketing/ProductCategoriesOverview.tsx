@@ -21,6 +21,9 @@ export default function ProductCategoriesOverview() {
             <h2 id="categories-title" className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
               A growing platform, organized from the start
             </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-600">
+              Finance is where Oxiom starts, not where it stops. Every new product joins a category built to hold it — today and as the platform expands.
+            </p>
           </div>
           <Link href="/platform" className="text-sm font-semibold text-blue-700 hover:text-blue-800">
             View full catalog →

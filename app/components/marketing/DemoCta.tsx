@@ -4,7 +4,7 @@ export default function DemoCta({
   title = 'See Oxiom in your finance workflow',
   description = 'Book a focused walkthrough with our team to see how Oxiom fits your Accounts Payable and Accounts Receivable process.',
   href = '/book-demo',
-  label = 'Book a Demo',
+  label = 'Book Demo',
 }: Readonly<{ title?: string; description?: string; href?: string; label?: string }>) {
   return (
     <section aria-labelledby="demo-cta-title" className="bg-blue-700 py-16 sm:py-20">
