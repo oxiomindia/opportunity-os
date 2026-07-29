@@ -18,6 +18,7 @@ import {
 export const memberRole = pgEnum('member_role', ['owner', 'admin', 'reviewer', 'member', 'viewer']);
 export const invoiceStatus = pgEnum('invoice_status', ['draft', 'sent', 'viewed', 'partially-paid', 'paid', 'overdue', 'void']);
 export const attachmentStatus = pgEnum('attachment_status', ['pending', 'stored', 'processing', 'ready', 'failed', 'quarantined']);
+export const vendorInvoiceStatus = pgEnum('vendor_invoice_status', ['draft', 'pending-approval', 'approved', 'payment-scheduled', 'partially-paid', 'paid', 'void']);
 export const auditAction = pgEnum('audit_action', ['create', 'update', 'status-change', 'archive', 'restore', 'delete', 'upload', 'extract']);
 export const feedbackStatus = pgEnum('feedback_status', ['new','under-review','more-information-needed','planned','in-progress','resolved','declined','duplicate']);
 export const feedbackPriority = pgEnum('feedback_priority', ['unassigned','low','medium','high','critical']);
@@ -97,6 +98,73 @@ export const vendors = pgTable('vendors', {
 }, (table) => [
   uniqueIndex('vendors_org_normalized_name_uidx').on(table.organizationId, table.normalizedName),
   index('vendors_org_idx').on(table.organizationId),
+]);
+
+export const vendorInvoices = pgTable('vendor_invoices', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  vendorId: uuid('vendor_id').references(() => vendors.id),
+  vendorInvoiceNumber: text('vendor_invoice_number'),
+  invoiceDate: date('invoice_date'),
+  dueDate: date('due_date'),
+  currency: text('currency').notNull().default('USD'),
+  subtotal: numeric('subtotal', { precision: 18, scale: 2 }),
+  taxTotal: numeric('tax_total', { precision: 18, scale: 2 }),
+  total: numeric('total', { precision: 18, scale: 2 }),
+  status: vendorInvoiceStatus('status').notNull().default('draft'),
+  notes: text('notes'),
+  paymentScheduledDate: date('payment_scheduled_date'),
+  paymentReference: text('payment_reference'),
+  version: integer('version').notNull().default(1),
+  createdBy: uuid('created_by').notNull().references(() => profiles.id),
+  archivedAt: timestamp('archived_at', { withTimezone: true }),
+  deletedAt: timestamp('deleted_at', { withTimezone: true }),
+  ...timestamps,
+}, (table) => [
+  index('vendor_invoices_org_idx').on(table.organizationId),
+  index('vendor_invoices_org_vendor_idx').on(table.organizationId, table.vendorId),
+  uniqueIndex('vendor_invoices_org_vendor_number_uidx').on(table.organizationId, table.vendorId, table.vendorInvoiceNumber),
+]);
+
+export const vendorInvoiceItems = pgTable('vendor_invoice_items', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  vendorInvoiceId: uuid('vendor_invoice_id').notNull().references(() => vendorInvoices.id, { onDelete: 'cascade' }),
+  position: integer('position').notNull(),
+  description: text('description').notNull(),
+  quantity: numeric('quantity', { precision: 18, scale: 4 }),
+  unitPrice: numeric('unit_price', { precision: 18, scale: 4 }),
+  lineTotal: numeric('line_total', { precision: 18, scale: 2 }).notNull(),
+}, (table) => [index('vendor_invoice_items_invoice_idx').on(table.vendorInvoiceId)]);
+
+export const vendorInvoiceStatusHistory = pgTable('vendor_invoice_status_history', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  vendorInvoiceId: uuid('vendor_invoice_id').notNull().references(() => vendorInvoices.id, { onDelete: 'cascade' }),
+  fromStatus: vendorInvoiceStatus('from_status'),
+  toStatus: vendorInvoiceStatus('to_status').notNull(),
+  reason: text('reason'),
+  changedBy: uuid('changed_by').notNull().references(() => profiles.id),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index('vendor_invoice_status_history_invoice_idx').on(table.vendorInvoiceId)]);
+
+export const vendorInvoiceAttachments = pgTable('vendor_invoice_attachments', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  vendorInvoiceId: uuid('vendor_invoice_id').notNull().references(() => vendorInvoices.id, { onDelete: 'cascade' }),
+  storageKey: text('storage_key').notNull(),
+  originalName: text('original_name').notNull(),
+  mimeType: text('mime_type').notNull(),
+  sizeBytes: bigint('size_bytes', { mode: 'number' }).notNull(),
+  sha256: text('sha256').notNull(),
+  pageCount: integer('page_count'),
+  status: attachmentStatus('status').notNull().default('stored'),
+  errorMessage: text('error_message'),
+  createdBy: uuid('created_by').notNull().references(() => profiles.id),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+  uniqueIndex('vendor_invoice_attachments_storage_key_uidx').on(table.storageKey),
+  index('vendor_invoice_attachments_invoice_idx').on(table.vendorInvoiceId),
 ]);
 
 export const invoices = pgTable('invoices', {

@@ -9,6 +9,7 @@ import { logout } from '../login/actions';
 
 function getPageTitle(pathname: string) {
   if (pathname.startsWith('/invoices/')) return 'Invoice Details';
+  if (pathname.startsWith('/bills/')) return 'Bill Details';
 
   return navigationItems.find((item) => item.href === pathname)?.label ?? 'Dashboard';
 }
