@@ -136,6 +136,29 @@ export function ClockIcon({ size = 22, className }: Readonly<IconProps>) {
   );
 }
 
+export function GlobeIcon({ size = 22, className }: Readonly<IconProps>) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3c2.5 2.5 4 5.8 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.8-4-9s1.5-6.5 4-9Z" />
+    </svg>
+  );
+}
+
+export function SlidersIcon({ size = 22, className }: Readonly<IconProps>) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <circle cx="14" cy="6" r="2" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <circle cx="8" cy="12" r="2" />
+      <line x1="4" y1="18" x2="20" y2="18" />
+      <circle cx="16" cy="18" r="2" />
+    </svg>
+  );
+}
+
 export function ChevronDownIcon({ size = 14, className }: Readonly<IconProps>) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">

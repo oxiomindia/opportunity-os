@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import SiteHeader from './components/marketing/SiteHeader';
 import SiteFooter from './components/marketing/SiteFooter';
 import Hero from './components/marketing/Hero';
+import PlatformOverview from './components/marketing/PlatformOverview';
 import WhyOxiom from './components/marketing/WhyOxiom';
 import BusinessSolutions from './components/marketing/BusinessSolutions';
 import ProductCategoriesOverview from './components/marketing/ProductCategoriesOverview';
@@ -22,6 +23,7 @@ export default function HomePage() {
       <SiteHeader />
       <main>
         <Hero />
+        <PlatformOverview />
         <WhyOxiom />
         <BusinessSolutions />
         <ProductCategoriesOverview />
