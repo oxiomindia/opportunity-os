@@ -209,15 +209,15 @@ const faqs = [
   // Administration
   {
     question: 'How do I add users to my organization?',
-    answer: 'In your organization settings, invite a teammate by email and assign their role. They will receive an invitation to join your organization workspace.',
+    answer: 'Self-service team invitations are on the roadmap and not available yet. Contact support if you need to add teammates to your organization in the meantime.',
   },
   {
     question: 'What user roles are available?',
-    answer: 'Oxiom supports Owner, Admin, Reviewer, Member, and Viewer roles at the organization level, so you can match access to how your team actually works.',
+    answer: 'Oxiom stores an Owner, Admin, Reviewer, Member, or Viewer role for each organization member. Role-based permission enforcement across the app is still being built out.',
   },
   {
     question: 'Can I manage user access at any time?',
-    answer: 'Yes. Organization owners and admins can update a teammate’s role or remove their access at any time from organization settings.',
+    answer: 'Self-service role and access management from Settings is on the roadmap and not available yet. Contact support for changes to your organization\'s membership.',
   },
 
   // Reporting & Analytics
@@ -385,7 +385,7 @@ const faqs = [
   },
   {
     question: 'Can I restrict who can see sensitive invoices?',
-    answer: 'Access to invoices is scoped to your organization and governed by user roles (Owner, Admin, Reviewer, Member, Viewer). Finer-grained per-invoice visibility controls are not yet available.',
+    answer: 'Today, all invoices are visible to every member of your organization. Role-based and per-invoice visibility controls are on the roadmap and not available yet.',
   },
   {
     question: 'Does Oxiom support document retention schedules?',
