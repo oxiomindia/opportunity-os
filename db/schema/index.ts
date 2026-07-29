@@ -295,15 +295,28 @@ export const commercialProductSettings = pgTable('commercial_product_settings', 
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
-// Pricing is a distinct commercial model from product configuration, and is
-// purely effective-dated (no "active" flag — see migration 0019): the
-// current price for a (product, plan, region) is always the row with the
-// latest effectiveFrom that is <= now(). Rows are never updated after
-// insert, so historical pricing a customer subscribed under is preserved.
-export const commercialProductPricing = pgTable('commercial_product_pricing', {
+// Commercial Plans sit between Product and Pricing (see migration 0021):
+// Product -> Commercial Plan -> Price History. Every product has at least
+// a "Standard" plan today; Professional/Enterprise/partner/legacy plans are
+// additional rows, not a schema change. Customers subscribe to a Plan (see
+// organizationCommercialProfile.currentPlanId below), not a Product.
+export const commercialPlans = pgTable('commercial_plans', {
   id: uuid('id').primaryKey().defaultRandom(),
   productId: uuid('product_id').notNull().references(() => platformProducts.id, { onDelete: 'cascade' }),
-  planName: text('plan_name').notNull().default('standard'),
+  code: text('code').notNull(),
+  name: text('name').notNull(),
+  status: text('status').notNull().default('active'),
+  ...timestamps,
+}, (table) => [uniqueIndex('commercial_plans_product_code_uidx').on(table.productId, table.code)]);
+
+// Pricing is a distinct commercial model from plan configuration, and is
+// purely effective-dated (no "active" flag — see migration 0019): the
+// current price for a (plan, region) is always the row with the latest
+// effectiveFrom that is <= now(). Rows are never updated after insert, so
+// historical pricing a customer subscribed under is preserved.
+export const commercialProductPricing = pgTable('commercial_product_pricing', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  planId: uuid('plan_id').notNull().references(() => commercialPlans.id, { onDelete: 'cascade' }),
   region: text('region').notNull().default('global'),
   monthlyPricePaise: integer('monthly_price_paise'),
   annualPricePaise: integer('annual_price_paise'),
@@ -311,7 +324,7 @@ export const commercialProductPricing = pgTable('commercial_product_pricing', {
   effectiveFrom: timestamp('effective_from', { withTimezone: true }).notNull().defaultNow(),
   createdBy: uuid('created_by').references(() => profiles.id),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-}, (table) => [index('commercial_product_pricing_lookup_idx').on(table.productId, table.planName, table.region, table.effectiveFrom)]);
+}, (table) => [index('commercial_product_pricing_lookup_idx').on(table.planId, table.region, table.effectiveFrom)]);
 
 export const commercialPromotions = pgTable('commercial_promotions', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -333,6 +346,8 @@ export const commercialAuditLogs = pgTable('commercial_audit_logs', {
   entityId: text('entity_id'),
   beforeState: jsonb('before_state'),
   afterState: jsonb('after_state'),
+  reason: text('reason'),
+  requestId: text('request_id'),
   occurredAt: timestamp('occurred_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [
   index('commercial_audit_logs_entity_idx').on(table.entityType, table.entityId, table.occurredAt),
@@ -352,7 +367,7 @@ export const organizationCommercialProfile = pgTable('organization_commercial_pr
   trialStartedAt: timestamp('trial_started_at', { withTimezone: true }),
   trialEndsAt: timestamp('trial_ends_at', { withTimezone: true }),
   subscriptionStatus: commercialSubscriptionStatus('subscription_status').notNull().default('none'),
-  currentPlanProductId: uuid('current_plan_product_id').references(() => platformProducts.id, { onDelete: 'set null' }),
+  currentPlanId: uuid('current_plan_id').references(() => commercialPlans.id, { onDelete: 'set null' }),
   renewalDate: date('renewal_date'),
   updatedBy: uuid('updated_by').references(() => profiles.id),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
