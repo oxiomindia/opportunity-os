@@ -1,12 +1,15 @@
+import Link from 'next/link';
 import { getControlCenterAdmin } from '../../lib/control-center/auth';
 import { getVisibleModules } from '../../lib/control-center/navigation';
+import { getDashboardMetrics } from '../../lib/control-center/metrics';
+import { listNotifications } from '../../lib/control-center/notifications';
 
 const checkpoints = [
   { label: 'Foundation — shell, navigation, authentication, authorization', done: true },
   { label: 'Database — schema, migrations, RLS policies', done: true },
   { label: 'Products & Pricing modules', done: true },
   { label: 'Customers module', done: true },
-  { label: 'Audit Logs & Notifications', done: false },
+  { label: 'Audit Logs & Notifications', done: true },
   { label: 'Testing & verification', done: false },
 ];
 
@@ -15,15 +18,58 @@ export default async function ControlCenterDashboardPage() {
   // the layout already fetched, not a second database round trip.
   const admin = await getControlCenterAdmin();
   const plannedModules = admin ? getVisibleModules(admin.role).filter((module) => module.availability === 'planned') : [];
+  const [metrics, notifications] = await Promise.all([getDashboardMetrics(), listNotifications()]);
 
   return (
     <div className="mx-auto max-w-4xl">
       <h1 className="text-2xl font-semibold tracking-tight text-slate-950">Welcome to the Oxiom Control Center</h1>
       <p className="mt-2 text-sm text-slate-600">
-        This is the foundation checkpoint. Access, navigation, and layout are live — the modules below are not yet implemented.
+        Real counts from the platform database — no revenue or financial figures shown yet, since no payment data exists.
       </p>
 
-      <section className="mt-8 rounded-xl border border-slate-200 bg-white p-5">
+      <section className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
+        {[
+          { label: 'Customers', value: metrics.totalCustomers },
+          { label: 'Active trials', value: metrics.activeTrials },
+          { label: 'Active subscriptions', value: metrics.activeSubscriptions },
+          { label: 'Visible products', value: metrics.visibleProducts },
+          { label: 'Audit entries (7d)', value: metrics.recentAuditActivity },
+        ].map((stat) => (
+          <div key={stat.label} className="rounded-xl border border-slate-200 bg-white p-4">
+            <p className="text-2xl font-semibold tracking-tight text-slate-950">{stat.value}</p>
+            <p className="mt-0.5 text-xs text-slate-500">{stat.label}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
+        <h2 className="text-sm font-semibold text-slate-900">Needs attention</h2>
+        {notifications.length === 0 ? (
+          <p className="mt-3 text-xs text-slate-400">Nothing needs attention right now.</p>
+        ) : (
+          <ul className="mt-3 space-y-2">
+            {notifications.map((notification) => (
+              <li key={notification.id}>
+                <Link
+                  href={`/control-center/customers/${notification.organizationId}`}
+                  className="flex items-center gap-3 rounded-lg border border-slate-100 p-3 text-sm hover:bg-slate-50"
+                >
+                  <span
+                    className={`h-2 w-2 shrink-0 rounded-full ${notification.severity === 'critical' ? 'bg-red-500' : 'bg-amber-500'}`}
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <span className="font-semibold text-slate-800">{notification.title}</span>
+                    <span className="ml-2 text-slate-500">{notification.detail}</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
         <h2 className="text-sm font-semibold text-slate-900">Phase 2a checkpoint progress</h2>
         <ul className="mt-3 space-y-2">
           {checkpoints.map((checkpoint) => (

@@ -30,7 +30,7 @@ export const controlCenterModules: ControlCenterModule[] = [
   { id: 'revenue', route: '/control-center/revenue', title: 'Revenue', description: 'Business metrics', icon: '▲', availability: 'planned', requiredPermission: 'canManageCommercial' },
   { id: 'promotions', route: '/control-center/promotions', title: 'Promotions', description: 'Promotional banners', icon: '◈', availability: 'planned', requiredPermission: 'canManageCommercial' },
   { id: 'coupons', route: '/control-center/coupons', title: 'Coupons', description: 'Discount codes', icon: '▣', availability: 'planned', requiredPermission: 'canManageCommercial' },
-  { id: 'audit-logs', route: '/control-center/audit-logs', title: 'Audit Logs', description: 'Commercial activity history', icon: '▤', availability: 'planned', requiredPermission: 'canViewAuditLogs' },
+  { id: 'audit-logs', route: '/control-center/audit-logs', title: 'Audit Logs', description: 'Commercial activity history', icon: '▤', availability: 'available', requiredPermission: 'canViewAuditLogs' },
   { id: 'settings', route: '/control-center/settings', title: 'Settings', description: 'Control Center configuration', icon: '⚙', availability: 'planned', requiredPermission: 'canManagePlatform' },
 ];
 
