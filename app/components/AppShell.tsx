@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import GlobalSearch from './GlobalSearch';
-import { navigationItems } from './workspaceNavigation';
+import { getNavigationItemsForEdition, navigationItems } from './workspaceNavigation';
 import { logout } from '../login/actions';
+import type { ProductEdition } from '../../types/edition';
 
 function getPageTitle(pathname: string) {
   if (pathname.startsWith('/invoices/')) return 'Invoice Details';
+  if (pathname.startsWith('/bills/')) return 'Bill Details';
 
   return navigationItems.find((item) => item.href === pathname)?.label ?? 'Dashboard';
 }
@@ -18,12 +20,14 @@ interface AppShellProps {
   userEmail: string;
   organizationName?: string;
   role?: string;
+  edition?: ProductEdition;
 }
 
-export default function AppShell({ children, userEmail, organizationName, role }: Readonly<AppShellProps>) {
+export default function AppShell({ children, userEmail, organizationName, role, edition = 'finance_suite' }: Readonly<AppShellProps>) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const pageTitle = useMemo(() => getPageTitle(pathname), [pathname]);
+  const visibleNavigationItems = useMemo(() => getNavigationItemsForEdition(edition), [edition]);
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-950">
@@ -50,7 +54,7 @@ export default function AppShell({ children, userEmail, organizationName, role }
         </div>
 
         <nav className="flex flex-1 flex-col gap-1 px-2 py-2" aria-label="Application navigation">
-          {navigationItems.map((item) => {
+          {visibleNavigationItems.map((item) => {
             const active = pathname === item.href;
             return (
               <Link

@@ -8,6 +8,7 @@ import type { GlobalSearchResult, SearchResultCategory } from '../../types/searc
 const categoryLabels: Record<SearchResultCategory, string> = {
   navigation: 'Navigation',
   invoice: 'Invoices',
+  bill: 'Bills',
   account: 'Accounts',
   activity: 'Activity',
   report: 'Reports',
@@ -16,6 +17,7 @@ const categoryLabels: Record<SearchResultCategory, string> = {
 const categoryClasses: Record<SearchResultCategory, string> = {
   navigation: 'bg-slate-100 text-slate-700',
   invoice: 'bg-blue-50 text-blue-700',
+  bill: 'bg-amber-50 text-amber-700',
   account: 'bg-violet-50 text-violet-700',
   activity: 'bg-cyan-50 text-cyan-700',
   report: 'bg-emerald-50 text-emerald-700',
