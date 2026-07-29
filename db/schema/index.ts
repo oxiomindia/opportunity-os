@@ -276,17 +276,40 @@ export const feedbackAdminAlerts=pgTable('feedback_admin_alerts',{id:uuid('id').
 
 // Oxiom Control Center — Phase 2a, Checkpoint 2 (Database Foundation).
 // Platform-level: Oxiom's own commercial configuration.
+
+// Stable identity anchor for every commercial table to foreign-key against.
+// The product's actual name/description/marketing content stays in
+// lib/products/catalog.ts — see migration 0018.
+export const platformProducts = pgTable('platform_products', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  slug: text('slug').notNull(),
+  ...timestamps,
+}, (table) => [uniqueIndex('platform_products_slug_uidx').on(table.slug)]);
+
 export const commercialProductSettings = pgTable('commercial_product_settings', {
-  productId: text('product_id').primaryKey(),
+  productId: uuid('product_id').primaryKey().references(() => platformProducts.id, { onDelete: 'cascade' }),
   visible: boolean('visible').notNull().default(true),
   statusOverride: text('status_override'),
-  monthlyPricePaise: integer('monthly_price_paise'),
-  annualPricePaise: integer('annual_price_paise'),
-  currency: text('currency').notNull().default('INR'),
   badgeLabel: text('badge_label'),
   updatedBy: uuid('updated_by').references(() => profiles.id),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
+
+// Pricing is a distinct commercial model from product configuration:
+// supports multiple named plans per product and preserves price history
+// (superseding a price marks the old row inactive rather than overwriting it).
+export const commercialProductPricing = pgTable('commercial_product_pricing', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  productId: uuid('product_id').notNull().references(() => platformProducts.id, { onDelete: 'cascade' }),
+  planName: text('plan_name').notNull().default('standard'),
+  monthlyPricePaise: integer('monthly_price_paise'),
+  annualPricePaise: integer('annual_price_paise'),
+  currency: text('currency').notNull().default('INR'),
+  active: boolean('active').notNull().default(true),
+  effectiveFrom: timestamp('effective_from', { withTimezone: true }).notNull().defaultNow(),
+  createdBy: uuid('created_by').references(() => profiles.id),
+  ...timestamps,
+}, (table) => [index('commercial_product_pricing_product_idx').on(table.productId, table.effectiveFrom)]);
 
 export const commercialPromotions = pgTable('commercial_promotions', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -327,7 +350,7 @@ export const organizationCommercialProfile = pgTable('organization_commercial_pr
   trialStartedAt: timestamp('trial_started_at', { withTimezone: true }),
   trialEndsAt: timestamp('trial_ends_at', { withTimezone: true }),
   subscriptionStatus: commercialSubscriptionStatus('subscription_status').notNull().default('none'),
-  currentPlanProductId: text('current_plan_product_id'),
+  currentPlanProductId: uuid('current_plan_product_id').references(() => platformProducts.id, { onDelete: 'set null' }),
   renewalDate: date('renewal_date'),
   updatedBy: uuid('updated_by').references(() => profiles.id),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
