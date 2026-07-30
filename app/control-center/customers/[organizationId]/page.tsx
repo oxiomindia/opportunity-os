@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
   getCustomerDirectoryRow,
@@ -6,11 +7,6 @@ import {
   listCommercialPlanOptions,
 } from '../../../../lib/control-center/customers';
 import { updateCustomerProfile, addCustomerNote } from '../actions';
-
-function toDateTimeLocal(value: string | null): string {
-  if (!value) return '';
-  return new Date(value).toISOString().slice(0, 16);
-}
 
 function toDateInput(value: string | null): string {
   if (!value) return '';
@@ -39,6 +35,22 @@ export default async function CustomerProfilePage({ params }: Readonly<{ params:
       <p className="mt-1 text-sm text-slate-600">{customer.ownerEmail ?? 'No owner on file'} · Edition: {customer.edition.replace('_', ' ')}</p>
 
       <section className="mt-8 rounded-xl border border-slate-200 bg-white p-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-slate-900">Trial</h2>
+          <Link href="/control-center/trials" className="text-xs font-semibold text-blue-700 hover:text-blue-800">
+            Manage in Trials →
+          </Link>
+        </div>
+        <p className="mt-2 text-sm text-slate-800 capitalize">{customer.trialStatus.replace('_', ' ')}</p>
+        <p className="mt-1 text-xs text-slate-500">
+          {customer.trialEndsAt ? `Ends ${new Date(customer.trialEndsAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}` : 'No active trial'}
+        </p>
+        <p className="mt-2 text-[11px] text-slate-400">
+          Trial lifecycle (start, extend, expire, convert, reject) is now owned by the Trials module, not this form.
+        </p>
+      </section>
+
+      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-6">
         <h2 className="text-sm font-semibold text-slate-900">Commercial profile</h2>
         <form action={updateCustomerProfile} className="mt-4 grid gap-4 sm:grid-cols-2">
           <input type="hidden" name="organizationId" value={customer.organizationId} />
@@ -67,15 +79,6 @@ export default async function CustomerProfilePage({ params }: Readonly<{ params:
           </div>
 
           <label className="block">
-            <span className="text-xs font-semibold text-slate-600">Trial status</span>
-            <select name="trialStatus" defaultValue={customer.trialStatus} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
-              <option value="none">None</option>
-              <option value="active">Active</option>
-              <option value="expired">Expired</option>
-              <option value="converted">Converted</option>
-            </select>
-          </label>
-          <label className="block">
             <span className="text-xs font-semibold text-slate-600">Subscription status</span>
             <select name="subscriptionStatus" defaultValue={customer.subscriptionStatus} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
               <option value="none">None</option>
@@ -85,17 +88,6 @@ export default async function CustomerProfilePage({ params }: Readonly<{ params:
               <option value="canceled">Canceled</option>
             </select>
           </label>
-
-          <div className="grid grid-cols-2 gap-3">
-            <label className="block">
-              <span className="text-xs font-semibold text-slate-600">Trial started</span>
-              <input type="datetime-local" name="trialStartedAt" defaultValue={toDateTimeLocal(customer.trialStartedAt)} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-            </label>
-            <label className="block">
-              <span className="text-xs font-semibold text-slate-600">Trial ends</span>
-              <input type="datetime-local" name="trialEndsAt" defaultValue={toDateTimeLocal(customer.trialEndsAt)} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-            </label>
-          </div>
 
           <label className="block">
             <span className="text-xs font-semibold text-slate-600">Primary plan</span>
