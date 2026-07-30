@@ -4,6 +4,9 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getSessionContext } from '../../../lib/auth/dal';
 import { createSupabaseServerClient } from '../../../lib/supabase/server';
+import { parseItcReturnCsv } from '../../../lib/itcRecovery/csv';
+
+const maxImportFileSize = 2 * 1024 * 1024; // 2 MB is generous for a return-period CSV
 
 function field(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -48,6 +51,29 @@ export async function createItcReturnRecord(formData: FormData) {
   if (error) redirect('/itc-recovery/new?error=mutation');
   revalidatePath('/itc-recovery');
   redirect('/itc-recovery');
+}
+
+export async function importItcReturnRecords(formData: FormData) {
+  const file = formData.get('file');
+  if (!(file instanceof File) || file.size === 0) redirect('/itc-recovery/import?error=invalid');
+  if (file.size > maxImportFileSize) redirect('/itc-recovery/import?error=too-large');
+
+  const session = await getSessionContext();
+  if (!session) redirect('/login');
+  if (session.mode === 'demo') redirect('/itc-recovery?error=demo-read-only');
+
+  const text = await file.text();
+  const rows = parseItcReturnCsv(text).filter((row) => row.vendorGstin && row.vendorName && row.returnInvoiceNumber && row.returnPeriod);
+  if (rows.length === 0) redirect('/itc-recovery/import?error=empty');
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.rpc('import_itc_return_records', {
+    target_organization: session.organization.id,
+    records: rows,
+  });
+  if (error) redirect('/itc-recovery/import?error=mutation');
+  revalidatePath('/itc-recovery');
+  redirect('/itc-recovery?imported=1');
 }
 
 export async function deleteItcReturnRecord(formData: FormData) {

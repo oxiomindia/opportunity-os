@@ -16,6 +16,7 @@ export const navigationItems: NavigationItem[] = [
   { href: '/invoices', label: 'Invoices', description: 'Create and track invoices', icon: '□', editions: ['ar', 'finance_suite'] },
   { href: '/vendors', label: 'Vendors', description: 'Manage who you owe', icon: '⚑', editions: ['ap', 'finance_suite'] },
   { href: '/bills', label: 'Bills', description: 'Review, approve, and pay vendor invoices', icon: '▥', editions: ['ap', 'finance_suite'] },
+  { href: '/itc-recovery', label: 'ITC Recovery', description: 'Input Tax Credit reconciliation', icon: '⇄', editions: ['ap', 'finance_suite'] },
   { href: '/reports', label: 'Reports', description: 'Operational reporting', icon: '▤' },
   { href: '/activity', label: 'Activity', description: 'Notifications and workflow events', icon: '○' },
   { href: '/settings', label: 'Settings', description: 'Workspace configuration', icon: '⚙' },

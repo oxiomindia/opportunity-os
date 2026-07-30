@@ -11,6 +11,7 @@ import type { ProductEdition } from '../../types/edition';
 function getPageTitle(pathname: string) {
   if (pathname.startsWith('/invoices/')) return 'Invoice Details';
   if (pathname.startsWith('/bills/')) return 'Bill Details';
+  if (pathname.startsWith('/itc-recovery/')) return 'ITC Recovery';
 
   return navigationItems.find((item) => item.href === pathname)?.label ?? 'Dashboard';
 }
