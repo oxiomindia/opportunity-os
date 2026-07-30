@@ -1,45 +1,31 @@
 import Link from 'next/link';
-import { listItcReturnRecords, listPurchaseRecordsForReconciliation } from '../../../lib/itcRecovery/repository';
-import { reconcileItcRecords, summarizeReconciliation } from '../../../lib/itcRecovery/reconciliation';
+import { getItcReconciliationReport, rowPeriod } from '../../../lib/itcRecovery/report';
 import { formatItcCurrency, formatItcDate } from '../../../lib/itcRecoveryFormatters';
 import ItcStatusBadge from './ItcStatusBadge';
 import { deleteItcReturnRecord } from './actions';
-import type { ReconciliationRow } from '../../../types/itcRecovery';
+import type { ItcReconciliationReport } from '../../../lib/itcRecovery/report';
 
 export const metadata = {
   title: 'ITC Recovery | Oxiom',
   description: 'Reconcile Input Tax Credit against your purchase records and filed GST returns.',
 };
 
-function rowPeriod(row: ReconciliationRow): string | undefined {
-  return row.returnRecord?.returnPeriod ?? row.purchaseRecord?.invoiceDate?.slice(0, 7);
-}
-
 export default async function ItcRecoveryPage({
   searchParams,
 }: Readonly<{ searchParams: Promise<{ period?: string; error?: string; imported?: string }> }>) {
   const { period, error, imported } = await searchParams;
 
-  let rows: ReconciliationRow[] = [];
+  let report: ItcReconciliationReport | null = null;
   let loadError: string | null = null;
   try {
-    const [purchaseRecords, returnRecords] = await Promise.all([
-      listPurchaseRecordsForReconciliation(),
-      listItcReturnRecords(),
-    ]);
-    // ITC/GST applies to Indian, INR-denominated purchases only -- a foreign-currency
-    // bill has no filed-return counterpart to reconcile against. Values are never
-    // combined across currencies, matching how Reports handles the same issue.
-    rows = reconcileItcRecords(purchaseRecords.filter((record) => record.currency === 'INR'), returnRecords);
+    report = await getItcReconciliationReport(period);
   } catch {
     loadError = 'Unable to load reconciliation data right now. Please try again shortly.';
   }
 
-  const periods = Array.from(new Set(rows.map(rowPeriod).filter((value): value is string => Boolean(value)))).sort().reverse();
-  const filteredRows = period ? rows.filter((row) => rowPeriod(row) === period) : rows;
-  const summary = summarizeReconciliation(filteredRows);
+  const exportQuery = period ? `?period=${encodeURIComponent(period)}` : '';
 
-  const sortedRows = [...filteredRows].sort((a, b) => {
+  const sortedRows = [...(report?.rows ?? [])].sort((a, b) => {
     const order = { mismatch: 0, 'missing-in-return': 1, 'return-record-only': 2, matched: 3 } as const;
     return order[a.status] - order[b.status];
   });
@@ -55,7 +41,17 @@ export default async function ItcRecoveryPage({
               Matches your purchase invoices against filed GST return records by vendor GSTIN and invoice number.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            {report && (
+              <>
+                <a href={`/api/itc-recovery/export/csv${exportQuery}`} className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700">
+                  Export CSV
+                </a>
+                <a href={`/api/itc-recovery/export/pdf${exportQuery}`} className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700">
+                  Download PDF
+                </a>
+              </>
+            )}
             <Link href="/itc-recovery/import" className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-700">
               Import CSV
             </Link>
@@ -76,15 +72,15 @@ export default async function ItcRecoveryPage({
       )}
       {loadError && <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{loadError}</div>}
 
-      {!loadError && (
+      {report && (
         <>
           <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
             {[
-              { label: 'Total purchase tax', value: formatItcCurrency(summary.totalPurchaseTax), tone: 'bg-blue-50 text-blue-700' },
-              { label: 'Total return tax', value: formatItcCurrency(summary.totalReturnTax), tone: 'bg-slate-100 text-slate-700' },
-              { label: 'Recoverable ITC', value: formatItcCurrency(summary.recoverableItc), tone: 'bg-emerald-50 text-emerald-700' },
-              { label: 'At-risk ITC', value: formatItcCurrency(summary.atRiskItc), tone: 'bg-red-50 text-red-700' },
-              { label: 'Reconciliation %', value: `${summary.reconciliationPercentage}%`, tone: 'bg-violet-50 text-violet-700' },
+              { label: 'Total purchase tax', value: formatItcCurrency(report.summary.totalPurchaseTax), tone: 'bg-blue-50 text-blue-700' },
+              { label: 'Total return tax', value: formatItcCurrency(report.summary.totalReturnTax), tone: 'bg-slate-100 text-slate-700' },
+              { label: 'Recoverable ITC', value: formatItcCurrency(report.summary.recoverableItc), tone: 'bg-emerald-50 text-emerald-700' },
+              { label: 'At-risk ITC', value: formatItcCurrency(report.summary.atRiskItc), tone: 'bg-red-50 text-red-700' },
+              { label: 'Reconciliation %', value: `${report.summary.reconciliationPercentage}%`, tone: 'bg-violet-50 text-violet-700' },
             ].map((card) => (
               <article key={card.label} className="rounded-xl border border-slate-200 bg-white p-5">
                 <p className="text-sm font-medium text-slate-500">{card.label}</p>
@@ -94,13 +90,13 @@ export default async function ItcRecoveryPage({
             ))}
           </section>
 
-          {periods.length > 0 && (
+          {report.periods.length > 0 && (
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <span className="font-medium text-slate-600">Return period:</span>
               <Link href="/itc-recovery" className={`rounded-full border px-3 py-1 ${!period ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-600 hover:border-slate-400'}`}>
                 All
               </Link>
-              {periods.map((value) => (
+              {report.periods.map((value) => (
                 <Link
                   key={value}
                   href={`/itc-recovery?period=${value}`}

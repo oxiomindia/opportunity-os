@@ -22,6 +22,14 @@ export const reconciliationStatusBadgeVariants: Record<ReconciliationStatus, Itc
   'return-record-only': 'neutral',
 };
 
+/** Shared between the CSV and PDF report legends so the wording can never drift between formats. */
+export const reconciliationStatusDescriptions: Record<ReconciliationStatus, string> = {
+  matched: 'Purchase invoice and filed return agree, within tolerance.',
+  mismatch: 'Purchase invoice and filed return amounts differ beyond tolerance.',
+  'missing-in-return': 'Purchase invoice has no corresponding filed return record.',
+  'return-record-only': 'Filed return record has no corresponding purchase invoice.',
+};
+
 export function formatItcCurrency(amount: number, currency: string = 'INR') {
   return new Intl.NumberFormat(currencyLocales[currency] ?? 'en-IN', {
     style: 'currency',
@@ -32,4 +40,9 @@ export function formatItcCurrency(amount: number, currency: string = 'INR') {
 
 export function formatItcDate(value: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(value));
+}
+
+/** Report generation timestamp, fixed to India Standard Time since ITC/GST is an India-specific concern. */
+export function formatItcReportGeneratedAt(iso: string) {
+  return `${new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Kolkata' }).format(new Date(iso))} IST`;
 }
