@@ -7,7 +7,8 @@ import type { Product, ProductCategoryDef } from './types';
  *
  * Categories are named broadly on purpose so a growing family of related
  * products fits under one heading without renaming it later — e.g.
- * "Finance & Compliance" is meant to hold ITC Recovery Bot today and GST
+ * "Finance & Compliance" is meant to hold Input Tax Credit Recovery &
+ * Reconciliation today and GST
  * Intelligence, TDS Manager, Audit Assistant, or an E-Invoice Manager
  * tomorrow, not just today's single product.
  *
@@ -120,15 +121,15 @@ export const products: Product[] = [
   {
     id: 'itc-recovery-bot',
     brand: 'Oxiom',
-    name: 'ITC Recovery Bot',
+    name: 'Input Tax Credit Recovery & Reconciliation',
     categoryId: 'finance-compliance',
-    tagline: 'Automated input tax credit recovery and reconciliation.',
+    tagline: 'Reconcile input tax credit against your purchase records.',
     description:
-      'Oxiom ITC Recovery Bot automates the reconciliation of input tax credit against purchase records and filed returns — reducing manual GST reconciliation work and helping finance teams recover eligible credit they might otherwise miss. Now taking early access signups.',
+      'Oxiom Input Tax Credit Recovery & Reconciliation ("ITC Recovery") matches your purchase invoices against filed GST return records, flagging what is matched, missing, or mismatched — helping finance teams and CAs identify eligible credit they might otherwise miss. Now taking early access signups.',
     highlights: [
-      'Automated purchase-to-return reconciliation',
+      'Matches purchase invoices against filed return records',
       'Built for Indian GST input tax credit workflows',
-      'Audit-ready reconciliation trail',
+      'Clear matched, missing, and mismatched status on every record',
       'Early access open for design partners',
     ],
     status: 'early-access',

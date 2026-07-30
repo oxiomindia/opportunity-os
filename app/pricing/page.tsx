@@ -11,7 +11,7 @@ import { getVisiblePricing, getPromoBanner } from '../../lib/pricing/catalog';
 
 export const metadata: Metadata = {
   title: 'Pricing | Oxiom',
-  description: 'Simple, transparent pricing for every Oxiom product — Accounts Payable, Accounts Receivable, Finance Suite, and ITC Recovery Bot.',
+  description: 'Simple, transparent pricing for every Oxiom product — Accounts Payable, Accounts Receivable, Finance Suite, and Input Tax Credit Recovery & Reconciliation.',
 };
 
 const faqItems = [
@@ -21,7 +21,7 @@ const faqItems = [
   },
   {
     question: 'Can I switch products or plans later?',
-    answer: 'Yes. You can move between Accounts Payable, Accounts Receivable, and Finance Suite, or add ITC Recovery Bot, as your needs change.',
+    answer: 'Yes. You can move between Accounts Payable, Accounts Receivable, and Finance Suite, or add ITC Recovery (Input Tax Credit Recovery & Reconciliation), as your needs change.',
   },
   {
     question: 'Is there a setup fee?',

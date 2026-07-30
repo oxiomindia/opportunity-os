@@ -42,7 +42,7 @@ function FinanceSuiteIcon({ size = 24, className }: Readonly<IconProps>) {
   );
 }
 
-/** Automation / recovery bot — used for ITC Recovery Bot. */
+/** Used for Input Tax Credit Recovery & Reconciliation (ITC Recovery). */
 function ItcRecoveryIcon({ size = 24, className }: Readonly<IconProps>) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
