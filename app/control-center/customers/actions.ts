@@ -5,9 +5,6 @@ import { z } from 'zod';
 import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 import { createSupabaseServerClient } from '../../../lib/supabase/server';
 
-const trialStatuses = ['none', 'active', 'expired', 'converted'] as const;
-const subscriptionStatuses = ['none', 'trialing', 'active', 'past_due', 'canceled'] as const;
-
 const updateProfileSchema = z.object({
   organizationId: z.uuid(),
   gstNumber: z.string().trim().max(30).optional(),
@@ -15,12 +12,6 @@ const updateProfileSchema = z.object({
   contactMobile: z.string().trim().max(20).optional(),
   city: z.string().trim().max(80).optional(),
   country: z.string().trim().max(80).optional(),
-  trialStatus: z.enum(trialStatuses),
-  trialStartedAt: z.string().optional(),
-  trialEndsAt: z.string().optional(),
-  subscriptionStatus: z.enum(subscriptionStatuses),
-  primaryPlanId: z.string().optional(),
-  renewalDate: z.string().optional(),
   reason: z.string().trim().max(500).optional(),
 });
 
@@ -38,12 +29,6 @@ export async function updateCustomerProfile(formData: FormData) {
     next_contact_mobile: data.contactMobile || null,
     next_city: data.city || null,
     next_country: data.country || null,
-    next_trial_status: data.trialStatus,
-    next_trial_started_at: data.trialStartedAt || null,
-    next_trial_ends_at: data.trialEndsAt || null,
-    next_subscription_status: data.subscriptionStatus,
-    next_primary_plan_id: data.primaryPlanId || null,
-    next_renewal_date: data.renewalDate || null,
     change_reason: data.reason || null,
     request_id: crypto.randomUUID(),
   });

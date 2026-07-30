@@ -26,6 +26,13 @@ export const platformAdminRole = pgEnum('platform_admin_role', ['product-admin',
 export const feedbackRunStatus = pgEnum('feedback_run_status', ['running','completed','failed']);
 export const commercialTrialStatus = pgEnum('commercial_trial_status', ['none','active','expired','converted']);
 export const commercialSubscriptionStatus = pgEnum('commercial_subscription_status', ['none','trialing','active','past_due','canceled']);
+// The Trials module's lifecycle: requested -> under_review -> (rejected | active)
+// -> (expired | converted). "Approved" and "extended" are transitions/events,
+// not resting states — approving a request activates it in the same step,
+// and extending an active trial doesn't change its status.
+export const trialLifecycleStatus = pgEnum('trial_lifecycle_status', ['requested','under_review','active','expired','converted','rejected']);
+export const subscriptionLifecycleStatus = pgEnum('subscription_lifecycle_status', ['active','suspended','cancelled','expired']);
+export const subscriptionBillingCycle = pgEnum('subscription_billing_cycle', ['monthly','annual']);
 
 const timestamps = {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -398,3 +405,94 @@ export const customerTimelineEvents = pgTable('customer_timeline_events', {
   recordedBy: uuid('recorded_by').references(() => profiles.id),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [index('customer_timeline_events_org_idx').on(table.organizationId, table.occurredAt)]);
+
+// Oxiom Control Center — Phase 2b, Checkpoint 1 (Trials).
+//
+// Source of truth for the trial lifecycle: requested -> under_review ->
+// (rejected | active) -> (expired | converted). Every trial starts as a
+// logged request (there is no database-backed request queue upstream of
+// this yet — app/trial/page.tsx opens a mailto: to sales today).
+// organization_commercial_profile.trial_status/dates remain the Customer
+// Directory's headline cache, kept in sync by the RPCs in migration 0025
+// the same way primary_plan_id is kept as a headline pointer (migration 0024).
+export const trials = pgTable('trials', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  productId: uuid('product_id').notNull().references(() => platformProducts.id),
+  status: trialLifecycleStatus('status').notNull().default('requested'),
+  contactPerson: text('contact_person'),
+  contactEmail: text('contact_email'),
+  contactMobile: text('contact_mobile'),
+  startedAt: timestamp('started_at', { withTimezone: true }),
+  endsAt: timestamp('ends_at', { withTimezone: true }),
+  extensionCount: integer('extension_count').notNull().default(0),
+  convertedPlanId: uuid('converted_plan_id').references(() => commercialPlans.id),
+  convertedAt: timestamp('converted_at', { withTimezone: true }),
+  rejectedReason: text('rejected_reason'),
+  rejectedAt: timestamp('rejected_at', { withTimezone: true }),
+  createdBy: uuid('created_by').references(() => profiles.id),
+  ...timestamps,
+}, (table) => [
+  index('trials_org_idx').on(table.organizationId, table.createdAt),
+  index('trials_status_idx').on(table.status),
+]);
+
+// Append-only trial lifecycle timeline, mirrors customer_timeline_events.
+export const trialEvents = pgTable('trial_events', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  trialId: uuid('trial_id').notNull().references(() => trials.id, { onDelete: 'cascade' }),
+  eventType: text('event_type').notNull(),
+  eventSummary: text('event_summary').notNull(),
+  metadata: jsonb('metadata'),
+  occurredAt: timestamp('occurred_at', { withTimezone: true }).notNull().defaultNow(),
+  recordedBy: uuid('recorded_by').references(() => profiles.id),
+}, (table) => [index('trial_events_trial_idx').on(table.trialId, table.occurredAt)]);
+
+// Owner's internal notes on a trial, mirrors customer_notes.
+export const trialNotes = pgTable('trial_notes', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  trialId: uuid('trial_id').notNull().references(() => trials.id, { onDelete: 'cascade' }),
+  note: text('note').notNull(),
+  createdBy: uuid('created_by').notNull().references(() => profiles.id),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index('trial_notes_trial_idx').on(table.trialId, table.createdAt)]);
+
+// Oxiom Control Center — Phase 2b, Checkpoint 2 (Subscriptions).
+//
+// The commercial source of truth: an organization can hold many concurrent
+// subscriptions (one-to-many), each belonging to exactly one Commercial
+// Plan — the relationship organization_commercial_profile.primary_plan_id
+// was always documented as a stand-in for (see migration 0024). No price is
+// stored here; a subscription always references its plan, and price is
+// read live from commercial_product_pricing at display time, the same way
+// the public /pricing page already does.
+export const subscriptions = pgTable('subscriptions', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  planId: uuid('plan_id').notNull().references(() => commercialPlans.id),
+  status: subscriptionLifecycleStatus('status').notNull().default('active'),
+  billingCycle: subscriptionBillingCycle('billing_cycle').notNull().default('monthly'),
+  region: text('region').notNull().default('global'),
+  startDate: date('start_date').notNull(),
+  renewalDate: date('renewal_date'),
+  // Set when this subscription was created by converting a trial —
+  // powers the Dashboard's "Recent Conversions" panel.
+  sourceTrialId: uuid('source_trial_id').references(() => trials.id, { onDelete: 'set null' }),
+  createdBy: uuid('created_by').references(() => profiles.id),
+  ...timestamps,
+}, (table) => [
+  index('subscriptions_org_idx').on(table.organizationId, table.createdAt),
+  index('subscriptions_status_idx').on(table.status),
+  index('subscriptions_plan_idx').on(table.planId),
+]);
+
+// Append-only subscription lifecycle timeline, mirrors trial_events.
+export const subscriptionEvents = pgTable('subscription_events', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  subscriptionId: uuid('subscription_id').notNull().references(() => subscriptions.id, { onDelete: 'cascade' }),
+  eventType: text('event_type').notNull(),
+  eventSummary: text('event_summary').notNull(),
+  metadata: jsonb('metadata'),
+  occurredAt: timestamp('occurred_at', { withTimezone: true }).notNull().defaultNow(),
+  recordedBy: uuid('recorded_by').references(() => profiles.id),
+}, (table) => [index('subscription_events_subscription_idx').on(table.subscriptionId, table.occurredAt)]);

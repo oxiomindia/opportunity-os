@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { getPublicProducts } from '../../../lib/products/catalog';
-import { getProductDisplayName } from '../../../lib/products/types';
 import { controlCenterModules } from '../../../lib/control-center/navigation';
 import { GlobeIcon, LayersStackIcon, SlidersIcon, ArrowRightIcon } from './icons';
 
-const publicWebsiteSections = ['Platform', 'Products', 'Pricing', 'Trial Request', 'Documentation', 'About', 'Contact'];
+const publicWebsiteSections = ['About', 'Features', 'Pricing', 'Documentation', 'Contact', 'Legal', 'Blog (Future)'];
+const workspaceCapabilities = ['Dashboard', 'Accounts Payable', 'Accounts Receivable', 'Vendors', 'Customers', 'Bills', 'Invoices', 'Reports'];
 
 function BulletList({ items }: Readonly<{ items: string[] }>) {
   return (
@@ -20,8 +19,8 @@ function BulletList({ items }: Readonly<{ items: string[] }>) {
 }
 
 export default function PlatformOverview() {
-  const workspaceProducts = getPublicProducts().map((product) => getProductDisplayName(product));
-  const controlCenterHighlights = controlCenterModules.filter((module) => module.id !== 'dashboard').map((module) => module.title);
+  const completedModules = controlCenterModules.filter((module) => module.availability === 'available' && module.id !== 'dashboard').map((module) => module.title);
+  const upcomingModules = controlCenterModules.filter((module) => module.availability === 'planned').map((module) => module.title);
 
   return (
     <section aria-labelledby="platform-overview-title" className="border-y border-slate-200 bg-slate-50 py-20 sm:py-24">
@@ -50,7 +49,7 @@ export default function PlatformOverview() {
               href="/platform"
               className="mt-7 inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
-              Explore Platform
+              Explore Oxiom
               <ArrowRightIcon size={14} />
             </Link>
           </article>
@@ -61,14 +60,18 @@ export default function PlatformOverview() {
             </span>
             <h3 className="mt-5 text-xl font-semibold tracking-tight text-slate-950">Customer Workspace</h3>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              The operational software your team uses after login — invoicing, bills, vendors, and reporting in one place.
+              The operational platform your team uses after login — Accounts Payable, Accounts Receivable, and reporting in one place.
             </p>
-            <BulletList items={workspaceProducts} />
+            <BulletList items={workspaceCapabilities} />
+            <p className="mt-3 flex items-center gap-2 text-xs font-medium text-slate-500">
+              <span className="rounded-full bg-amber-50 px-2 py-0.5 font-semibold text-amber-700 ring-1 ring-amber-100">Coming soon</span>
+              AI capabilities
+            </p>
             <Link
               href="/dashboard"
-              className="mt-7 inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className="mt-5 inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
-              Launch Workspace
+              Go to Workspace
               <ArrowRightIcon size={14} />
             </Link>
           </article>
@@ -84,12 +87,17 @@ export default function PlatformOverview() {
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Owner administration and commercial management — the control plane behind every Oxiom product.
             </p>
-            <BulletList items={controlCenterHighlights} />
+            <div className="mt-5 flex-1">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Completed modules</p>
+              <BulletList items={completedModules} />
+              <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-slate-400">Upcoming modules</p>
+              <BulletList items={upcomingModules} />
+            </div>
             <Link
               href="/control-center"
               className="mt-7 inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-semibold text-slate-800 transition-colors hover:border-slate-400 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
-              Open Control Center
+              Control Center
               <ArrowRightIcon size={14} />
             </Link>
           </article>
