@@ -16,6 +16,36 @@ export type SolutionPageContent = {
 
 export const solutionPages: SolutionPageContent[] = [
   {
+    "slug": "input-tax-credit-recovery",
+    "pageName": "Input Tax Credit Recovery",
+    "title": "Input Tax Credit Recovery & GST Reconciliation Software | Oxiom",
+    "description": "Reconcile purchase-side GST with your filed returns. Oxiom's Input Tax Credit Recovery & Reconciliation matches purchase invoices against filed GST return records, flagging matched, missing, and mismatched credit.",
+    "heading": "Input Tax Credit recovery and GST reconciliation for Indian finance teams",
+    "intro": "Oxiom Input Tax Credit Recovery & Reconciliation matches your purchase invoices against filed GST return records — GSTIN and invoice number, with a configurable amount tolerance — so finance teams and CAs can see exactly which input tax credit is matched, missing, or mismatched, and recover credit they might otherwise miss.",
+    "valueProps": [
+      "Purchase-to-return matching",
+      "GSTIN and invoice-number reconciliation",
+      "Manual entry or CSV import",
+      "CSV and PDF export for filing"
+    ],
+    "focus": [
+      "GST reconciliation",
+      "input tax credit recovery",
+      "purchase register vs. filed return",
+      "GSTIN-based matching"
+    ],
+    "useCases": [
+      "Finance teams reconciling purchase invoices against GSTR filings every period.",
+      "CAs identifying eligible input tax credit a client would otherwise miss.",
+      "Businesses moving off manual spreadsheet-based GST reconciliation."
+    ],
+    "related": [
+      "accounts-payable-automation",
+      "ap-analytics",
+      "erp-invoice-integration"
+    ]
+  },
+  {
     "slug": "vendor-invoice-processing",
     "pageName": "Customer Invoicing",
     "title": "Customer Invoicing Software | Bill Customers Faster | Oxiom",
@@ -162,7 +192,8 @@ export const solutionPages: SolutionPageContent[] = [
     "related": [
       "ap-workflow-automation",
       "procure-to-pay",
-      "financial-operations-automation"
+      "financial-operations-automation",
+      "input-tax-credit-recovery"
     ]
   },
   {
@@ -642,7 +673,8 @@ export const solutionPages: SolutionPageContent[] = [
     "related": [
       "invoice-processing-software",
       "supplier-invoice-management",
-      "financial-operations-automation"
+      "financial-operations-automation",
+      "input-tax-credit-recovery"
     ]
   }
 ];
