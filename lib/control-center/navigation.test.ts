@@ -20,7 +20,7 @@ test('every module has a unique id and a route that starts with /control-center'
   }
 });
 
-test('exactly the Phase 2a, Trials, and Subscriptions modules are available; the rest are planned', () => {
+test('exactly the Phase 2a, Trials, Subscriptions, and Revenue modules are available; the rest are planned', () => {
   const available = controlCenterModules.filter((module) => module.availability === 'available').map((module) => module.id).sort();
-  assert.deepEqual(available, ['audit-logs', 'customers', 'dashboard', 'pricing', 'products', 'subscriptions', 'trials']);
+  assert.deepEqual(available, ['audit-logs', 'customers', 'dashboard', 'pricing', 'products', 'revenue', 'subscriptions', 'trials']);
 });

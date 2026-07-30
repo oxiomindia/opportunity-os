@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getSubscriptionDetail, listSubscriptionEvents } from '../../../../lib/control-center/subscriptions';
 import { listCommercialPlanOptions } from '../../../../lib/control-center/customers';
 import { upgradeSubscription, downgradeSubscription, suspendSubscription, cancelSubscription, reactivateSubscription, expireSubscription } from '../actions';
+import { paymentConfig, buildUpiPaymentLink, buildWhatsAppLink } from '../../../../lib/payment/config';
 
 function formatDate(value: string | null): string {
   if (!value) return '—';
@@ -74,6 +75,33 @@ export default async function SubscriptionDetailPage({ params }: Readonly<{ para
               : `${formatPaise(subscription.monthlyPricePaise, subscription.currency)} / month`}
           </p>
           <p className="mt-0.5 text-[11px] text-slate-400">Read live from the plan&apos;s current price — never stored on the subscription.</p>
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-6">
+        <h2 className="text-sm font-semibold text-slate-900">Collect payment</h2>
+        <p className="mt-1 text-xs text-slate-500">Manual UPI collection for this subscription&apos;s renewal — no automated billing exists yet.</p>
+        <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
+          <span className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-slate-700">
+            {paymentConfig.payeeName} · {paymentConfig.upiId}
+          </span>
+          <a
+            href={buildUpiPaymentLink(
+              subscription.billingCycle === 'annual' ? (subscription.annualPricePaise ?? undefined) : (subscription.monthlyPricePaise ?? undefined),
+              `${subscription.organizationName} — ${subscription.planName}`,
+            )}
+            className="rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-700"
+          >
+            Pay via UPI
+          </a>
+          <a
+            href={buildWhatsAppLink(`Hi, this is regarding your Oxiom subscription (${subscription.planName}) renewal.`)}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            Contact via WhatsApp
+          </a>
         </div>
       </section>
 
