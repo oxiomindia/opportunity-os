@@ -1,6 +1,7 @@
 import { BaseEngine } from '../engine/base';
 import type { EngineHealth, EngineMetadata, EngineStatus } from '../engine/types';
 import { registerEngine } from '../engine/registry';
+import { eventBus } from '../events/bus';
 import { getAuthCapabilities } from '../supabase/config';
 
 /**
@@ -18,20 +19,26 @@ class BillsEngine extends BaseEngine {
     capabilities: ['lifecycle-management', 'line-item-tax-capture', 'attachment-storage'],
     inputs: ['vendors', 'vendor_invoice_items'],
     outputs: ['vendor_invoices', 'vendor_invoice_status_history', 'audit_logs'],
-    supportedEvents: [],
+    supportedEvents: ['engine.health-checked'],
   };
 
   getStatus(): EngineStatus {
     return getAuthCapabilities(process.env).supabase ? 'active' : 'error';
   }
 
-  getHealth(): EngineHealth {
+  async getHealth(): Promise<EngineHealth> {
     const configured = getAuthCapabilities(process.env).supabase;
-    return {
+    const health: EngineHealth = {
       status: configured ? 'healthy' : 'unhealthy',
       message: configured ? undefined : 'Supabase is not configured (NEXT_PUBLIC_SUPABASE_URL/ANON_KEY missing).',
       checkedAt: new Date().toISOString(),
     };
+    await eventBus.publish({
+      eventName: 'engine.health-checked',
+      sourceEngine: this.metadata.id,
+      payload: { status: this.getStatus(), health },
+    });
+    return health;
   }
 }
 

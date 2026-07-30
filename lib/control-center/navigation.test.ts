@@ -20,10 +20,25 @@ test('every module has a unique id and a route that starts with /control-center'
   }
 });
 
-test('every shipped module (including Feedback and now Engine Registry) is available; the remaining platform-capability placeholders stay planned', () => {
+test('every shipped module (including Feedback, Engine Registry, and now Event Monitor) is available; the remaining platform-capability placeholders stay planned', () => {
   const available = controlCenterModules.filter((module) => module.availability === 'available').map((module) => module.id).sort();
-  assert.deepEqual(available, ['audit-logs', 'coupons', 'customers', 'dashboard', 'engine-registry', 'feedback', 'pricing', 'products', 'promotions', 'revenue', 'settings', 'subscriptions', 'trials']);
+  assert.deepEqual(available, [
+    'audit-logs',
+    'coupons',
+    'customers',
+    'dashboard',
+    'engine-registry',
+    'event-monitor',
+    'feedback',
+    'pricing',
+    'products',
+    'promotions',
+    'revenue',
+    'settings',
+    'subscriptions',
+    'trials',
+  ]);
 
   const planned = controlCenterModules.filter((module) => module.availability === 'planned').map((module) => module.id).sort();
-  assert.deepEqual(planned, ['audit-diagnostics', 'event-monitor', 'integrations', 'platform-configuration', 'system-health', 'urp', 'webhook-engine']);
+  assert.deepEqual(planned, ['audit-diagnostics', 'integrations', 'platform-configuration', 'system-health', 'urp', 'webhook-engine']);
 });

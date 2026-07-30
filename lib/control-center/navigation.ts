@@ -34,16 +34,17 @@ export const controlCenterModules: ControlCenterModule[] = [
   { id: 'settings', route: '/control-center/settings', title: 'Settings', description: 'Control Center configuration', icon: '⚙', availability: 'available', requiredPermission: 'canManagePlatform' },
   { id: 'feedback', route: '/control-center/feedback', title: 'Feedback', description: 'Product feedback inbox, urgent queue, and weekly insights', icon: '✉', availability: 'available', requiredPermission: 'canAccessFeedback' },
 
-  // Engine Registry: read-only Admin Console view onto lib/engine/registry.ts
-  // as of the Engine Framework milestone. The other seven remain reserved --
-  // these still render as disabled/"Planned" rows (see ControlCenterShell)
-  // so the information architecture is right before URP/Webhook Engine/Event
-  // Bus/etc. exist. No page or route exists behind any of the 'planned' ones
-  // below — do not link to them.
+  // Engine Registry (Engine Framework milestone) and Event Monitor (Event
+  // Bus milestone) are read-only Admin Console views onto lib/engine/ and
+  // lib/events/ respectively. The remaining six stay reserved -- these
+  // still render as disabled/"Planned" rows (see ControlCenterShell) so the
+  // information architecture is right before URP/Webhook Engine/etc. exist.
+  // No page or route exists behind any of the 'planned' ones below — do not
+  // link to them.
   { id: 'engine-registry', route: '/control-center/engine-registry', title: 'Engine Registry', description: 'Registered platform engines and their capabilities', icon: '▦', availability: 'available', requiredPermission: 'canManagePlatform' },
   { id: 'urp', route: '/control-center/reports-platform', title: 'Universal Report Platform', description: 'Shared reporting and export layer for every engine', icon: '▤', availability: 'planned', requiredPermission: 'canManagePlatform' },
   { id: 'webhook-engine', route: '/control-center/webhooks', title: 'Webhook Engine', description: 'Outbound event subscriptions and delivery', icon: '⇄', availability: 'planned', requiredPermission: 'canManagePlatform' },
-  { id: 'event-monitor', route: '/control-center/events', title: 'Event Monitor', description: 'Live platform event stream', icon: '◉', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'event-monitor', route: '/control-center/events', title: 'Event Monitor', description: 'Live platform event stream', icon: '◉', availability: 'available', requiredPermission: 'canManagePlatform' },
   { id: 'system-health', route: '/control-center/system-health', title: 'System Health', description: 'Engine and integration health status', icon: '♥', availability: 'planned', requiredPermission: 'canManagePlatform' },
   { id: 'platform-configuration', route: '/control-center/platform-configuration', title: 'Platform Configuration', description: 'Global platform configuration', icon: '⌘', availability: 'planned', requiredPermission: 'canManagePlatform' },
   { id: 'integrations', route: '/control-center/integrations', title: 'Integrations', description: 'External system connections', icon: '⛓', availability: 'planned', requiredPermission: 'canManagePlatform' },
