@@ -2,41 +2,44 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Oxiom Invoice Processing | Vendor Invoice & AP Automation",
-  description: "Automate vendor invoice processing and Accounts Payable workflows with AI-powered extraction, validation, approval, and audit-ready processing on the Oxiom One platform.",
+  title: {
+    default: "Oxiom | Finance Automation Platform for Accounts Payable & Receivable",
+    template: "%s | Oxiom",
+  },
+  description: "Oxiom is a finance automation platform for growing businesses — Accounts Payable, Accounts Receivable, and Finance Suite, built on one secure workspace.",
   metadataBase: new URL("https://oxiom.in"),
   alternates: {
     canonical: "https://oxiom.in",
   },
   keywords: [
-    "vendor invoice processing software",
-    "invoice processing",
+    "finance automation platform",
     "accounts payable automation",
+    "accounts receivable automation",
     "AP automation software",
-    "supplier invoice management",
+    "AR automation software",
+    "invoice processing",
+    "vendor invoice processing software",
     "invoice approval workflow",
-    "invoice workflow automation",
-    "OCR invoice processing",
-    "invoice automation",
+    "billing and invoicing software",
   ],
   authors: [{ name: "Oxiom" }],
   creator: "Oxiom",
   publisher: "Oxiom",
   robots: "index, follow",
-  
+
   // Open Graph
   openGraph: {
     type: "website",
     url: "https://oxiom.in",
-    title: "Oxiom Invoice Processing | Vendor Invoice & AP Automation",
-    description: "Automate vendor invoice processing and Accounts Payable workflows with AI-powered extraction, validation, approval, and audit-ready processing.",
+    title: "Oxiom | Finance Automation Platform for Accounts Payable & Receivable",
+    description: "Oxiom is a finance automation platform for growing businesses — Accounts Payable, Accounts Receivable, and Finance Suite, built on one secure workspace.",
     siteName: "Oxiom",
     images: [
       {
         url: "https://oxiom.in/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Oxiom Invoice Processing",
+        alt: "Oxiom Finance Automation Platform",
       },
     ],
   },
@@ -44,8 +47,8 @@ export const metadata: Metadata = {
   // Twitter
   twitter: {
     card: "summary_large_image",
-    title: "Oxiom Invoice Processing | AP Automation",
-    description: "Automate vendor invoice processing and Accounts Payable workflows with AI.",
+    title: "Oxiom | Finance Automation Platform",
+    description: "Accounts Payable, Accounts Receivable, and Finance Suite — built on one secure workspace.",
     images: ["https://oxiom.in/twitter-image.png"],
     creator: "@oxiom",
   },

@@ -15,10 +15,15 @@ const loginSchema = z.object({
   password: z.string().min(1).max(1024),
 });
 
+function safeNext(next: FormDataEntryValue | null): string {
+  return typeof next === 'string' && next.startsWith('/') && !next.startsWith('//') ? next : '/dashboard';
+}
+
 export async function login(_state: LoginState, formData: FormData): Promise<LoginState> {
   const parsed = loginSchema.safeParse({ username: formData.get('username'), password: formData.get('password') });
   if (!parsed.success) return { error: 'Enter a valid email address and password.' };
   const { username, password } = parsed.data;
+  const destination = safeNext(formData.get('next'));
   const capabilities = getAuthCapabilities(process.env);
   if (!capabilities.supabase && !capabilities.localDemo) return { error: 'Sign in is not configured for this environment.' };
   const email = username;
@@ -28,7 +33,7 @@ export async function login(_state: LoginState, formData: FormData): Promise<Log
     if (capabilities.localDemo) {
       const cookieStore = await cookies();
       cookieStore.set(localDemoCookie.name, await createLocalDemoToken(), getLocalDemoCookieOptions(process.env));
-      redirect('/dashboard');
+      redirect(destination);
     }
   } else if (!z.email().safeParse(username).success) {
     return { error: 'Enter a valid email address and password.' };
@@ -42,7 +47,7 @@ export async function login(_state: LoginState, formData: FormData): Promise<Log
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return { error: 'Invalid email address or password.' };
-  redirect('/dashboard');
+  redirect(destination);
 }
 
 export async function logout() {

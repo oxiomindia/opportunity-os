@@ -46,5 +46,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/organization-required/:path*', '/onboarding/:path*', '/invoices/:path*', '/upload/:path*', '/verification/:path*', '/reviews/:path*', '/accounts-review/:path*', '/payment-queue/:path*', '/reports/:path*', '/activity/:path*', '/settings/:path*', '/feedback/:path*', '/admin/:path*'],
+  matcher: ['/dashboard/:path*', '/organization-required/:path*', '/onboarding/:path*', '/invoices/:path*', '/upload/:path*', '/verification/:path*', '/reviews/:path*', '/accounts-review/:path*', '/payment-queue/:path*', '/reports/:path*', '/activity/:path*', '/settings/:path*', '/feedback/:path*', '/admin/:path*', '/control-center/:path*'],
 };

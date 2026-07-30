@@ -5,12 +5,13 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '../supabase/server';
 import { demoIdentity, isLocalDemoEnabled, localDemoCookie, verifyLocalDemoToken } from './dev-session';
+import type { ProductEdition } from '../../types/edition';
 
 export type OrganizationRole = 'owner' | 'admin' | 'reviewer' | 'member' | 'viewer';
 
 export interface SessionContext {
   user: { id: string; email: string };
-  organization: { id: string; name: string; slug: string };
+  organization: { id: string; name: string; slug: string; edition: ProductEdition };
   role: OrganizationRole;
   mode: 'supabase' | 'demo';
 }
@@ -34,7 +35,7 @@ export const getSessionContext = cache(async (): Promise<SessionContext | null> 
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from('organization_members')
-    .select('role, organizations!inner(id, name, slug)')
+    .select('role, organizations!inner(id, name, slug, edition)')
     .eq('user_id', user.id)
     .eq('active', true)
     .limit(1)

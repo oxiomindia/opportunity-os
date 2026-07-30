@@ -5,6 +5,8 @@ import { formatInvoiceCurrency, formatInvoiceDate } from '../../../lib/invoiceFo
 import InvoiceStatusBadge from '../invoices/InvoiceStatusBadge';
 import { getSessionContext } from '../../../lib/auth/dal';
 import { getCurrentEdition } from '../../../lib/edition';
+import { getProductIdForEdition } from '../../../lib/products/catalog';
+import RelatedProducts from '../../components/RelatedProducts';
 
 export default async function DashboardPage() {
   const [session, edition] = await Promise.all([getSessionContext(), getCurrentEdition()]);
@@ -76,5 +78,6 @@ export default async function DashboardPage() {
     {showAr && (
       <section className="rounded-xl border border-slate-200 bg-white p-5"><div className="flex items-center justify-between"><h2 className="font-semibold text-slate-950">Recent invoices</h2><Link href="/invoices" className="text-sm font-semibold text-blue-700">View all</Link></div>{invoices.length ? <div className="mt-4 divide-y divide-slate-100">{invoices.slice(0, 5).map((invoice) => <Link key={invoice.id} href={`/invoices/${invoice.id}`} className="flex flex-wrap items-center justify-between gap-3 py-3 hover:bg-slate-50"><div><p className="text-sm font-semibold text-slate-900">{invoice.invoiceNumber}</p><p className="text-xs text-slate-500">{invoice.customerName} · {formatInvoiceDate(invoice.createdAt)}</p></div><div className="flex items-center gap-3"><span className="text-sm font-semibold">{formatInvoiceCurrency(invoice.total, invoice.currency)}</span><InvoiceStatusBadge status={invoice.status} /></div></Link>)}</div> : <p className="mt-4 text-sm text-slate-500">Create your first invoice to begin.</p>}</section>
     )}
+    <RelatedProducts productId={getProductIdForEdition(edition)} />
   </div>;
 }

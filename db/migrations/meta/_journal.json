@@ -120,6 +120,62 @@
       "when": 1785275500000,
       "tag": "0016_invoice_numbering",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1785277100000,
+      "tag": "0017_control_center_commercial_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1785278300000,
+      "tag": "0018_platform_products_and_pricing_split",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1785279600000,
+      "tag": "0019_pricing_lifecycle_and_public_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1785280100000,
+      "tag": "0020_revoke_anon_from_admin_functions",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1785281200000,
+      "tag": "0021_commercial_plans",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1785282400000,
+      "tag": "0022_customer_profile_and_last_login",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1785282900000,
+      "tag": "0023_owner_cross_tenant_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1785283300000,
+      "tag": "0024_rename_current_plan_to_primary_plan",
+      "breakpoints": true
     }
   ]
 }
