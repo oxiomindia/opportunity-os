@@ -77,6 +77,18 @@ export async function listTrialDirectory(status?: string): Promise<TrialDirector
   return (data ?? []).map((row: Record<string, unknown>) => toDirectoryRow(row));
 }
 
+/** Every trial for one organization, newest first — for the Customer Profile's Trials section. */
+export async function listTrialsForOrganization(organizationId: string): Promise<TrialDirectoryRow[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from('trials')
+    .select('id, organization_id, status, contact_person, started_at, ends_at, created_at, organizations(name), platform_products(slug)')
+    .eq('organization_id', organizationId)
+    .order('created_at', { ascending: false });
+  if (error) throw new Error('Unable to load trials for organization');
+  return (data ?? []).map((row: Record<string, unknown>) => toDirectoryRow(row));
+}
+
 export async function getTrialDetail(trialId: string): Promise<TrialDetail | null> {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase

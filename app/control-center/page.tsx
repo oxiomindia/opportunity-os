@@ -5,12 +5,10 @@ import { getDashboardMetrics } from '../../lib/control-center/metrics';
 import { listNotifications } from '../../lib/control-center/notifications';
 
 const checkpoints = [
-  { label: 'Foundation — shell, navigation, authentication, authorization', done: true },
-  { label: 'Database — schema, migrations, RLS policies', done: true },
-  { label: 'Products & Pricing modules', done: true },
-  { label: 'Customers module', done: true },
-  { label: 'Audit Logs & Notifications', done: true },
-  { label: 'Testing & verification', done: false },
+  { label: 'Phase 2a — Products, Pricing, Customers, Audit Logs, Notifications', done: true },
+  { label: 'Phase 2b Checkpoint 1 — Trials', done: true },
+  { label: 'Phase 2b Checkpoint 2 — Subscriptions', done: true },
+  { label: 'Phase 2b Checkpoint 3 — Revenue', done: false },
 ];
 
 export default async function ControlCenterDashboardPage() {
@@ -27,11 +25,10 @@ export default async function ControlCenterDashboardPage() {
         Real counts from the platform database — no revenue or financial figures shown yet, since no payment data exists.
       </p>
 
-      <section className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <section className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
           { label: 'Customers', value: metrics.totalCustomers },
           { label: 'Active trials', value: metrics.activeTrials },
-          { label: 'Active subscriptions', value: metrics.activeSubscriptions },
           { label: 'Visible products', value: metrics.visibleProducts },
           { label: 'Audit entries (7d)', value: metrics.recentAuditActivity },
         ].map((stat) => (
@@ -40,6 +37,47 @@ export default async function ControlCenterDashboardPage() {
             <p className="mt-0.5 text-xs text-slate-500">{stat.label}</p>
           </div>
         ))}
+      </section>
+
+      <section className="mt-6">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-400">Subscriptions</h2>
+        <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            { label: 'Active', value: metrics.activeSubscriptions, tone: 'text-emerald-700' },
+            { label: 'Expiring soon', value: metrics.expiringSoonSubscriptions, tone: 'text-amber-700' },
+            { label: 'Suspended', value: metrics.suspendedSubscriptions, tone: 'text-amber-700' },
+            { label: 'Cancelled', value: metrics.cancelledSubscriptions, tone: 'text-slate-500' },
+          ].map((stat) => (
+            <Link key={stat.label} href="/control-center/subscriptions" className="rounded-xl border border-slate-200 bg-white p-4 hover:border-slate-300">
+              <p className={`text-2xl font-semibold tracking-tight ${stat.tone}`}>{stat.value}</p>
+              <p className="mt-0.5 text-xs text-slate-500">{stat.label}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
+        <h2 className="text-sm font-semibold text-slate-900">Recent conversions (Trial → Subscription)</h2>
+        {metrics.recentConversions.length === 0 ? (
+          <p className="mt-3 text-xs text-slate-400">No trial conversions yet.</p>
+        ) : (
+          <ul className="mt-3 space-y-2">
+            {metrics.recentConversions.map((subscription) => (
+              <li key={subscription.id}>
+                <Link
+                  href={`/control-center/subscriptions/${subscription.id}`}
+                  className="flex items-center justify-between rounded-lg border border-slate-100 p-3 text-sm hover:bg-slate-50"
+                >
+                  <span>
+                    <span className="font-semibold text-slate-800">{subscription.organizationName}</span>
+                    <span className="ml-2 text-slate-500">{subscription.productSlug} — {subscription.planName}</span>
+                  </span>
+                  <span className="text-xs text-slate-400">{new Date(subscription.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <section className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
