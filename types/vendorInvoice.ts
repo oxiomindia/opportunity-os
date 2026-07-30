@@ -16,6 +16,7 @@ export interface VendorInvoiceLineItem {
   description: string;
   quantity: number;
   unitPrice: number;
+  taxAmount: number;
   lineTotal: number;
 }
 

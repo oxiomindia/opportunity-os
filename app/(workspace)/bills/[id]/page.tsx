@@ -130,6 +130,7 @@ export default async function BillDetailPage({ params }: Readonly<BillDetailPage
                   <th className="py-2 font-semibold text-slate-500">Description</th>
                   <th className="py-2 font-semibold text-slate-500">Qty</th>
                   <th className="py-2 font-semibold text-slate-500">Unit price</th>
+                  <th className="py-2 font-semibold text-slate-500">Tax</th>
                   <th className="py-2 font-semibold text-slate-500">Line total</th>
                 </tr>
               </thead>
@@ -139,6 +140,7 @@ export default async function BillDetailPage({ params }: Readonly<BillDetailPage
                     <td className="py-3 text-slate-900">{item.description}</td>
                     <td className="py-3 text-slate-600">{item.quantity}</td>
                     <td className="py-3 text-slate-600">{formatVendorInvoiceCurrency(item.unitPrice, bill.currency)}</td>
+                    <td className="py-3 text-slate-600">{formatVendorInvoiceCurrency(item.taxAmount, bill.currency)}</td>
                     <td className="py-3 font-semibold text-slate-950">{formatVendorInvoiceCurrency(item.lineTotal, bill.currency)}</td>
                   </tr>
                 ))}
@@ -161,6 +163,10 @@ export default async function BillDetailPage({ params }: Readonly<BillDetailPage
             <label className="flex flex-col gap-1 text-sm">
               <span className="font-medium text-slate-800">Unit price</span>
               <input name="unitPrice" type="number" step="0.01" min="0" required className="rounded-md border border-slate-300 px-3 py-2 text-sm" />
+            </label>
+            <label className="flex flex-col gap-1 text-sm">
+              <span className="font-medium text-slate-800">Tax amount</span>
+              <input name="taxAmount" type="number" step="0.01" min="0" defaultValue="0" className="rounded-md border border-slate-300 px-3 py-2 text-sm" />
             </label>
             <div className="sm:col-span-4">
               <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">Add line item</button>

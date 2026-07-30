@@ -6,13 +6,13 @@
 
 | Field | Value |
 |---|---|
-| Document version | **1.3.0** |
-| Last updated | **2026-07-27** |
-| Last reviewed | **2026-07-27** (repository evidence review; production environment not reviewed) |
-| Repository commit | `2b7d0fb` — the audited baseline immediately before this documentation revision |
-| Repository branch | `work` |
+| Document version | **1.4.0** |
+| Last updated | **2026-07-30** |
+| Last reviewed | **2026-07-30** (repository evidence review plus live-database RPC verification via rolled-back transaction; see Change Log) |
+| Repository commit | `TBD` — the audited baseline immediately before this documentation revision |
+| Repository branch | `claude/phase-2b-commercial-admin-nriiel` |
 | Application version | `1.0.0` (`package.json`) |
-| Database migration version | `0008_repair_organization_onboarding` (latest repository/journal migration; deployment unverified) |
+| Database migration version | `0030_vendor_invoice_line_item_tax` (latest repository/journal migration; applied live to the project database) |
 | Scope | Application code, schema/migrations, public assets, tests, build/deployment configuration |
 | Evidence basis | Static repository inspection plus the checks listed in [Audit method](#audit-method-and-status-definitions) |
 | Runtime verification | Local lint, unit tests, and production build; no production database or deployment inspection |
@@ -26,6 +26,7 @@ This is a functional change ledger, not a duplicate of `git log`. It records sig
 
 | Date | PR number | Commit | Feature | Summary |
 |---|---:|---|---|---|
+| 2026-07-30 | TBD | `TBD` | Bills tax completion and ITC integration | Root-caused `vendor_invoices.tax_total` never being populated (no RPC wrote it); added `vendor_invoice_items.tax_amount` (migration `0030`) and a `line_tax_amount` parameter to `add_vendor_invoice_line_item()` that additively updates `tax_total`/`total` the same way `subtotal` already was. Reran the full Input Tax Credit Recovery & Reconciliation Business Acceptance Test through real RPCs only (zero manual SQL updates) and confirmed all four reconciliation statuses, dashboard totals, and CSV/PDF export parity. **Note:** this audit was last refreshed at commit `2b7d0fb` (2026-07-27, doc v1.3.0), before the Commercial Administration (Control Center), Bills/Vendors/AP, and Input Tax Credit Recovery & Reconciliation modules existed in this document. This revision adds those two directly-touched features (see the new Feature Traceability Matrix rows `AP-001`/`ITC-001` and the new Executive Functional Inventory subsection); it does not attempt to retroactively backfill every intervening milestone. |
 | 2026-07-27 | TBD | `TBD` | Production readiness remediation | Replaced mock data in reports and core queues, removed dead legacy mock UI, expanded CI/Playwright, and added an evidence-based launch audit. |
 | 2026-07-27 | TBD | `TBD` | Engineering governance enhancement | Added architecture traceability, risk/incident/release/lifecycle governance, quality/operations/compliance/AI dashboards, KPIs, and continuous-improvement review. |
 | 2026-07-27 | TBD | `TBD` | Living audit reference enhancement | Added metadata, changelog, traceability/dependency matrices, release checklist, roadmap and mandatory update policy. |
@@ -93,6 +94,8 @@ Feature IDs are stable and must not be renumbered. Add a new ID for a new capabi
 | OPP-001 | Opportunity management | Legacy mock research components/data only | — | — | — | — | — | — | 🔴 Not Implemented |
 | MSG-001 | Messaging | — | — | — | — | — | — | — | 🔴 Not Implemented |
 | NOTIF-001 | Notifications | — | — | — | — | — | — | — | 🔴 Not Implemented |
+| AP-001 | Bills (vendor invoice) lifecycle and purchase-side tax capture | `app/(workspace)/bills/**`, `lib/vendorInvoices/repository.ts` | `vendor_invoices`, `vendor_invoice_items` (incl. `tax_amount`, migration `0030`), `vendor_invoice_status_history`, `vendor_invoice_attachments`, `vendors`; RPCs `create_vendor`, `create_vendor_invoice`, `add_vendor_invoice_line_item` (tax-aware since `0030`), `submit_vendor_invoice_for_review`, `approve_vendor_invoice`, `reject_vendor_invoice`, `schedule_vendor_invoice_payment`, `record_vendor_invoice_payment`, `void_vendor_invoice`, `delete_draft_vendor_invoice`, `attach_vendor_invoice_file` | Bills Server Actions (`app/(workspace)/bills/actions.ts`) | `/bills`, `/bills/new`, `/bills/[id]` | — | Rolled-back-transaction RPC verification (this revision) | Manual browser + responsive check of the tax input (this revision); no Playwright suite | 🟡 Beta Ready |
+| ITC-001 | Input Tax Credit Recovery & Reconciliation | `app/(workspace)/itc-recovery/**`, `lib/itcRecovery/{repository,reconciliation,report,csv,pdf}.ts` | `itc_return_records` (migration `0029`); reads `vendor_invoices`/`vendors` for the purchase side; RPCs `create_itc_return_record`, `import_itc_return_records`, `delete_itc_return_record` | `app/(workspace)/itc-recovery/actions.ts`; `GET /api/itc-recovery/export/{csv,pdf}` | `/itc-recovery`, `/itc-recovery/new`, `/itc-recovery/import` | `reconciliation.test.ts` (24 tests), `csv.test.ts` (12 tests) | Rolled-back-transaction Business Acceptance Test through real RPCs only, this revision — see Integration Test Results below | Manual demo-mode dashboard walkthrough only; no Playwright suite | ✅ Production Ready (dependent on AP-001 for real purchase-side data, now resolved) |
 
 # Dependency Matrix
 
@@ -112,6 +115,8 @@ Feature IDs are stable and must not be renumbered. Add a new ID for a new capabi
 | OBS-001 | Instrumented workflows | Console/events | audit/history/run tables | Actor/session varies | No monitoring provider configured | No monitoring variables defined |
 | QA-001 | Built application and optional test tenant | Playwright/server/test clients | Optional live Supabase | Demo or test credentials by suite | GitHub Actions, Playwright, Supabase optional | `E2E_BASE_URL`, `E2E_DEMO_LOGIN`, onboarding/admin test credentials, `RUN_SUPABASE_INTEGRATION_TESTS`, Supabase keys |
 | OPP-001, MSG-001, NOTIF-001 | Requirements not implemented | — | — | Undefined | Undefined | Undefined |
+| AP-001 | Active tenant membership, vendor record | Bills Server Actions, tax-aware line-item RPC | vendor_invoices, vendor_invoice_items, vendors, RLS | Active member; approver roles (owner/admin/reviewer) gate approve/reject | Supabase DB | Supabase public variables |
+| ITC-001 | AP-001 must produce non-zero `vendor_invoices.tax_total`; org edition `ap`/`finance_suite` shows the nav item | ITC Recovery Server Actions/RPCs, CSV/PDF export routes | itc_return_records, vendor_invoices/vendors (read), RLS | Active member; demo mode is read-only for all mutations | Supabase DB | Supabase public variables |
 
 # Architecture Traceability Matrix
 
@@ -144,6 +149,8 @@ This matrix extends the feature traceability matrix with implementation-layer an
 | OPP-001 | Manage opportunities | Legacy unwired research/results components | — | — | — | — | — | — | — | None; not implemented |
 | MSG-001 | Exchange messages | — | — | — | — | — | — | — | — | None; not implemented |
 | NOTIF-001 | Deliver notifications | — | — | — | — | — | — | — | — | None; not implemented |
+| AP-001 | Record and progress vendor bills with accurate tax | `VendorInvoiceStatusBadge`, Bills detail line-item/attachment forms | `/bills`, `/bills/new`, `/bills/[id]` | `addLineItem` (now tax-aware), `submitForApproval`, `approveBill`, `rejectBill`, `schedulePayment`, `recordPayment`, `voidBill`, `deleteDraftBill`, `uploadAttachment` | — | vendor_invoices, vendor_invoice_items (+`tax_amount`), vendor_invoice_status_history, vendor_invoice_attachments, vendors | `add_vendor_invoice_line_item` (tax-aware, migration `0030`), lifecycle RPCs unchanged | Tenant vendor-invoice/item/history/attachment policies (unchanged) | Supabase variables; Supabase DB/Storage | Rolled-back-transaction RPC verification this revision; no unit/Playwright suite |
+| ITC-001 | Reconcile purchase-side tax against filed GST returns | ITC dashboard cards/table, manual-entry and CSV-import forms, `ItcStatusBadge` | `/itc-recovery`, `/itc-recovery/new`, `/itc-recovery/import` | `createItcReturnRecord`, `importItcReturnRecords`, `deleteItcReturnRecord` | `GET /api/itc-recovery/export/csv`, `GET /api/itc-recovery/export/pdf` | itc_return_records; reads vendor_invoices/vendors | `create_itc_return_record`, `import_itc_return_records`, `delete_itc_return_record`; pure `reconcileItcRecords`/`summarizeReconciliation` in application code | Tenant itc_return_records read/write/update policies | Supabase variables; Supabase DB | 24 reconciliation + 12 CSV unit tests; rolled-back-transaction Business Acceptance Test this revision |
 
 # Executive Functional Inventory
 
@@ -192,6 +199,15 @@ The detailed records below cover the requested 20 attributes. To keep the docume
 | Notifications | No notification center, delivery service, preferences, schema or API. **Planned/absent; 🔴 Not Implemented.** | None. | None. | None. | None. | None. | Add domain model and delivery/audit strategy if required. | Medium |
 | Settings | Static workspace configuration screen. **Stub; 🟠 Development.** | `/settings` presents company/workflow/integration/security sections; controls are non-persistent. | No actions/API. | Any member; admin-only behavior not enforced. | No validation/errors/log/audit. | Anonymous redirect only. | Implement authorized persistence or clearly label read-only/coming-soon controls. | High |
 
+## Accounts payable (Bills) and Input Tax Credit Recovery & Reconciliation
+
+This subsection documents `AP-001` and `ITC-001` (see Feature Traceability Matrix). It was added in this revision as part of the Bills Tax Completion & ITC Integration milestone; the surrounding Commercial Administration (Control Center) and other AR modules delivered between this document's last refresh (2026-07-27, commit `2b7d0fb`) and now are intentionally out of scope for this pass.
+
+| Feature | Description and status | Frontend | Backend / DB / API | Auth / roles | Validation, errors, logging, audit | Coverage | Gaps / recommendation | Priority |
+|---|---|---|---|---|---|---|---|---|
+| Bills / vendor invoices (AP) | Draft → pending-approval → approved → payment-scheduled/partially-paid → paid lifecycle with vendors, line items, attachments. **Complete; 🟡 Beta Ready.** Root-cause fixed this revision: `vendor_invoices.tax_total` was defined and read (into `total`) since migration `0014` but no RPC ever wrote it — every purchase invoice carried `tax_total = 0` regardless of the vendor's actual invoice. | `/bills`, `/bills/new`, `/bills/[id]`; line-item form now has a "Tax amount" input beside description/quantity/unit price. | `create_vendor_invoice`, `add_vendor_invoice_line_item` (now accepts `line_tax_amount`, migration `0030`), `submit_vendor_invoice_for_review`, `approve_vendor_invoice`, `reject_vendor_invoice`, `schedule_vendor_invoice_payment`, `record_vendor_invoice_payment`, `void_vendor_invoice`, `delete_draft_vendor_invoice`, `attach_vendor_invoice_file`. | Active member creates/edits drafts; owner/admin/reviewer approve/reject; owner/admin delete drafts. | Server-side quantity/unit-price/description checks unchanged; tax amount rejects negative/null. Every status transition writes `vendor_invoice_status_history` and `audit_logs`. No client/server tax-rate lookup — tax is entered as a flat per-line amount, matching how `subtotal`/`unit_price` already work (no rate table exists for either AP or AR). | No dedicated unit/Playwright suite for Bills; verified this revision via a rolled-back production-DB transaction calling the real RPCs in sequence (see Integration Test Results) plus manual demo-mode/responsive browser check of the new input. | **Known limitation:** bills approved/paid *before* this fix keep `tax_total = 0` — there is no backfill, since no historical per-line tax figure exists to backfill from (see Remaining Limitations in the milestone report). Line items can only be *added* while a bill is `draft`; there is no edit/delete-line-item RPC, so a mis-entered tax amount requires deleting the draft bill and starting over — this matches the pre-existing behavior for `unit_price`/`quantity` and was not changed. Add a dedicated Bills unit/Playwright suite. | High |
+| Input Tax Credit Recovery & Reconciliation | Reconciles purchase-side tax (`vendor_invoices.tax_total`, now populated per the fix above) against manually entered or CSV-imported filed-return records. **Complete; ✅ Production Ready** for the defined Version 1 scope (single-organization GSTIN+invoice-number matching with a configurable amount tolerance; not a full GST filing platform). | `/itc-recovery` dashboard (5 summary cards, period filter, reconciliation table, CSV/PDF export links), `/itc-recovery/new` (manual entry), `/itc-recovery/import` (CSV upload). | `create_itc_return_record`, `import_itc_return_records`, `delete_itc_return_record`; pure `reconcileItcRecords`/`summarizeReconciliation` (`lib/itcRecovery/reconciliation.ts`) computed at read time — no stored "match" table; `getItcReconciliationReport()` (`lib/itcRecovery/report.ts`) is the single shared computation reused by the dashboard, CSV export, and PDF export. | Active member; all mutations are demo-mode read-only (redirect to `?error=demo-read-only`). | GSTIN/invoice-number normalization (`upper().trim()`); a partial unique index prevents duplicate return records per org; CSV import skips (does not abort on) incomplete rows; every write logs to `audit_logs`. | 24 reconciliation unit tests (duplicates, tolerance, currency, determinism, non-mutation) + 12 CSV unit tests (BOM, escaping, large-dataset performance); this revision reran the full 12-step Business Acceptance Test end-to-end through real RPCs only (zero manual SQL) confirming all four statuses, dashboard totals, and exact CSV/PDF/dashboard parity. | **Known limitation:** matching is exact-key (normalized GSTIN + invoice number) with only an amount tolerance — it does not attempt fuzzy/partial matching, multi-invoice consolidated returns, or automatic vendor GSTIN correction. No Playwright suite. Depends on `AP-001` (now resolved) for non-zero purchase-side data; any bill approved before this fix will show as "Missing in Return" or simply be excluded (its `tax_total` is 0, so the repository's `.gt('tax_total', 0)` filter drops it) rather than reconciling correctly — those bills were never captured with tax before, so this is a data-completeness gap, not a defect in this module. | Medium |
+
 ## Feedback, administration, AI, and integrations
 
 | Feature | Description and status | Frontend | Backend / DB / API | Auth / roles | Controls / coverage | Gaps / recommendation | Priority |
@@ -239,8 +255,10 @@ The detailed records below cover the requested 20 attributes. To keep the docume
 | Security posture | 🟠 Development | Close critical controls and validate RLS/migrations. |
 | Accessibility/performance/monitoring | 🟠 Development | Automated gates and telemetry. |
 | CI/testing/release gates | 🟠 Development | Execute unit/integration/E2E suites and deployment smoke. |
+| Bills (Accounts Payable) | 🟡 Beta Ready | Tax capture fixed and RPC-verified this revision (TD-19); add a dedicated Bills unit/Playwright suite (TD-21). |
+| Input Tax Credit Recovery & Reconciliation | ✅ Production Ready | Version 1 scope only (exact-key matching, single org); dependent-data gap for pre-fix bills is documented (TD-19), not a defect in this module. |
 
-No capability is marked ✅ because the repository has no evidence of a production smoke run, operational monitoring, or comprehensive release-gate coverage.
+No capability other than ITC Recovery & Reconciliation (above) is marked ✅ because the repository has no evidence of a production smoke run, operational monitoring, or comprehensive release-gate coverage.
 
 # Security Review
 
@@ -281,6 +299,9 @@ No capability is marked ✅ because the repository has no evidence of a producti
 | TD-16 | Upload has no scan, idempotency guarantee, or orphan reconciliation. | Security/storage/data consistency risk. | Add quarantine scanner, idempotency key and scheduled reconciliation. | L | **Critical** |
 | TD-17 | Invoice listing loads all records and filters/paginates client-side. | Degrades with tenant scale. | Server-side cursor pagination/filter/sort and indexes review. | L | Medium |
 | TD-18 | Root has both `next.config.js` and `next.config.ts`. | Configuration ambiguity. | Consolidate after checking Next 16 docs. | S | Medium |
+| TD-19 | Bills approved/paid before migration `0030` retain `tax_total = 0`; no backfill exists (no historical per-line tax figure to backfill from). | Those legacy bills are silently excluded from ITC reconciliation (`.gt('tax_total', 0)` filter) rather than reconciling incorrectly. | Accept as a data-completeness gap for historical bills, or require affected vendors to resubmit if reconciliation of specific historical invoices is needed. | S | Low |
+| TD-20 | AR's `invoices.tax_total`/`invoice_items.tax_amount`/`invoice_taxes` have the identical structural gap `vendor_invoices.tax_total` had (columns exist, no RPC ever wrote them) — confirmed but explicitly out of scope for this milestone. | AR-side tax reporting/exports are equally unpopulated today. | Apply the same fix pattern (`add_invoice_line_item` gains a tax parameter) in a dedicated AR milestone if AR tax reporting is required. | S | Medium |
+| TD-21 | No Bills unit or Playwright test suite exists; the tax fix was verified via a rolled-back production-DB transaction rather than an automated regression test. | A future Bills change could silently regress tax capture with no CI signal. | Add `lib/vendorInvoices` unit tests and a Bills Playwright flow (create → add tax line item → submit → approve). | M | High |
 
 # Missing Features
 
@@ -326,6 +347,8 @@ Only repository-evidenced gaps are listed; items are not assertions of approved 
 | Visual/responsive | — | — | One viewport | — | Browsers/devices/regressions |
 | Performance/security | — | Partial RLS | Anonymous redirects | — | Budgets and boundary attacks |
 | Production smoke | — | — | — | — | Deployment health |
+| Bills tax capture (AP-001) | — | △ (rolled-back txn, this revision) | — | — | No unit/Playwright suite for Bills lifecycle |
+| ITC reconciliation/reporting (ITC-001) | ✅ (36 tests) | △ (rolled-back txn Business Acceptance Test, this revision) | — | — | No Playwright suite |
 
 # Database Audit
 
@@ -353,8 +376,13 @@ Only repository-evidenced gaps are listed; items are not assertions of approved 
 | `feedback_weekly_reports` | Generated insights/metrics | Period index | Admin read. |
 | `feedback_engine_runs` | Job execution/idempotency/error record | Unique idempotency key | Admin read. |
 | `feedback_admin_alerts` | Urgent/report alerts | Feedback/report references | Admin read/update through policies. |
+| `vendor_invoices` | Bills (AP invoice header/lifecycle) | Vendor/creator FKs; org/vendor indexes; unique org/vendor/number | Tenant read/write/update policies. `tax_total` defined since migration `0014` but was never written by any RPC until `0030` (this revision) — see Migration ledger. |
+| `vendor_invoice_items` | Bills line items | Invoice index | Tenant RLS (`FOR ALL`). `tax_amount` column added by migration `0030` (this revision), `NOT NULL DEFAULT 0`; mirrors AR's pre-existing but unused `invoice_items.tax_amount`. |
+| `vendor_invoice_status_history` | Bills lifecycle transition history | Org/invoice index | Tenant read; RPC writer. |
+| `vendor_invoice_attachments` | Bills stored document metadata | Unique storage key; org/invoice index | Tenant RLS; reuses the `invoice-attachments` storage bucket/policies from migration `0002`. |
+| `itc_return_records` | Filed-GST-return side of ITC reconciliation (migration `0029`) | Org/period/vendor indexes; partial unique org+GSTIN+invoice-number | Tenant read/write/update policies; soft delete via `deleted_at`. The purchase side is `vendor_invoices`/`vendors` reused as-is — no new table for it. |
 
-Enums: `member_role`, `invoice_status`, `attachment_status`, `audit_action`, `feedback_status`, `feedback_priority`, `platform_admin_role`, and `feedback_run_status`. Migration 0005 changes feedback semantics and must be assessed together with 0004.
+Enums: `member_role`, `invoice_status`, `vendor_invoice_status`, `attachment_status`, `audit_action`, `feedback_status`, `feedback_priority`, `platform_admin_role`, and `feedback_run_status`. Migration 0005 changes feedback semantics and must be assessed together with 0004.
 
 ## Functions, triggers, policies, storage, and views
 
@@ -368,9 +396,12 @@ Enums: `member_role`, `invoice_status`, `attachment_status`, `audit_action`, `fe
 | `manage_invoice_lifecycle(...)` | Archive/delete/restore lifecycle with history/audit | UI exposes archive/delete only. |
 | `is_platform_admin(...)` | Feedback authorization helper | Security-definer function; grants constrained to authenticated. |
 | Feedback RPCs | Submission, admin update/assignment and supporting controls | Used by feedback actions; inventory should be kept synchronized with 0004/0005 SQL. |
-| Storage bucket `invoice-attachments` | Private invoice documents | Created/configured in 0002 with policies; no scanner/lifecycle policy in app. |
+| Storage bucket `invoice-attachments` | Private invoice documents | Created/configured in 0002 with policies; no scanner/lifecycle policy in app; reused as-is by `vendor_invoice_attachments`. |
 | Views | None found | Reporting currently has no database views/materialization. |
-| RLS | Base tenant policies plus feedback policies | Good structural start; optional integration test covers only selected cross-tenant cases. |
+| RLS | Base tenant policies plus feedback policies | Good structural start; optional integration test covers only selected cross-tenant cases. Tenant isolation on the new `tax_amount` column and the rebuilt `add_vendor_invoice_line_item` RPC was verified by inspection this revision (unchanged membership check, unchanged table-level policy) rather than a live second-tenant test, since this project currently has only one organization. |
+| `create_vendor(...)` | Vendor creation | Authenticated, org-membership-checked; does not write `audit_logs` (pre-existing gap, unrelated to this revision). |
+| `add_vendor_invoice_line_item(...)` | Bills line-item creation and additive `subtotal`/`tax_total`/`total` update | **Fixed this revision (migration `0030`):** added a `line_tax_amount numeric DEFAULT 0` parameter; stores it on the line item and additively updates `vendor_invoices.tax_total` the same way `subtotal` was already updated — no separate/duplicated tax calculation path. The prior 4-argument overload was dropped (not left orphaned); `anon` EXECUTE explicitly revoked on the new 5-argument signature per this project's documented default-privilege-grant gap (first found in migration `0020`). |
+| `create_itc_return_record(...)`, `import_itc_return_records(...)`, `delete_itc_return_record(...)` | ITC return-record CRUD/bulk-import (migration `0029`) | Security-definer, org-membership-checked, `anon` EXECUTE explicitly revoked; every write logs to `audit_logs`. Bulk import skips (rather than aborts on) incomplete/duplicate rows. |
 
 ## Migration ledger
 
@@ -384,6 +415,9 @@ Enums: `member_role`, `invoice_status`, `attachment_status`, `audit_action`, `fe
 | 0005 | Simplified beta feedback behavior | ✅ | Raw SQL evolution not represented by a new snapshot. |
 | 0006 | Phone and verified onboarding RPC; drops old trigger | ✅ | Production application unverified. |
 | 0007 | First-user bootstrap function/trigger | ✅ | Production application unverified; critical ordering with 0006. |
+| 0008–0028 | Repair/onboarding fix plus Vendors/Bills (AP), Commercial Administration (Control Center), and other intervening milestones | ✅ (applied live) | Not individually itemized in this ledger — this audit's last refresh (2026-07-27, commit `2b7d0fb`) predates them; only `0029`/`0030` are detailed below since they are this milestone's direct subject. |
+| 0029 | `itc_return_records` table, RLS, and `create_itc_return_record`/`import_itc_return_records`/`delete_itc_return_record` RPCs | ✅ | Applied live; `anon` EXECUTE explicitly revoked on all three functions per the documented default-privilege-grant gap. |
+| 0030 | Adds `vendor_invoice_items.tax_amount`; replaces `add_vendor_invoice_line_item(...)` with a 5-argument version that stores per-line tax and additively updates `vendor_invoices.tax_total`/`total` | ✅ | Applied live this revision. Fixes the root cause of `vendor_invoices.tax_total` (and, out of this milestone's scope, the identical unfixed gap on AR's `invoices.tax_total`) always being zero. Verified via `has_function_privilege`: `authenticated` can execute, `anon` cannot; confirmed via a rolled-back production transaction that `tax_total` now auto-populates through the real RPC with zero manual SQL. |
 
 **Database release blocker:** repository presence and journal entries do not prove deployed state. Before release, query the production migration ledger, `pg_proc`, `pg_trigger`, policies and storage configuration, then perform a disposable first-user transaction and verify every resulting row.
 

@@ -145,6 +145,7 @@ export const vendorInvoiceItems = pgTable('vendor_invoice_items', {
   description: text('description').notNull(),
   quantity: numeric('quantity', { precision: 18, scale: 4 }),
   unitPrice: numeric('unit_price', { precision: 18, scale: 4 }),
+  taxAmount: numeric('tax_amount', { precision: 18, scale: 2 }).notNull().default('0'),
   lineTotal: numeric('line_total', { precision: 18, scale: 2 }).notNull(),
 }, (table) => [index('vendor_invoice_items_invoice_idx').on(table.vendorInvoiceId)]);
 

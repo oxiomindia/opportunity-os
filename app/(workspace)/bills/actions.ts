@@ -44,7 +44,14 @@ export async function addLineItem(formData: FormData) {
   const description = field(formData, 'description');
   const quantity = Number(field(formData, 'quantity'));
   const unitPrice = Number(field(formData, 'unitPrice'));
-  if (!uuidPattern.test(billId) || !description || !Number.isFinite(quantity) || quantity <= 0 || !Number.isFinite(unitPrice) || unitPrice < 0) {
+  const taxAmountField = field(formData, 'taxAmount');
+  const taxAmount = taxAmountField ? Number(taxAmountField) : 0;
+  if (
+    !uuidPattern.test(billId) || !description
+    || !Number.isFinite(quantity) || quantity <= 0
+    || !Number.isFinite(unitPrice) || unitPrice < 0
+    || !Number.isFinite(taxAmount) || taxAmount < 0
+  ) {
     redirect(`/bills/${billId}?error=invalid`);
   }
 
@@ -58,6 +65,7 @@ export async function addLineItem(formData: FormData) {
     line_description: description,
     line_quantity: quantity,
     line_unit_price: unitPrice,
+    line_tax_amount: taxAmount,
   });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath(`/bills/${billId}`);

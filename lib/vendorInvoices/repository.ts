@@ -58,7 +58,7 @@ export async function getVendorInvoice(id: string): Promise<VendorInvoice | null
 }
 
 interface VendorInvoiceLineItemRow {
-  id: string; description: string; quantity: string | null; unit_price: string | null; line_total: string;
+  id: string; description: string; quantity: string | null; unit_price: string | null; tax_amount: string | null; line_total: string;
 }
 
 export async function getVendorInvoiceLineItems(id: string): Promise<VendorInvoiceLineItem[]> {
@@ -67,7 +67,7 @@ export async function getVendorInvoiceLineItems(id: string): Promise<VendorInvoi
   if (!/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(id)) return [];
   const { organization } = session;
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.from('vendor_invoice_items').select('id, description, quantity, unit_price, line_total')
+  const { data, error } = await supabase.from('vendor_invoice_items').select('id, description, quantity, unit_price, tax_amount, line_total')
     .eq('organization_id', organization.id).eq('vendor_invoice_id', id).order('position', { ascending: true });
   if (error) throw new Error(`Unable to load bill line items: ${error.code}`);
   return (data as unknown as VendorInvoiceLineItemRow[]).map((row) => ({
@@ -75,6 +75,7 @@ export async function getVendorInvoiceLineItems(id: string): Promise<VendorInvoi
     description: row.description,
     quantity: Number(row.quantity ?? 0),
     unitPrice: Number(row.unit_price ?? 0),
+    taxAmount: Number(row.tax_amount ?? 0),
     lineTotal: Number(row.line_total),
   }));
 }
