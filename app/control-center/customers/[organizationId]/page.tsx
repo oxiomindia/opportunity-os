@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getCustomerDirectoryRow, listCustomerTimeline, listCustomerNotes } from '../../../../lib/control-center/customers';
+import { requireControlCenterAccess } from '../../../../lib/control-center/auth';
 import { listTrialsForOrganization } from '../../../../lib/control-center/trials';
 import { listSubscriptionsForOrganization } from '../../../../lib/control-center/subscriptions';
 import { updateCustomerProfile, addCustomerNote } from '../actions';
@@ -35,6 +36,7 @@ function Pill({ value, tone }: Readonly<{ value: string; tone: Record<string, st
 }
 
 export default async function CustomerProfilePage({ params }: Readonly<{ params: Promise<{ organizationId: string }> }>) {
+  await requireControlCenterAccess();
   const { organizationId } = await params;
   const [customer, trials, subscriptions, timeline, notes] = await Promise.all([
     getCustomerDirectoryRow(organizationId),

@@ -1,7 +1,9 @@
 import { getCommercialSettings } from '../../../lib/control-center/settings';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 import { updateCommercialSettings } from './actions';
 
 export default async function ControlCenterSettingsPage() {
+  await requireControlCenterAccess();
   const settings = await getCommercialSettings();
 
   return (

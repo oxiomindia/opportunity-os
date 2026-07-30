@@ -1,4 +1,5 @@
 import { getRevenueDashboard } from '../../../lib/control-center/revenue';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 
 function formatPaise(paise: number, currency: string): string {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency, maximumFractionDigits: 0 }).format(paise / 100);
@@ -9,6 +10,7 @@ function ProjectedBadge() {
 }
 
 export default async function ControlCenterRevenuePage() {
+  await requireControlCenterAccess();
   const { summary, byProduct, byPlan, trialConversion, renewalForecast, growth } = await getRevenueDashboard();
   const maxGrowth = Math.max(1, ...growth.map((g) => g.newSubscriptions));
 

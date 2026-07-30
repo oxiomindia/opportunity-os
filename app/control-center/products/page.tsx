@@ -1,7 +1,9 @@
 import { listProductsWithSettings } from '../../../lib/control-center/products';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 import { updateProductSettings } from './actions';
 
 export default async function ControlCenterProductsPage() {
+  await requireControlCenterAccess();
   const products = await listProductsWithSettings();
 
   return (

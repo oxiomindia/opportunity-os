@@ -7,9 +7,9 @@ test('platform-admin sees every module (all currently require Owner-level permis
   assert.deepEqual(visible.sort(), controlCenterModules.map((module) => module.id).sort());
 });
 
-test('a non-Owner role sees no modules at all today', () => {
-  assert.equal(getVisibleModules('product-admin').length, 0);
-  assert.equal(getVisibleModules('security-admin').length, 0);
+test('a non-Owner platform admin role sees only Feedback, per the Admin Platform Consolidation', () => {
+  assert.deepEqual(getVisibleModules('product-admin').map((module) => module.id), ['feedback']);
+  assert.deepEqual(getVisibleModules('security-admin').map((module) => module.id), ['feedback']);
 });
 
 test('every module has a unique id and a route that starts with /control-center', () => {
@@ -20,7 +20,10 @@ test('every module has a unique id and a route that starts with /control-center'
   }
 });
 
-test('every module is available now that Commercial Administration has shipped; none remain planned', () => {
+test('every Commercial Administration module plus Feedback is available; the new platform-capability placeholders remain planned', () => {
   const available = controlCenterModules.filter((module) => module.availability === 'available').map((module) => module.id).sort();
-  assert.deepEqual(available, ['audit-logs', 'coupons', 'customers', 'dashboard', 'pricing', 'products', 'promotions', 'revenue', 'settings', 'subscriptions', 'trials']);
+  assert.deepEqual(available, ['audit-logs', 'coupons', 'customers', 'dashboard', 'feedback', 'pricing', 'products', 'promotions', 'revenue', 'settings', 'subscriptions', 'trials']);
+
+  const planned = controlCenterModules.filter((module) => module.availability === 'planned').map((module) => module.id).sort();
+  assert.deepEqual(planned, ['audit-diagnostics', 'engine-registry', 'event-monitor', 'integrations', 'platform-configuration', 'system-health', 'urp', 'webhook-engine']);
 });

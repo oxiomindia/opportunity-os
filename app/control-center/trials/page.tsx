@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { listTrialDirectory, listOrganizationOptions, listProductOptions } from '../../../lib/control-center/trials';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 import { requestTrial } from './actions';
 
 function formatDate(value: string | null): string {
@@ -24,6 +25,7 @@ function StatusPill({ value }: Readonly<{ value: string }>) {
 const statusFilters = ['requested', 'under_review', 'active', 'expired', 'converted', 'rejected'];
 
 export default async function ControlCenterTrialsPage({ searchParams }: Readonly<{ searchParams: Promise<{ status?: string }> }>) {
+  await requireControlCenterAccess();
   const { status } = await searchParams;
   const [trials, organizations, products] = await Promise.all([listTrialDirectory(status), listOrganizationOptions(), listProductOptions()]);
 

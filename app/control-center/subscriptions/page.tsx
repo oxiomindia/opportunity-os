@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { listSubscriptionDirectory } from '../../../lib/control-center/subscriptions';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 import { listOrganizationOptions } from '../../../lib/control-center/trials';
 import { listCommercialPlanOptions } from '../../../lib/control-center/customers';
 import { createSubscription } from './actions';
@@ -24,6 +25,7 @@ function StatusPill({ value }: Readonly<{ value: string }>) {
 const statusFilters = ['active', 'suspended', 'cancelled', 'expired'];
 
 export default async function ControlCenterSubscriptionsPage({ searchParams }: Readonly<{ searchParams: Promise<{ status?: string }> }>) {
+  await requireControlCenterAccess();
   const { status } = await searchParams;
   const [subscriptions, organizations, plans] = await Promise.all([
     listSubscriptionDirectory(status),

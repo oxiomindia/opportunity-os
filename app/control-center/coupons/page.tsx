@@ -1,4 +1,5 @@
 import { listCoupons, listPromotionOptions } from '../../../lib/control-center/coupons';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 import { generateCoupon, setCouponEnabled } from './actions';
 
 function formatDate(value: string | null): string {
@@ -7,6 +8,7 @@ function formatDate(value: string | null): string {
 }
 
 export default async function ControlCenterCouponsPage() {
+  await requireControlCenterAccess();
   const [coupons, promotionOptions] = await Promise.all([listCoupons(), listPromotionOptions()]);
 
   return (

@@ -1,3 +1,0 @@
-import Link from 'next/link';
-import { requirePlatformAdmin } from '../../lib/feedback/admin';
-export default async function AdminLayout({children}:Readonly<{children:React.ReactNode}>){const admin=await requirePlatformAdmin();return <div className="min-h-screen bg-slate-50"><header className="border-b border-slate-200 bg-white"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4"><div><Link href="/admin/feedback" className="font-semibold text-slate-950">Oxiom Product Feedback</Link><p className="text-xs capitalize text-slate-500">{admin.role.replace('-',' ')}</p></div><Link href="/dashboard" className="text-sm font-semibold text-blue-700">Return to workspace</Link></div></header><main className="mx-auto max-w-7xl p-5">{children}</main></div>}

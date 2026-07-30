@@ -9,9 +9,13 @@ import { permissions } from './permissions';
 
 /**
  * Reads the caller's platform_admins row (the same table backing
- * /admin/feedback) and hands it to the permissions layer to decide access.
- * No code here hardcodes "platform-admin" — that decision lives entirely in
- * lib/control-center/permissions.ts.
+ * /control-center/feedback) and hands it to the permissions layer to decide
+ * Owner-only access. No code here hardcodes "platform-admin" — that decision
+ * lives entirely in lib/control-center/permissions.ts. This is the strict
+ * (Owner-only) check; /control-center's own layout uses the looser
+ * requirePlatformAdmin() from lib/feedback/admin.ts so all three platform
+ * admin roles can reach the shell, and each Owner-only page (everything
+ * except Feedback) calls requireControlCenterAccess() itself.
  */
 export const getControlCenterAdmin = cache(async () => {
   const user = await getAuthenticatedUser();

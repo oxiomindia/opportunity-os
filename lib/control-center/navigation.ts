@@ -32,6 +32,20 @@ export const controlCenterModules: ControlCenterModule[] = [
   { id: 'coupons', route: '/control-center/coupons', title: 'Coupons', description: 'Discount codes', icon: '▣', availability: 'available', requiredPermission: 'canManageCommercial' },
   { id: 'audit-logs', route: '/control-center/audit-logs', title: 'Audit Logs', description: 'Commercial activity history', icon: '▤', availability: 'available', requiredPermission: 'canViewAuditLogs' },
   { id: 'settings', route: '/control-center/settings', title: 'Settings', description: 'Control Center configuration', icon: '⚙', availability: 'available', requiredPermission: 'canManagePlatform' },
+  { id: 'feedback', route: '/control-center/feedback', title: 'Feedback', description: 'Product feedback inbox, urgent queue, and weekly insights', icon: '✉', availability: 'available', requiredPermission: 'canAccessFeedback' },
+
+  // Reserved for the Platform Architecture Foundation milestone: these render
+  // as disabled/"Planned" rows (see ControlCenterShell) so the information
+  // architecture is right before any of the underlying engines exist. No
+  // page or route exists behind any of these yet — do not link to them.
+  { id: 'engine-registry', route: '/control-center/engine-registry', title: 'Engine Registry', description: 'Registered platform engines and their capabilities', icon: '▦', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'urp', route: '/control-center/reports-platform', title: 'Universal Report Platform', description: 'Shared reporting and export layer for every engine', icon: '▤', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'webhook-engine', route: '/control-center/webhooks', title: 'Webhook Engine', description: 'Outbound event subscriptions and delivery', icon: '⇄', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'event-monitor', route: '/control-center/events', title: 'Event Monitor', description: 'Live platform event stream', icon: '◉', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'system-health', route: '/control-center/system-health', title: 'System Health', description: 'Engine and integration health status', icon: '♥', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'platform-configuration', route: '/control-center/platform-configuration', title: 'Platform Configuration', description: 'Global platform configuration', icon: '⌘', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'integrations', route: '/control-center/integrations', title: 'Integrations', description: 'External system connections', icon: '⛓', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'audit-diagnostics', route: '/control-center/audit-diagnostics', title: 'Audit & Diagnostics', description: 'Unified cross-engine audit trail and diagnostics', icon: '⚑', availability: 'planned', requiredPermission: 'canManagePlatform' },
 ];
 
 export function getVisibleModules(role: ControlCenterRole): ControlCenterModule[] {

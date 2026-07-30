@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { listAuditLogs, listAuditLogEntityTypes } from '../../../lib/control-center/audit';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 
 function formatDateTime(value: string): string {
   return new Date(value).toLocaleString('en-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -16,6 +17,7 @@ function buildHref(entityType: string | undefined, page: number): string {
 export default async function ControlCenterAuditLogsPage({
   searchParams,
 }: Readonly<{ searchParams: Promise<{ entityType?: string; page?: string }> }>) {
+  await requireControlCenterAccess();
   const { entityType, page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
   const [{ entries, hasMore }, entityTypes] = await Promise.all([

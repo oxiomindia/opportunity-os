@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { listCustomerDirectory } from '../../../lib/control-center/customers';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 
 function formatDate(value: string | null): string {
   if (!value) return '—';
@@ -22,6 +23,7 @@ function StatusPill({ value }: Readonly<{ value: string }>) {
 }
 
 export default async function ControlCenterCustomersPage({ searchParams }: Readonly<{ searchParams: Promise<{ q?: string }> }>) {
+  await requireControlCenterAccess();
   const { q } = await searchParams;
   const customers = await listCustomerDirectory(q);
 

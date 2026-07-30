@@ -10,15 +10,17 @@ test('platform-admin (Owner) has every permission', () => {
   }
 });
 
-test('product-admin has no Control Center permissions today', () => {
+test('product-admin can only access Feedback, per the Admin Platform Consolidation', () => {
   for (const key of allPermissions) {
-    assert.equal(permissions[key]({ role: 'product-admin' }), false, `expected ${key} to be false for product-admin`);
+    const expected = key === 'canAccessFeedback';
+    assert.equal(permissions[key]({ role: 'product-admin' }), expected, `expected ${key} to be ${expected} for product-admin`);
   }
 });
 
-test('security-admin has no Control Center permissions today', () => {
+test('security-admin can only access Feedback, per the Admin Platform Consolidation', () => {
   for (const key of allPermissions) {
-    assert.equal(permissions[key]({ role: 'security-admin' }), false, `expected ${key} to be false for security-admin`);
+    const expected = key === 'canAccessFeedback';
+    assert.equal(permissions[key]({ role: 'security-admin' }), expected, `expected ${key} to be ${expected} for security-admin`);
   }
 });
 

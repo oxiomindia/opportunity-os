@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getTrialDetail, listTrialEvents, listTrialNotes } from '../../../../lib/control-center/trials';
+import { requireControlCenterAccess } from '../../../../lib/control-center/auth';
 import { listCommercialPlanOptions } from '../../../../lib/control-center/customers';
 import { setTrialUnderReview, approveTrial, rejectTrial, extendTrial, expireTrial, convertTrial, addTrialNote } from '../actions';
 
@@ -24,6 +25,7 @@ const statusTone: Record<string, string> = {
 };
 
 export default async function TrialDetailPage({ params }: Readonly<{ params: Promise<{ trialId: string }> }>) {
+  await requireControlCenterAccess();
   const { trialId } = await params;
   const [trial, events, notes, plans] = await Promise.all([
     getTrialDetail(trialId),

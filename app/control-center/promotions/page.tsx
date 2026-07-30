@@ -1,4 +1,5 @@
 import { listPromotions } from '../../../lib/control-center/promotions';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 import { createPromotion, activatePromotion, deactivatePromotion } from './actions';
 
 function formatDiscount(promotion: Awaited<ReturnType<typeof listPromotions>>[number]): string {
@@ -15,6 +16,7 @@ function formatDate(value: string | null): string {
 }
 
 export default async function ControlCenterPromotionsPage() {
+  await requireControlCenterAccess();
   const promotions = await listPromotions();
 
   return (

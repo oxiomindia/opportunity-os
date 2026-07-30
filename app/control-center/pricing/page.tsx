@@ -1,4 +1,5 @@
 import { listProductsWithSettings, listPricingHistory, type PricingHistoryRow } from '../../../lib/control-center/products';
+import { requireControlCenterAccess } from '../../../lib/control-center/auth';
 import { schedulePrice } from './actions';
 
 const currencyFormatter = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
@@ -15,6 +16,7 @@ function rowLabel(row: PricingHistoryRow, now: Date): { text: string; tone: stri
 }
 
 export default async function ControlCenterPricingPage() {
+  await requireControlCenterAccess();
   const products = await listProductsWithSettings();
   const now = new Date();
   const productsWithHistory = await Promise.all(

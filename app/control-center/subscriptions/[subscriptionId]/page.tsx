@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getSubscriptionDetail, listSubscriptionEvents } from '../../../../lib/control-center/subscriptions';
+import { requireControlCenterAccess } from '../../../../lib/control-center/auth';
 import { listCommercialPlanOptions } from '../../../../lib/control-center/customers';
 import { upgradeSubscription, downgradeSubscription, suspendSubscription, cancelSubscription, reactivateSubscription, expireSubscription } from '../actions';
 import { getPaymentConfig, buildUpiPaymentLink, buildWhatsAppLink } from '../../../../lib/payment/config';
@@ -27,6 +28,7 @@ const statusTone: Record<string, string> = {
 };
 
 export default async function SubscriptionDetailPage({ params }: Readonly<{ params: Promise<{ subscriptionId: string }> }>) {
+  await requireControlCenterAccess();
   const { subscriptionId } = await params;
   const [subscription, events, plans, paymentConfig] = await Promise.all([
     getSubscriptionDetail(subscriptionId),

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getControlCenterAdmin } from '../../lib/control-center/auth';
+import { requireControlCenterAccess } from '../../lib/control-center/auth';
 import { getVisibleModules } from '../../lib/control-center/navigation';
 import { getDashboardMetrics } from '../../lib/control-center/metrics';
 import { listNotifications } from '../../lib/control-center/notifications';
@@ -12,10 +12,13 @@ const checkpoints = [
 ];
 
 export default async function ControlCenterDashboardPage() {
-  // Cached by React's cache() — this re-reads the same request-scoped result
-  // the layout already fetched, not a second database round trip.
-  const admin = await getControlCenterAdmin();
-  const plannedModules = admin ? getVisibleModules(admin.role).filter((module) => module.availability === 'planned') : [];
+  // Owner-only: the shared layout now admits any platform admin role (so
+  // /control-center/feedback works for all three), so this page -- like
+  // every other Control Center page except Feedback -- enforces its own
+  // Owner-only gate. Cached by React's cache(), so this re-reads the same
+  // request-scoped result the layout already fetched, not a second query.
+  const admin = await requireControlCenterAccess();
+  const plannedModules = getVisibleModules(admin.role).filter((module) => module.availability === 'planned');
   const [metrics, notifications] = await Promise.all([getDashboardMetrics(), listNotifications()]);
 
   return (
