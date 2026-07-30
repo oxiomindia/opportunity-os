@@ -20,7 +20,7 @@ test('every module has a unique id and a route that starts with /control-center'
   }
 });
 
-test('exactly the Phase 2a, Trials, Subscriptions, and Revenue modules are available; the rest are planned', () => {
+test('every module is available now that Commercial Administration has shipped; none remain planned', () => {
   const available = controlCenterModules.filter((module) => module.availability === 'available').map((module) => module.id).sort();
-  assert.deepEqual(available, ['audit-logs', 'customers', 'dashboard', 'pricing', 'products', 'revenue', 'subscriptions', 'trials']);
+  assert.deepEqual(available, ['audit-logs', 'coupons', 'customers', 'dashboard', 'pricing', 'products', 'promotions', 'revenue', 'settings', 'subscriptions', 'trials']);
 });

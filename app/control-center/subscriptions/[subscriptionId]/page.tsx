@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getSubscriptionDetail, listSubscriptionEvents } from '../../../../lib/control-center/subscriptions';
 import { listCommercialPlanOptions } from '../../../../lib/control-center/customers';
 import { upgradeSubscription, downgradeSubscription, suspendSubscription, cancelSubscription, reactivateSubscription, expireSubscription } from '../actions';
-import { paymentConfig, buildUpiPaymentLink, buildWhatsAppLink } from '../../../../lib/payment/config';
+import { getPaymentConfig, buildUpiPaymentLink, buildWhatsAppLink } from '../../../../lib/payment/config';
 
 function formatDate(value: string | null): string {
   if (!value) return '—';
@@ -28,10 +28,11 @@ const statusTone: Record<string, string> = {
 
 export default async function SubscriptionDetailPage({ params }: Readonly<{ params: Promise<{ subscriptionId: string }> }>) {
   const { subscriptionId } = await params;
-  const [subscription, events, plans] = await Promise.all([
+  const [subscription, events, plans, paymentConfig] = await Promise.all([
     getSubscriptionDetail(subscriptionId),
     listSubscriptionEvents(subscriptionId),
     listCommercialPlanOptions(),
+    getPaymentConfig(),
   ]);
 
   if (!subscription) notFound();
@@ -87,6 +88,7 @@ export default async function SubscriptionDetailPage({ params }: Readonly<{ para
           </span>
           <a
             href={buildUpiPaymentLink(
+              paymentConfig,
               subscription.billingCycle === 'annual' ? (subscription.annualPricePaise ?? undefined) : (subscription.monthlyPricePaise ?? undefined),
               `${subscription.organizationName} — ${subscription.planName}`,
             )}
@@ -95,7 +97,7 @@ export default async function SubscriptionDetailPage({ params }: Readonly<{ para
             Pay via UPI
           </a>
           <a
-            href={buildWhatsAppLink(`Hi, this is regarding your Oxiom subscription (${subscription.planName}) renewal.`)}
+            href={buildWhatsAppLink(paymentConfig, `Hi, this is regarding your Oxiom subscription (${subscription.planName}) renewal.`)}
             target="_blank"
             rel="noreferrer"
             className="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"

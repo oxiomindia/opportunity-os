@@ -28,10 +28,10 @@ export const controlCenterModules: ControlCenterModule[] = [
   { id: 'subscriptions', route: '/control-center/subscriptions', title: 'Subscriptions', description: 'Active subscriptions', icon: '↻', availability: 'available', requiredPermission: 'canManageCommercial' },
   { id: 'customers', route: '/control-center/customers', title: 'Customers', description: 'Customer directory and profiles', icon: '☺', availability: 'available', requiredPermission: 'canManageCustomers' },
   { id: 'revenue', route: '/control-center/revenue', title: 'Revenue', description: 'Business metrics', icon: '▲', availability: 'available', requiredPermission: 'canManageCommercial' },
-  { id: 'promotions', route: '/control-center/promotions', title: 'Promotions', description: 'Promotional banners', icon: '◈', availability: 'planned', requiredPermission: 'canManageCommercial' },
-  { id: 'coupons', route: '/control-center/coupons', title: 'Coupons', description: 'Discount codes', icon: '▣', availability: 'planned', requiredPermission: 'canManageCommercial' },
+  { id: 'promotions', route: '/control-center/promotions', title: 'Promotions', description: 'Promotional banners', icon: '◈', availability: 'available', requiredPermission: 'canManageCommercial' },
+  { id: 'coupons', route: '/control-center/coupons', title: 'Coupons', description: 'Discount codes', icon: '▣', availability: 'available', requiredPermission: 'canManageCommercial' },
   { id: 'audit-logs', route: '/control-center/audit-logs', title: 'Audit Logs', description: 'Commercial activity history', icon: '▤', availability: 'available', requiredPermission: 'canViewAuditLogs' },
-  { id: 'settings', route: '/control-center/settings', title: 'Settings', description: 'Control Center configuration', icon: '⚙', availability: 'planned', requiredPermission: 'canManagePlatform' },
+  { id: 'settings', route: '/control-center/settings', title: 'Settings', description: 'Control Center configuration', icon: '⚙', availability: 'available', requiredPermission: 'canManagePlatform' },
 ];
 
 export function getVisibleModules(role: ControlCenterRole): ControlCenterModule[] {
