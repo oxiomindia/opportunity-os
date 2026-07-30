@@ -37,6 +37,27 @@ Preview deployment healthy.
 
 ---------------------------------------------------------
 
+## Pending Validation: Commercial Administration
+
+Status:
+Built and automatically validated (typecheck, lint, tests, build, unauthenticated/non-admin permission checks). Not yet exercised end-to-end by a real Platform Admin.
+
+Reason:
+No platform-admin Supabase credentials were available in the implementing session, so the authenticated create/update flows below were not clicked through in a live browser.
+
+Future Action:
+Validate Commercial Administration using a real Platform Admin account. That validation should confirm:
+- Create Promotion
+- Activate Promotion
+- Deactivate Promotion
+- Generate Coupon
+- Enable Coupon
+- Disable Coupon
+- Update Commercial Settings
+- Verify Subscription payment links reflect updated UPI, WhatsApp, and Payee values from commercial_settings
+
+---------------------------------------------------------
+
 ## Development Process
 
 Every future milestone must follow this workflow:
