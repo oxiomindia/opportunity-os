@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getPublicProducts } from '../../../lib/products/catalog';
 import { getProductDisplayName } from '../../../lib/products/types';
 
-const salesEmail = 'oximindia@gmail.com';
+const salesEmail = 'oxiomindia@gmail.com';
 
 const companyLinks = [
   { href: '/pricing', label: 'Pricing' },

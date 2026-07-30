@@ -9,6 +9,8 @@ import { getPublicProducts } from '../../lib/products/catalog';
 import type { ProductPricing } from '../../lib/pricing/catalog';
 import { getVisiblePricing, getPromoBanner } from '../../lib/pricing/catalog';
 import { buildMetadata } from '../../lib/seo/metadata';
+import { getProductDisplayName } from '../../lib/products/types';
+import { ProductSchema } from '../components/StructuredData';
 
 export const metadata: Metadata = buildMetadata({
   path: '/pricing',
@@ -51,6 +53,17 @@ export default async function PricingPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-950">
+      {plans.length > 0 && (
+        <ProductSchema
+          name="Oxiom"
+          description="Finance automation platform for Accounts Payable, Accounts Receivable, and Finance Suite."
+          offers={plans.map(({ product, pricing }) => ({
+            name: getProductDisplayName(product),
+            priceInr: pricing.monthlyPriceInr,
+            url: `https://oxiom.in/platform/${product.id}`,
+          }))}
+        />
+      )}
       <SiteHeader />
       <main>
         <section className="border-b border-slate-200 bg-gradient-to-b from-blue-50/60 to-white py-16 sm:py-20">

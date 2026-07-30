@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { Product } from '../../../lib/products/types';
 import { getProductDisplayName } from '../../../lib/products/types';
 
-const salesEmail = 'oximindia@gmail.com';
+const salesEmail = 'oxiomindia@gmail.com';
 const employeeRanges = ['1–10', '11–50', '51–200', '201–500', '500+'];
 
 export default function TrialRequestForm({

@@ -31,7 +31,7 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <h3 className="mb-2 font-semibold text-slate-950">Email</h3>
-                <p className="text-slate-600">oximindia@gmail.com</p>
+                <p className="text-slate-600">oxiomindia@gmail.com</p>
                 <p className="text-sm text-slate-500 mt-1">General inquiries</p>
               </div>
               <div>
@@ -54,11 +54,6 @@ export default function ContactPage() {
                 <p className="text-slate-600">compliance@oxiom.ai</p>
                 <p className="text-sm text-slate-500 mt-1">Compliance and legal</p>
               </div>
-              <div>
-                <h3 className="mb-2 font-semibold text-slate-950">Phone</h3>
-                <p className="text-slate-600">+1 (555) 014-9028</p>
-                <p className="text-sm text-slate-500 mt-1">Business hours EST</p>
-              </div>
             </div>
           </div>
 
@@ -68,8 +63,8 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <h3 className="mb-2 font-semibold text-slate-950">Office</h3>
-                <p className="text-slate-600">Oxiom, Inc.</p>
-                <p className="text-slate-600">United States</p>
+                <p className="text-slate-600">Oxiom</p>
+                <p className="text-slate-600">India</p>
               </div>
               <div>
                 <h3 className="mb-4 font-semibold text-slate-950">Social Media</h3>
@@ -108,9 +103,9 @@ export default function ContactPage() {
               <p className="text-sm text-slate-500 mt-2">Responses within 24 hours</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-6">
-              <h3 className="mb-2 font-semibold text-slate-950">Phone</h3>
-              <p className="text-slate-600">Monday - Friday, 9 AM - 5 PM EST</p>
-              <p className="text-sm text-slate-500 mt-2">Enterprise support available 24/7</p>
+              <h3 className="mb-2 font-semibold text-slate-950">Enterprise support</h3>
+              <p className="text-slate-600">Available 24/7 via email</p>
+              <p className="text-sm text-slate-500 mt-2">Priority response for enterprise accounts</p>
             </div>
           </div>
         </div>

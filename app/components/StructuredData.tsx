@@ -1,5 +1,3 @@
-'use client';
-
 function serializeJsonLd(schema: unknown) {
   return JSON.stringify(schema).replace(/</g, '\\u003c');
 }
@@ -10,21 +8,23 @@ export function OrganizationSchema() {
     '@type': 'Organization',
     name: 'Oxiom',
     url: 'https://oxiom.in',
-    logo: 'https://oxiom.in/logo.png',
-    description: 'Enterprise business platform for customer invoicing and accounts receivable automation',
+    // Google recommends a logo of at least 112x112px; apple-icon (180x180,
+    // square) is the largest brand image this repo generates, so it's reused
+    // here rather than referencing a dedicated logo file that doesn't exist.
+    logo: 'https://oxiom.in/apple-icon',
+    description: 'Finance automation platform for Accounts Payable, Accounts Receivable, and Finance Suite, built for businesses in India.',
     sameAs: [
       'https://www.linkedin.com/company/oxiom',
       'https://x.com/oxiom',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+1-555-014-9028',
       contactType: 'Sales',
-      email: 'oximindia@gmail.com',
+      email: 'oxiomindia@gmail.com',
     },
     address: {
       '@type': 'PostalAddress',
-      addressCountry: 'US',
+      addressCountry: 'IN',
     },
   };
 
@@ -40,18 +40,15 @@ export function SoftwareApplicationSchema() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: 'Oxiom Invoice Software',
-    description: 'AI-powered customer invoicing and accounts receivable automation solution built on the Oxiom One platform. Automate invoice creation, sending, validation, payment tracking, and audit-ready billing.',
+    name: 'Oxiom',
+    description: 'Finance automation platform for Accounts Payable, Accounts Receivable, and Finance Suite -- invoice creation, sending, validation, payment tracking, and audit-ready billing.',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     url: 'https://oxiom.in',
-    image: 'https://oxiom.in/app-screenshot.png',
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'USD',
-      price: 'Contact for pricing',
-      availability: 'https://schema.org/OnlineOnly',
-    },
+    image: 'https://oxiom.in/opengraph-image',
+    // No `offers` here: pricing varies by product and plan (see the Product
+    // schema on /pricing, built from real numeric prices) -- a single flat
+    // price on a multi-product platform would be invalid/misleading data.
     author: {
       '@type': 'Organization',
       name: 'Oxiom',
@@ -81,15 +78,9 @@ export function WebSiteSchema() {
     '@type': 'WebSite',
     name: 'Oxiom',
     url: 'https://oxiom.in',
-    description: 'Enterprise customer invoicing and accounts receivable automation platform',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: 'https://oxiom.in/search?q={search_term_string}',
-      },
-      'query-input': 'required name=search_term_string',
-    },
+    description: 'Finance automation platform for Accounts Payable, Accounts Receivable, and Finance Suite.',
+    // No SearchAction: this site has no /search route, so a sitelinks
+    // searchbox action would point at a page that doesn't exist.
   };
 
   return (
@@ -135,6 +126,39 @@ export function FAQSchema({
         '@type': 'Answer',
         text: faq.answer,
       },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
+    />
+  );
+}
+
+export function ProductSchema({
+  name,
+  description,
+  offers,
+}: {
+  name: string;
+  description: string;
+  offers: Array<{ name: string; priceInr: number; url: string }>;
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    description,
+    brand: { '@type': 'Brand', name: 'Oxiom' },
+    offers: offers.map((offer) => ({
+      '@type': 'Offer',
+      name: offer.name,
+      price: offer.priceInr,
+      priceCurrency: 'INR',
+      url: offer.url,
+      availability: 'https://schema.org/InStock',
     })),
   };
 

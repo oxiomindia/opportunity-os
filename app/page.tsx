@@ -12,6 +12,7 @@ import Testimonials from './components/marketing/Testimonials';
 import DemoCta from './components/marketing/DemoCta';
 import ContactSales from './components/marketing/ContactSales';
 import { buildMetadata } from '../lib/seo/metadata';
+import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema } from './components/StructuredData';
 
 export const metadata: Metadata = buildMetadata({
   path: '/',
@@ -22,6 +23,9 @@ export const metadata: Metadata = buildMetadata({
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white text-slate-950">
+      <OrganizationSchema />
+      <SoftwareApplicationSchema />
+      <WebSiteSchema />
       <SiteHeader />
       <main>
         <Hero />

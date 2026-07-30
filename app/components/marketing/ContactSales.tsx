@@ -1,4 +1,4 @@
-const salesEmail = 'oximindia@gmail.com';
+const salesEmail = 'oxiomindia@gmail.com';
 
 export default function ContactSales() {
   return (

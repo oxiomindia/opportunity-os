@@ -122,7 +122,7 @@ export default function AboutPage() {
             Have questions about Oxiom? We&apos;d love to hear from you.
           </p>
           <a
-            href="mailto:oximindia@gmail.com"
+            href="mailto:oxiomindia@gmail.com"
             className="inline-flex rounded-full bg-blue-600 px-8 py-3.5 font-semibold text-white hover:bg-blue-700"
           >
             Contact Us
