@@ -496,3 +496,31 @@ export const subscriptionEvents = pgTable('subscription_events', {
   occurredAt: timestamp('occurred_at', { withTimezone: true }).notNull().defaultNow(),
   recordedBy: uuid('recorded_by').references(() => profiles.id),
 }, (table) => [index('subscription_events_subscription_idx').on(table.subscriptionId, table.occurredAt)]);
+
+// Input Tax Credit Recovery & Reconciliation, Checkpoint 2. The filed-return
+// side of a reconciliation (manually entered or CSV-imported); the purchase
+// side is vendors/vendorInvoices, reused as-is. Reconciliation itself is
+// computed at read time in lib/itcRecovery/, not stored as a table.
+export const itcReturnRecords = pgTable('itc_return_records', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
+  vendorId: uuid('vendor_id').references(() => vendors.id, { onDelete: 'set null' }),
+  vendorName: text('vendor_name').notNull(),
+  vendorGstin: text('vendor_gstin').notNull(),
+  returnInvoiceNumber: text('return_invoice_number').notNull(),
+  invoiceDate: date('invoice_date'),
+  returnPeriod: text('return_period').notNull(),
+  taxableValue: numeric('taxable_value', { precision: 18, scale: 2 }).notNull().default('0'),
+  taxAmount: numeric('tax_amount', { precision: 18, scale: 2 }).notNull().default('0'),
+  currency: text('currency').notNull().default('INR'),
+  source: text('source').notNull().default('manual'),
+  notes: text('notes'),
+  createdBy: uuid('created_by').references(() => profiles.id),
+  deletedAt: timestamp('deleted_at', { withTimezone: true }),
+  ...timestamps,
+}, (table) => [
+  index('itc_return_records_org_idx').on(table.organizationId),
+  index('itc_return_records_org_period_idx').on(table.organizationId, table.returnPeriod),
+  index('itc_return_records_vendor_idx').on(table.vendorId),
+  uniqueIndex('itc_return_records_org_gstin_invoice_uidx').on(table.organizationId, table.vendorGstin, table.returnInvoiceNumber),
+]);
