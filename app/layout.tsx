@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: {
-    default: "Oxiom | Finance Automation Platform for Accounts Payable & Receivable",
-    template: "%s | Oxiom",
-  },
+  // No `template` here: every page in this app already includes "Oxiom" in
+  // its own title, so a template would double-brand every tab/SERP snippet
+  // (e.g. "Pricing | Oxiom" becoming "Pricing | Oxiom | Oxiom"). Pages that
+  // don't set their own title fall back to `default` verbatim.
+  title: "Oxiom | Finance Automation Platform for Accounts Payable & Receivable",
   description: "Oxiom is a finance automation platform for growing businesses — Accounts Payable, Accounts Receivable, and Finance Suite, built on one secure workspace.",
   metadataBase: new URL("https://oxiom.in"),
-  alternates: {
-    canonical: "https://oxiom.in",
-  },
+  // Deliberately no site-wide `alternates.canonical` here: a global canonical
+  // would tell search engines every page is a duplicate of the homepage.
+  // Each public page sets its own via lib/seo/metadata.ts's buildMetadata().
   keywords: [
     "finance automation platform",
     "accounts payable automation",
@@ -27,30 +28,21 @@ export const metadata: Metadata = {
   publisher: "Oxiom",
   robots: "index, follow",
 
-  // Open Graph
+  // Open Graph / Twitter defaults. No `images` here -- the root
+  // opengraph-image.tsx/twitter-image.tsx file conventions generate and
+  // attach real images automatically instead of pointing at static files
+  // that don't exist in this repository.
   openGraph: {
     type: "website",
     url: "https://oxiom.in",
     title: "Oxiom | Finance Automation Platform for Accounts Payable & Receivable",
     description: "Oxiom is a finance automation platform for growing businesses — Accounts Payable, Accounts Receivable, and Finance Suite, built on one secure workspace.",
     siteName: "Oxiom",
-    images: [
-      {
-        url: "https://oxiom.in/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Oxiom Finance Automation Platform",
-      },
-    ],
   },
-
-  // Twitter
   twitter: {
     card: "summary_large_image",
     title: "Oxiom | Finance Automation Platform",
     description: "Accounts Payable, Accounts Receivable, and Finance Suite — built on one secure workspace.",
-    images: ["https://oxiom.in/twitter-image.png"],
-    creator: "@oxiom",
   },
 
   // Additional metadata
@@ -63,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Changelog | Oxiom Billing', description: 'Complete changelog for Oxiom Billing. Version history, feature additions, improvements.' };
+export const metadata: Metadata = buildMetadata({ path: '/changelog', title: 'Changelog | Oxiom Billing', description: 'Complete changelog for Oxiom Billing. Version history, feature additions, improvements.' });
 
 const releases = [
   {

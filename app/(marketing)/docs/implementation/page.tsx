@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Implementation Guide | Oxiom Invoice Processing', description: 'Implementation guide for deploying Oxiom Invoice Processing. Phases, timeline, data migration, training, go-live checklist.' };
+export const metadata: Metadata = buildMetadata({ path: '/docs/implementation', title: 'Implementation Guide | Oxiom Invoice Processing', description: 'Implementation guide for deploying Oxiom Invoice Processing. Phases, timeline, data migration, training, go-live checklist.' });
 
 const phases = [
   ['Phase 1: Planning (2 weeks)', 'Confirm requirements, document current-state AP workflows, identify stakeholders, and define invoice data mapping requirements.'],

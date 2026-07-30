@@ -1,6 +1,11 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { getSessionContext, requireUser } from '../../lib/auth/dal';
 import OnboardingForm from './OnboardingForm';
+import { NOINDEX } from '../../lib/seo/metadata';
+
+export const metadata: Metadata = { title: 'Create Your Organization | Oxiom', robots: NOINDEX };
+
 export default async function OnboardingPage() {
   await requireUser();
   if (await getSessionContext()) redirect('/dashboard');

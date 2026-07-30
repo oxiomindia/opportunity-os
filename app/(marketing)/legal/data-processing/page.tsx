@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Data Processing Policy | Oxiom', description: 'Oxiom data processing policy covering how invoice and financial data is processed, stored, and protected.' };
+export const metadata: Metadata = buildMetadata({ path: '/legal/data-processing', title: 'Data Processing Policy | Oxiom', description: 'Oxiom data processing policy covering how invoice and financial data is processed, stored, and protected.' });
 
 const sections = [
   ['Data Controller vs Processor', 'Customers generally act as the data controller for personal data and business records they submit to Oxiom Invoice Processing. Oxiom acts as a processor or service provider when handling that data on the customer’s behalf, except where Oxiom determines purposes and means independently for security, legal, or business administration needs.'],

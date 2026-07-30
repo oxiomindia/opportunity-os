@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Privacy Policy | Oxiom', description: 'Oxiom privacy policy covering data collection, processing, storage, and your rights under GDPR and CCPA.' };
+export const metadata: Metadata = buildMetadata({ path: '/legal/privacy', title: 'Privacy Policy | Oxiom', description: 'Oxiom privacy policy covering data collection, processing, storage, and your rights under GDPR and CCPA.' });
 
 const sections = [
   ['Data We Collect', 'Oxiom collects account information, contact details, authentication data, usage logs, support communications, and invoice-related business records that customers choose to upload or process through the platform. Depending on configuration, uploaded records may include vendor details, payment references, approver comments, and operational metadata needed to route, validate, store, and audit invoice workflows.'],

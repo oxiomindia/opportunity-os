@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'API Documentation | Oxiom Invoice Processing', description: 'Oxiom Invoice Processing API documentation. REST API endpoints, authentication, request/response formats, examples.' };
+export const metadata: Metadata = buildMetadata({ path: '/docs/api', title: 'API Documentation | Oxiom Invoice Processing', description: 'Oxiom Invoice Processing API documentation. REST API endpoints, authentication, request/response formats, examples.' });
 
 const endpoints = [
   ['GET /invoices', 'List invoices with filtering by status, supplier, amount, date range, and workflow ownership.'],

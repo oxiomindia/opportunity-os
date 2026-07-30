@@ -8,6 +8,7 @@ import RelatedProducts from '../../components/RelatedProducts';
 import { ProductIcon, CheckIcon } from '../../components/marketing/icons';
 import { products, getProductById, getCategoryById } from '../../../lib/products/catalog';
 import { getProductDisplayName, getProductBadge, getStatusTone, getAvailabilityMessage, getPrimaryCtaLabel } from '../../../lib/products/types';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.id }));
@@ -18,10 +19,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const product = getProductById(slug);
   if (!product) return {};
   const displayName = getProductDisplayName(product);
-  return {
+  return buildMetadata({
+    path: `/platform/${slug}`,
     title: `${displayName} | Oxiom`,
     description: product.description,
-  };
+  });
 }
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {

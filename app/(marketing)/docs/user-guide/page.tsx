@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'User Guide | Oxiom Invoice Processing', description: 'Complete user guide for Oxiom Invoice Processing. Learn invoice management, search, workflows, approvals, and reporting.' };
+export const metadata: Metadata = buildMetadata({ path: '/docs/user-guide', title: 'User Guide | Oxiom Invoice Processing', description: 'Complete user guide for Oxiom Invoice Processing. Learn invoice management, search, workflows, approvals, and reporting.' });
 
 const sections = [
   ['Dashboard overview', 'The dashboard gives AP teams a working snapshot of invoice throughput, queue backlogs, exceptions, and approvals waiting on action. KPI cards help managers assess workload and identify where intervention is needed most quickly.'],

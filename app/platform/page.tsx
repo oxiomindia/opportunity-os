@@ -4,11 +4,13 @@ import SiteFooter from '../components/marketing/SiteFooter';
 import ProductCategorySection from '../components/marketing/ProductCategorySection';
 import DemoCta from '../components/marketing/DemoCta';
 import { getActiveCategories, getProductsByCategory } from '../../lib/products/catalog';
+import { buildMetadata } from '../../lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: '/platform',
   title: 'Products | Oxiom',
   description: 'Explore the full Oxiom product catalog — Accounts Payable, Accounts Receivable, Finance Suite, and what’s coming next.',
-};
+});
 
 export default function ProductsPage() {
   const categories = getActiveCategories();

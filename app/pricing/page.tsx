@@ -8,11 +8,13 @@ import type { Product } from '../../lib/products/types';
 import { getPublicProducts } from '../../lib/products/catalog';
 import type { ProductPricing } from '../../lib/pricing/catalog';
 import { getVisiblePricing, getPromoBanner } from '../../lib/pricing/catalog';
+import { buildMetadata } from '../../lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: '/pricing',
   title: 'Pricing | Oxiom',
   description: 'Simple, transparent pricing for every Oxiom product — Accounts Payable, Accounts Receivable, Finance Suite, and Input Tax Credit Recovery & Reconciliation.',
-};
+});
 
 const faqItems = [
   {

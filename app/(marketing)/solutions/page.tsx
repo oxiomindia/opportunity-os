@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { SolutionsGrid } from './SolutionPageTemplate';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: '/solutions',
   title: 'Invoice & Billing Solutions | Oxiom',
   description: 'Enterprise invoicing and accounts receivable automation solutions. AI-assisted creation, ERP integration, and billing workflow automation.',
-};
+});
 
 const pillars = [
   'Create and send customer invoices',

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
 export type SolutionPageContent = {
   slug: string;
@@ -659,8 +660,9 @@ export function getSolutionPage(slug: string): SolutionPageContent {
 export function getSolutionMetadata(slug: string): Metadata {
   const page = getSolutionPage(slug);
 
-  return {
+  return buildMetadata({
+    path: `/solutions/${page.slug}`,
     title: page.title,
     description: page.description,
-  };
+  });
 }

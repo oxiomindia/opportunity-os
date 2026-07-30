@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Administrator Guide | Oxiom Invoice Processing', description: 'Administrator guide for Oxiom Invoice Processing. User management, configuration, workflows, integrations.' };
+export const metadata: Metadata = buildMetadata({ path: '/docs/admin', title: 'Administrator Guide | Oxiom Invoice Processing', description: 'Administrator guide for Oxiom Invoice Processing. User management, configuration, workflows, integrations.' });
 
 const roles = [
   ['Admin', 'Full configuration access, user administration, workflow setup, security settings, and audit review.'],

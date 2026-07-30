@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Cookie Policy | Oxiom', description: 'How Oxiom uses cookies and similar tracking technologies on our platform.' };
+export const metadata: Metadata = buildMetadata({ path: '/legal/cookies', title: 'Cookie Policy | Oxiom', description: 'How Oxiom uses cookies and similar tracking technologies on our platform.' });
 
 const types = [
   ['Essential', 'Necessary to authenticate users, maintain secure sessions, remember core settings, and support service reliability.'],

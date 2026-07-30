@@ -1,9 +1,11 @@
 import { Metadata } from 'next';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: '/about',
   title: 'About Oxiom | Customer Billing & Invoicing',
   description: 'Learn about Oxiom, our mission to make customer billing effortless, and our commitment to helping finance teams work smarter.',
-};
+});
 
 export default function AboutPage() {
   return (

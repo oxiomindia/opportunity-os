@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Troubleshooting | Oxiom Invoice Processing', description: 'Troubleshooting guide for common Oxiom Invoice Processing issues. Error messages, solutions, and support resources.' };
+export const metadata: Metadata = buildMetadata({ path: '/docs/troubleshooting', title: 'Troubleshooting | Oxiom Invoice Processing', description: 'Troubleshooting guide for common Oxiom Invoice Processing issues. Error messages, solutions, and support resources.' });
 
 const issues = [
   ['Invoice upload fails', 'Unsupported file type, oversized attachment, or unstable network connection.', 'Confirm the file is PDF, JPEG, PNG, or TIFF, reduce file size if needed, and retry from a stable network.'],

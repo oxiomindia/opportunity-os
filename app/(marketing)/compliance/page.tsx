@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Compliance | Oxiom Billing', description: 'Regulatory compliance for customer billing. GDPR, CCPA, SOX, and audit trail capabilities.' };
+export const metadata: Metadata = buildMetadata({ path: '/compliance', title: 'Compliance | Oxiom Billing', description: 'Regulatory compliance for customer billing. GDPR, CCPA, SOX, and audit trail capabilities.' });
 
 const sections = [
   ['GDPR compliance', 'Oxiom supports customers that need lawful processing, access controls, retention governance, and data subject rights workflows aligned to GDPR obligations and related customer contracts.'],

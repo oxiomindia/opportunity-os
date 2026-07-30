@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: '/docs',
   title: 'Documentation | Oxiom Billing',
   description: 'Complete documentation for Oxiom Billing including user guides, administrator guides, implementation documentation, and API references.',
-};
+});
 
 const sections = [
   {

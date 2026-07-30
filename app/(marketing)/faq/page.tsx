@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { FAQSchema, BreadcrumbSchema } from '@/app/components/StructuredData';
 import { Metadata } from 'next';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: '/faq',
   title: 'FAQ | Oxiom Billing — 100+ Answers',
   description: 'Comprehensive answers to 100+ frequently asked questions about Oxiom Billing: customer invoicing, the product/service catalog, PDF generation, security, compliance, and deployment.',
-};
+});
 
 const faqs = [
   // Product Overview

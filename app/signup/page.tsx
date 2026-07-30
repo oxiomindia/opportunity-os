@@ -1,7 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getAuthenticatedUser } from '../../lib/auth/dal';
 import SignupForm from './SignupForm';
+import { NOINDEX } from '../../lib/seo/metadata';
+
+export const metadata: Metadata = {
+  title: 'Sign Up | Oxiom',
+  robots: NOINDEX,
+};
 
 export default async function SignupPage() {
   if (await getAuthenticatedUser()) redirect('/dashboard');

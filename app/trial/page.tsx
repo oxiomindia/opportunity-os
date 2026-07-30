@@ -5,11 +5,13 @@ import TrialRequestForm from '../components/marketing/TrialRequestForm';
 import { ProductIcon } from '../components/marketing/icons';
 import { getProductById, getPublicProducts } from '../../lib/products/catalog';
 import { getProductDisplayName, getAvailabilityMessage } from '../../lib/products/types';
+import { buildMetadata } from '../../lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: '/trial',
   title: 'Request a Free 7-Day Trial | Oxiom',
   description: 'Request a free 7-day trial of any Oxiom product, or register early interest in what’s coming next.',
-};
+});
 
 export default async function TrialPage({ searchParams }: { searchParams: Promise<{ product?: string }> }) {
   const { product: productId } = await searchParams;

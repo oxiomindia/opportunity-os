@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Security | Oxiom Invoice Processing', description: 'Enterprise security for invoice processing. SOC 2, ISO 27001, encryption, access control, and security practices.' };
+export const metadata: Metadata = buildMetadata({ path: '/security', title: 'Security | Oxiom Invoice Processing', description: 'Enterprise security for invoice processing. SOC 2, ISO 27001, encryption, access control, and security practices.' });
 
 const sections = [
   ['Infrastructure Security', 'Oxiom runs on enterprise cloud infrastructure with layered network protections, secure environment management, hardened deployment practices, and continuous monitoring designed to support availability and resilience for finance operations.'],

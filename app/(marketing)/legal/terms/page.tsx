@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Terms of Service | Oxiom', description: 'Terms of Service for Oxiom Invoice Processing platform. Understand your rights and responsibilities.' };
+export const metadata: Metadata = buildMetadata({ path: '/legal/terms', title: 'Terms of Service | Oxiom', description: 'Terms of Service for Oxiom Invoice Processing platform. Understand your rights and responsibilities.' });
 
 const sections = [
   ['Acceptance', 'By accessing or using Oxiom Invoice Processing, you agree to these Terms of Service and any order forms or supplemental terms that apply to your subscription.'],

@@ -1,7 +1,14 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { getAuthenticatedUser } from '../../lib/auth/dal';
 import { getLoginCapabilities } from './actions';
 import LoginForm from './LoginForm';
+import { NOINDEX } from '../../lib/seo/metadata';
+
+export const metadata: Metadata = {
+  title: 'Sign In | Oxiom',
+  robots: NOINDEX,
+};
 
 function safeNext(next: string | undefined): string | undefined {
   return next && next.startsWith('/') && !next.startsWith('//') ? next : undefined;

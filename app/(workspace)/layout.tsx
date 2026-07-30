@@ -1,10 +1,12 @@
 import AppShell from '../components/AppShell';
 import { getSessionContext, requireUser } from '../../lib/auth/dal';
 import { getCurrentEdition } from '../../lib/edition';
+import { NOINDEX } from '../../lib/seo/metadata';
 
 export const metadata = {
   title: 'Oxiom Invoice Software | Dashboard',
   description: 'Create, send, and track customer invoices on the Oxiom platform.',
+  robots: NOINDEX,
 };
 
 export default async function WorkspaceLayout({ children }: Readonly<{ children: React.ReactNode }>) {

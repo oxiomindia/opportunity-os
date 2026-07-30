@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { buildMetadata } from '../../../../lib/seo/metadata';
 
-export const metadata: Metadata = { title: 'Getting Started with Oxiom | Invoice Processing Setup Guide', description: 'Quick start guide for Oxiom Invoice Processing. Set up your account, upload your first invoice, and learn the workflow in under 30 minutes.' };
+export const metadata: Metadata = buildMetadata({ path: '/docs/getting-started', title: 'Getting Started with Oxiom | Invoice Processing Setup Guide', description: 'Quick start guide for Oxiom Invoice Processing. Set up your account, upload your first invoice, and learn the workflow in under 30 minutes.' });
 
 const steps = [
   ['Step 1: Access your workspace', 'Sign in through your organization-specific Oxiom login URL, confirm your role-based access, and use the dashboard overview to review pending invoices, queue volumes, and recent activity.'],

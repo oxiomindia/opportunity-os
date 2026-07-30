@@ -11,11 +11,13 @@ import WhyChooseOxiom from './components/marketing/WhyChooseOxiom';
 import Testimonials from './components/marketing/Testimonials';
 import DemoCta from './components/marketing/DemoCta';
 import ContactSales from './components/marketing/ContactSales';
+import { buildMetadata } from '../lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
+  path: '/',
   title: 'Oxiom | Finance Automation Platform for Accounts Payable & Receivable',
   description: 'Oxiom is a finance automation platform for growing businesses — Accounts Payable, Accounts Receivable, and Finance Suite, built on one secure workspace.',
-};
+});
 
 export default function HomePage() {
   return (
