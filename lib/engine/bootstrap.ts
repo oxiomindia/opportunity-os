@@ -12,3 +12,4 @@
 import '../itcRecovery/engine';
 import '../vendorInvoices/engine';
 import '../control-center/engine';
+import '../growth/engine';

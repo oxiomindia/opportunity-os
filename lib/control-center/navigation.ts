@@ -51,6 +51,12 @@ export const controlCenterModules: ControlCenterModule[] = [
   { id: 'platform-configuration', route: '/control-center/platform-configuration', title: 'Platform Configuration', description: 'Global platform configuration', icon: '⌘', availability: 'planned', requiredPermission: 'canManagePlatform' },
   { id: 'integrations', route: '/control-center/integrations', title: 'Integrations', description: 'External system connections', icon: '⛓', availability: 'planned', requiredPermission: 'canManagePlatform' },
   { id: 'audit-diagnostics', route: '/control-center/audit-diagnostics', title: 'Audit & Diagnostics', description: 'Unified cross-engine audit trail and diagnostics', icon: '⚑', availability: 'planned', requiredPermission: 'canManagePlatform' },
+
+  // Growth Intelligence wasn't part of the original Phase 2 reserved
+  // platform-capability list above -- it's a new module (Growth
+  // Intelligence Platform milestone), so it ships directly as 'available'
+  // rather than going through a 'planned' placeholder stage first.
+  { id: 'growth-intelligence', route: '/control-center/growth', title: 'Growth Intelligence', description: 'Social listening, opportunity queue, and engagement workflow', icon: '◎', availability: 'available', requiredPermission: 'canManagePlatform' },
 ];
 
 export function getVisibleModules(role: ControlCenterRole): ControlCenterModule[] {
