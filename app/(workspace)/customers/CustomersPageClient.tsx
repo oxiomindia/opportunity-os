@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import type { Customer } from '../../../types/customer';
 import { createCustomer } from './actions';
+import EmptyState from '../../components/EmptyState';
 
 const errorMessages: Record<string, string> = {
   invalid: 'Customer name is required.',
@@ -11,10 +12,16 @@ const errorMessages: Record<string, string> = {
   'demo-read-only': 'Demo workspaces are read-only. Sign up for a real account to manage customers.',
 };
 
+const successMessages: Record<string, string> = {
+  created: 'Customer added.',
+  updated: 'Customer updated.',
+};
+
 export default function CustomersPageClient({ customers }: Readonly<{ customers: Customer[] }>) {
   const [showForm, setShowForm] = useState(customers.length === 0);
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
+  const success = searchParams.get('success');
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -26,15 +33,20 @@ export default function CustomersPageClient({ customers }: Readonly<{ customers:
         <button
           type="button"
           onClick={() => setShowForm((value) => !value)}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
         >
           {showForm ? 'Close' : 'New customer'}
         </button>
       </div>
 
       {error && (
-        <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div role="alert" className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {errorMessages[error] ?? 'Something went wrong.'}
+        </div>
+      )}
+      {!error && success && (
+        <div role="status" className="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          {successMessages[success] ?? 'Saved.'}
         </div>
       )}
 
@@ -61,7 +73,7 @@ export default function CustomersPageClient({ customers }: Readonly<{ customers:
             <input name="taxIdentifier" maxLength={64} className="rounded-md border border-slate-300 px-3 py-2 text-sm" placeholder="VAT / GSTIN / EIN" />
           </label>
           <div className="sm:col-span-2">
-            <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+            <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
               Save customer
             </button>
           </div>
@@ -69,9 +81,7 @@ export default function CustomersPageClient({ customers }: Readonly<{ customers:
       )}
 
       {customers.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">
-          No customers yet. Add your first customer to start billing them.
-        </div>
+        <EmptyState icon="☺" title="No customers yet" description="Add your first customer to start billing them." />
       ) : (
         <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
           <table className="min-w-full divide-y divide-slate-200 text-left text-sm">

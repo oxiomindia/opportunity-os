@@ -11,13 +11,35 @@ import {
 
 interface BillDetailPageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string; success?: string }>;
 }
 
 const approverRoles = new Set(['owner', 'admin', 'reviewer']);
 const awaitingPaymentStatuses = new Set(['approved', 'payment-scheduled', 'partially-paid']);
 
-export default async function BillDetailPage({ params }: Readonly<BillDetailPageProps>) {
+const errorMessages: Record<string, string> = {
+  invalid: 'That action could not be completed with the details provided.',
+  mutation: 'Something went wrong. Please try again.',
+  forbidden: 'Only an owner, admin, or reviewer can do that.',
+  'demo-read-only': 'Demo workspaces are read-only. Sign up for a real account to manage bills.',
+  'file-too-large': 'That file is too large. Attachments must be 25MB or smaller.',
+  'file-type': 'That file type is not supported. Attach a PDF, PNG, or JPEG.',
+};
+
+const successMessages: Record<string, string> = {
+  submitted: 'Submitted for approval.',
+  approved: 'Bill approved.',
+  rejected: 'Bill sent back for correction.',
+  scheduled: 'Payment scheduled.',
+  paid: 'Payment recorded.',
+  voided: 'Bill voided.',
+  'line-item-added': 'Line item added.',
+  uploaded: 'Attachment uploaded.',
+};
+
+export default async function BillDetailPage({ params, searchParams }: Readonly<BillDetailPageProps>) {
   const { id } = await params;
+  const { error, success } = await searchParams;
   const [{ role }, bill, lineItems, attachments] = await Promise.all([
     requireSessionContext(), getVendorInvoice(id), getVendorInvoiceLineItems(id), getVendorInvoiceAttachments(id),
   ]);
@@ -36,6 +58,16 @@ export default async function BillDetailPage({ params }: Readonly<BillDetailPage
       <Link href="/bills" className="text-sm font-semibold text-blue-700 hover:text-blue-800 hover:underline">
         ← Back to bills
       </Link>
+      {error && (
+        <div role="alert" className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {errorMessages[error] ?? 'Something went wrong.'}
+        </div>
+      )}
+      {!error && success && (
+        <div role="status" className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          {successMessages[success] ?? 'Saved.'}
+        </div>
+      )}
       <section className="rounded-xl border border-slate-200 bg-white p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -169,7 +201,7 @@ export default async function BillDetailPage({ params }: Readonly<BillDetailPage
               <input name="taxAmount" type="number" step="0.01" min="0" defaultValue="0" className="rounded-md border border-slate-300 px-3 py-2 text-sm" />
             </label>
             <div className="sm:col-span-4">
-              <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">Add line item</button>
+              <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">Add line item</button>
             </div>
           </form>
         )}
@@ -197,7 +229,7 @@ export default async function BillDetailPage({ params }: Readonly<BillDetailPage
               <span className="font-medium text-slate-800">Attach the vendor&apos;s invoice (PDF, PNG, or JPEG, up to 25MB)</span>
               <input name="file" type="file" required accept="application/pdf,image/png,image/jpeg" className="rounded-md border border-slate-300 px-3 py-2 text-sm" />
             </label>
-            <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">Upload</button>
+            <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">Upload</button>
           </form>
         )}
       </section>

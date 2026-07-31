@@ -27,7 +27,7 @@ export async function createVendor(formData: FormData) {
   });
   if (error) redirect('/vendors?error=mutation');
   revalidatePath('/vendors');
-  redirect('/vendors');
+  redirect('/vendors?success=created');
 }
 
 export async function updateVendor(formData: FormData) {
@@ -49,5 +49,5 @@ export async function updateVendor(formData: FormData) {
   });
   if (error) redirect('/vendors?error=mutation');
   revalidatePath('/vendors');
-  redirect('/vendors');
+  redirect('/vendors?success=updated');
 }

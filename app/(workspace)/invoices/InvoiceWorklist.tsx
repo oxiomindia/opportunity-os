@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import type { Invoice } from '../../../types/invoice';
 import InvoiceBulkToolbar from './InvoiceBulkToolbar';
@@ -20,7 +21,21 @@ const emptyFilters: InvoiceFiltersValue = {
 
 const pageSize = 6;
 
+const errorMessages: Record<string, string> = {
+  invalid: 'That invoice could not be found.',
+  mutation: 'Something went wrong. Please try again.',
+  forbidden: 'Only an owner or admin can do that.',
+  'demo-read-only': 'Demo workspaces are read-only. Sign up for a real account to manage invoices.',
+};
+
+const successMessages: Record<string, string> = {
+  deleted: 'Draft invoice deleted.',
+};
+
 export default function InvoiceWorklist({ invoices, isLoading = false }: Readonly<{ invoices: Invoice[]; isLoading?: boolean }>) {
+  const searchParams = useSearchParams();
+  const error = searchParams.get('error');
+  const success = searchParams.get('success');
   const [filters, setFilters] = useState<InvoiceFiltersValue>(emptyFilters);
   const [sort, setSort] = useState<InvoiceSortState>({ key: 'dueDate', direction: 'asc' });
   const [page, setPage] = useState(1);
@@ -109,6 +124,8 @@ export default function InvoiceWorklist({ invoices, isLoading = false }: Readonl
           </div>
         </div>
         {actionMessage && selectedInvoiceIds.size === 0 && <p role="status" className="mt-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-900">{actionMessage}</p>}
+        {error && <p role="alert" className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{errorMessages[error] ?? 'Something went wrong.'}</p>}
+        {!error && success && <p role="status" className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">{successMessages[success] ?? 'Saved.'}</p>}
       </section>
 
       <InvoiceSummaryCards invoices={invoices} />

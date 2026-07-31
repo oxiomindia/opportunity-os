@@ -61,7 +61,7 @@ export default async function NewInvoicePage({ searchParams }: Readonly<{ search
             </select>
           </label>
           <div>
-            <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+            <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
               Create draft invoice
             </button>
           </div>

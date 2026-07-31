@@ -20,11 +20,11 @@ export async function createBill(formData: FormData) {
   const invoiceDate = field(formData, 'invoiceDate');
   const dueDate = field(formData, 'dueDate');
   const currency = field(formData, 'currency') || 'USD';
-  if (!uuidPattern.test(vendorId) || !invoiceDate || !dueDate) redirect('/bills/new?error=invalid');
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
   if (session.mode === 'demo') redirect('/bills?error=demo-read-only');
+  if (!uuidPattern.test(vendorId) || !invoiceDate || !dueDate) redirect('/bills/new?error=invalid');
 
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.rpc('create_vendor_invoice', {
@@ -46,6 +46,10 @@ export async function addLineItem(formData: FormData) {
   const unitPrice = Number(field(formData, 'unitPrice'));
   const taxAmountField = field(formData, 'taxAmount');
   const taxAmount = taxAmountField ? Number(taxAmountField) : 0;
+
+  const session = await getSessionContext();
+  if (!session) redirect('/login');
+  if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
   if (
     !uuidPattern.test(billId) || !description
     || !Number.isFinite(quantity) || quantity <= 0
@@ -54,10 +58,6 @@ export async function addLineItem(formData: FormData) {
   ) {
     redirect(`/bills/${billId}?error=invalid`);
   }
-
-  const session = await getSessionContext();
-  if (!session) redirect('/login');
-  if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc('add_vendor_invoice_line_item', {
@@ -69,82 +69,82 @@ export async function addLineItem(formData: FormData) {
   });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath(`/bills/${billId}`);
-  redirect(`/bills/${billId}`);
+  redirect(`/bills/${billId}?success=line-item-added`);
 }
 
 export async function submitForApproval(formData: FormData) {
   const billId = field(formData, 'id');
-  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
   if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
+  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc('submit_vendor_invoice_for_review', { target_vendor_invoice: billId, request_id: crypto.randomUUID() });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath('/dashboard'); revalidatePath('/bills'); revalidatePath(`/bills/${billId}`);
-  redirect(`/bills/${billId}`);
+  redirect(`/bills/${billId}?success=submitted`);
 }
 
 export async function approveBill(formData: FormData) {
   const billId = field(formData, 'id');
-  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
-  if (!approverRoles.includes(session.role)) redirect(`/bills/${billId}?error=forbidden`);
   if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
+  if (!approverRoles.includes(session.role)) redirect(`/bills/${billId}?error=forbidden`);
+  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc('approve_vendor_invoice', { target_vendor_invoice: billId, request_id: crypto.randomUUID() });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath('/dashboard'); revalidatePath('/bills'); revalidatePath(`/bills/${billId}`);
-  redirect(`/bills/${billId}`);
+  redirect(`/bills/${billId}?success=approved`);
 }
 
 export async function rejectBill(formData: FormData) {
   const billId = field(formData, 'id');
   const reason = field(formData, 'reason');
-  if (!uuidPattern.test(billId) || reason.trim().length < 1) redirect(`/bills/${billId}?error=invalid`);
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
-  if (!approverRoles.includes(session.role)) redirect(`/bills/${billId}?error=forbidden`);
   if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
+  if (!approverRoles.includes(session.role)) redirect(`/bills/${billId}?error=forbidden`);
+  if (!uuidPattern.test(billId) || reason.trim().length < 1) redirect(`/bills/${billId}?error=invalid`);
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc('reject_vendor_invoice', { target_vendor_invoice: billId, rejection_reason: reason, request_id: crypto.randomUUID() });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath('/dashboard'); revalidatePath('/bills'); revalidatePath(`/bills/${billId}`);
-  redirect(`/bills/${billId}`);
+  redirect(`/bills/${billId}?success=rejected`);
 }
 
 export async function schedulePayment(formData: FormData) {
   const billId = field(formData, 'id');
   const scheduledDate = field(formData, 'scheduledDate');
-  if (!uuidPattern.test(billId) || !scheduledDate) redirect(`/bills/${billId}?error=invalid`);
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
   if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
+  if (!uuidPattern.test(billId) || !scheduledDate) redirect(`/bills/${billId}?error=invalid`);
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc('schedule_vendor_invoice_payment', { target_vendor_invoice: billId, scheduled_date: scheduledDate, request_id: crypto.randomUUID() });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath('/dashboard'); revalidatePath('/bills'); revalidatePath(`/bills/${billId}`);
-  redirect(`/bills/${billId}`);
+  redirect(`/bills/${billId}?success=scheduled`);
 }
 
 export async function recordPayment(formData: FormData) {
   const billId = field(formData, 'id');
   const amount = Number(field(formData, 'amount'));
   const reference = field(formData, 'reference');
-  if (!uuidPattern.test(billId) || !Number.isFinite(amount) || amount <= 0) redirect(`/bills/${billId}?error=invalid`);
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
   if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
+  if (!uuidPattern.test(billId) || !Number.isFinite(amount) || amount <= 0) redirect(`/bills/${billId}?error=invalid`);
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc('record_vendor_invoice_payment', {
@@ -152,47 +152,47 @@ export async function recordPayment(formData: FormData) {
   });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath('/dashboard'); revalidatePath('/bills'); revalidatePath(`/bills/${billId}`);
-  redirect(`/bills/${billId}`);
+  redirect(`/bills/${billId}?success=paid`);
 }
 
 export async function voidBill(formData: FormData) {
   const billId = field(formData, 'id');
-  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
   if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
+  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc('void_vendor_invoice', { target_vendor_invoice: billId, request_id: crypto.randomUUID() });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath('/dashboard'); revalidatePath('/bills'); revalidatePath(`/bills/${billId}`);
-  redirect(`/bills/${billId}`);
+  redirect(`/bills/${billId}?success=voided`);
 }
 
 export async function deleteDraftBill(formData: FormData) {
   const billId = field(formData, 'id');
-  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
-  if (!['owner', 'admin'].includes(session.role)) redirect(`/bills/${billId}?error=forbidden`);
   if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
+  if (!['owner', 'admin'].includes(session.role)) redirect(`/bills/${billId}?error=forbidden`);
+  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.rpc('delete_draft_vendor_invoice', { target_vendor_invoice: billId, request_id: crypto.randomUUID() });
   if (error) redirect(`/bills/${billId}?error=mutation`);
   revalidatePath('/dashboard'); revalidatePath('/bills');
-  redirect('/bills');
+  redirect('/bills?success=deleted');
 }
 
 export async function uploadAttachment(formData: FormData) {
   const billId = field(formData, 'billId');
-  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const session = await getSessionContext();
   if (!session) redirect('/login');
   if (session.mode === 'demo') redirect(`/bills/${billId}?error=demo-read-only`);
+  if (!uuidPattern.test(billId)) redirect('/bills?error=invalid');
 
   const file = formData.get('file');
   if (!(file instanceof File) || file.size === 0) redirect(`/bills/${billId}?error=invalid`);
@@ -220,5 +220,5 @@ export async function uploadAttachment(formData: FormData) {
     redirect(`/bills/${billId}?error=mutation`);
   }
   revalidatePath(`/bills/${billId}`);
-  redirect(`/bills/${billId}`);
+  redirect(`/bills/${billId}?success=uploaded`);
 }

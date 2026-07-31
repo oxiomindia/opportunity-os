@@ -9,6 +9,8 @@ import { logout } from '../login/actions';
 import type { ProductEdition } from '../../types/edition';
 
 function getPageTitle(pathname: string) {
+  if (pathname === '/invoices/new') return 'New Invoice';
+  if (pathname === '/bills/new') return 'New Bill';
   if (pathname.startsWith('/invoices/')) return 'Invoice Details';
   if (pathname.startsWith('/bills/')) return 'Bill Details';
   if (pathname.startsWith('/itc-recovery/')) return 'ITC Recovery';

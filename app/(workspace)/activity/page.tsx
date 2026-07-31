@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { mockActivityEvents } from '../../../data/mockActivity';
 import type { ActivityCategory, ActivitySeverity } from '../../../types/activity';
+import EmptyState from '../../components/EmptyState';
 
 const severityClasses: Record<ActivitySeverity, string> = {
   info: 'border-blue-200 bg-blue-50 text-blue-700',
@@ -60,6 +61,11 @@ export default function ActivityPage() {
             <h2 className="text-base font-semibold text-slate-950">Recent activity</h2>
           </div>
           <div className="divide-y divide-slate-100">
+            {mockActivityEvents.length === 0 && (
+              <div className="p-5">
+                <EmptyState icon="○" title="No activity yet" description="Invoice status changes, payment updates, and system events will appear here as they happen." />
+              </div>
+            )}
             {mockActivityEvents.map((event) => (
               <article key={event.id} className="grid gap-4 px-5 py-4 md:grid-cols-[1fr_auto] md:items-start">
                 <div className="min-w-0">

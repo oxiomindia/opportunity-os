@@ -27,7 +27,7 @@ export async function createCustomer(formData: FormData) {
   });
   if (error) redirect('/customers?error=mutation');
   revalidatePath('/customers');
-  redirect('/customers');
+  redirect('/customers?success=created');
 }
 
 export async function updateCustomer(formData: FormData) {
@@ -49,5 +49,5 @@ export async function updateCustomer(formData: FormData) {
   });
   if (error) redirect('/customers?error=mutation');
   revalidatePath('/customers');
-  redirect('/customers');
+  redirect('/customers?success=updated');
 }

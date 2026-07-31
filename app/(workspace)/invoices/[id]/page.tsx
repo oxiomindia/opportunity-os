@@ -8,12 +8,28 @@ import { addLineItem, deleteDraftInvoice, recordPayment, sendInvoice, voidInvoic
 
 interface InvoiceDetailPageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string; success?: string }>;
 }
 
 const awaitingPaymentStatuses = new Set(['sent', 'viewed', 'partially-paid', 'overdue']);
 
-export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDetailPageProps>) {
+const errorMessages: Record<string, string> = {
+  invalid: 'That action could not be completed with the details provided.',
+  mutation: 'Something went wrong. Please try again.',
+  forbidden: 'Only an owner or admin can do that.',
+  'demo-read-only': 'Demo workspaces are read-only. Sign up for a real account to manage invoices.',
+};
+
+const successMessages: Record<string, string> = {
+  sent: 'Invoice sent to customer.',
+  paid: 'Payment recorded.',
+  voided: 'Invoice voided.',
+  'line-item-added': 'Line item added.',
+};
+
+export default async function InvoiceDetailPage({ params, searchParams }: Readonly<InvoiceDetailPageProps>) {
   const { id } = await params;
+  const { error, success } = await searchParams;
   const [invoice, lineItems, products] = await Promise.all([getInvoice(id), getInvoiceLineItems(id), listProductsServices()]);
 
   if (!invoice) notFound();
@@ -26,6 +42,16 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
       <Link href="/invoices" className="text-sm font-semibold text-blue-700 hover:text-blue-800 hover:underline">
         ← Back to invoices
       </Link>
+      {error && (
+        <div role="alert" className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {errorMessages[error] ?? 'Something went wrong.'}
+        </div>
+      )}
+      {!error && success && (
+        <div role="status" className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          {successMessages[success] ?? 'Saved.'}
+        </div>
+      )}
       <section className="rounded-xl border border-slate-200 bg-white p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -156,7 +182,7 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
               <input name="unitPrice" type="number" step="0.01" min="0" required className="rounded-md border border-slate-300 px-3 py-2 text-sm" />
             </label>
             <div className="sm:col-span-4">
-              <button type="submit" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">Add line item</button>
+              <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">Add line item</button>
             </div>
           </form>
         )}

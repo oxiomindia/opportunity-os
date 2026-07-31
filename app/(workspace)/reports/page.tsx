@@ -1,6 +1,7 @@
 import { listInvoices } from '../../../lib/invoices/repository';
 import { listVendorInvoices } from '../../../lib/vendorInvoices/repository';
 import { getCurrentEdition } from '../../../lib/edition';
+import EmptyState from '../../components/EmptyState';
 
 export default async function ReportsPage() {
   const edition = await getCurrentEdition();
@@ -47,17 +48,23 @@ export default async function ReportsPage() {
             <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Paid rate</p><p className="mt-2 text-3xl font-semibold text-emerald-700">{totalInvoices ? Math.round((paidInvoices / totalInvoices) * 100) : 0}%</p></article>
             <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Overdue rate</p><p className="mt-2 text-3xl font-semibold text-red-700">{totalInvoices ? Math.round((overdueInvoices / totalInvoices) * 100) : 0}%</p><p className="mt-1 text-xs text-slate-500">{formatTotal(totalBilled)} total billed</p></article>
           </div>
-          <article className="mt-3 rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="text-base font-semibold text-slate-950">Invoice status distribution</h3>
-            <div className="mt-5 space-y-4">
-              {invoicesByStatus.map(([status, count]) => (
-                <div key={status}>
-                  <div className="flex justify-between text-sm"><span className="font-medium capitalize text-slate-700">{status.replace('-', ' ')}</span><span className="text-slate-500">{count}</span></div>
-                  <div className="mt-2 h-2 rounded-full bg-slate-100"><div className="h-2 rounded-full bg-blue-600" style={{ width: `${(count / totalInvoices) * 100}%` }} /></div>
-                </div>
-              ))}
+          {totalInvoices === 0 ? (
+            <div className="mt-3">
+              <EmptyState icon="▤" title="No invoice data yet" description="Reporting fills in once you've billed at least one customer invoice." action={{ label: 'Create your first invoice', href: '/invoices/new' }} />
             </div>
-          </article>
+          ) : (
+            <article className="mt-3 rounded-xl border border-slate-200 bg-white p-5">
+              <h3 className="text-base font-semibold text-slate-950">Invoice status distribution</h3>
+              <div className="mt-5 space-y-4">
+                {invoicesByStatus.map(([status, count]) => (
+                  <div key={status}>
+                    <div className="flex justify-between text-sm"><span className="font-medium capitalize text-slate-700">{status.replace('-', ' ')}</span><span className="text-slate-500">{count}</span></div>
+                    <div className="mt-2 h-2 rounded-full bg-slate-100"><div className="h-2 rounded-full bg-blue-600" style={{ width: `${(count / totalInvoices) * 100}%` }} /></div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          )}
         </section>
       )}
 
@@ -70,17 +77,23 @@ export default async function ReportsPage() {
             <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Paid rate</p><p className="mt-2 text-3xl font-semibold text-emerald-700">{totalBills ? Math.round((paidBills / totalBills) * 100) : 0}%</p></article>
             <article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm font-medium text-slate-500">Overdue rate</p><p className="mt-2 text-3xl font-semibold text-red-700">{totalBills ? Math.round((overdueBills / totalBills) * 100) : 0}%</p><p className="mt-1 text-xs text-slate-500">{formatTotal(totalOwed)} total owed</p></article>
           </div>
-          <article className="mt-3 rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="text-base font-semibold text-slate-950">Bill status distribution</h3>
-            <div className="mt-5 space-y-4">
-              {billsByStatus.map(([status, count]) => (
-                <div key={status}>
-                  <div className="flex justify-between text-sm"><span className="font-medium capitalize text-slate-700">{status.replace('-', ' ')}</span><span className="text-slate-500">{count}</span></div>
-                  <div className="mt-2 h-2 rounded-full bg-slate-100"><div className="h-2 rounded-full bg-amber-600" style={{ width: `${(count / totalBills) * 100}%` }} /></div>
-                </div>
-              ))}
+          {totalBills === 0 ? (
+            <div className="mt-3">
+              <EmptyState icon="▥" title="No bill data yet" description="Reporting fills in once you've recorded at least one vendor bill." action={{ label: 'Record your first bill', href: '/bills/new' }} />
             </div>
-          </article>
+          ) : (
+            <article className="mt-3 rounded-xl border border-slate-200 bg-white p-5">
+              <h3 className="text-base font-semibold text-slate-950">Bill status distribution</h3>
+              <div className="mt-5 space-y-4">
+                {billsByStatus.map(([status, count]) => (
+                  <div key={status}>
+                    <div className="flex justify-between text-sm"><span className="font-medium capitalize text-slate-700">{status.replace('-', ' ')}</span><span className="text-slate-500">{count}</span></div>
+                    <div className="mt-2 h-2 rounded-full bg-slate-100"><div className="h-2 rounded-full bg-amber-600" style={{ width: `${(count / totalBills) * 100}%` }} /></div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          )}
         </section>
       )}
     </div>
