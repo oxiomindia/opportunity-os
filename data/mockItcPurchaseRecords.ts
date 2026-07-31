@@ -12,5 +12,5 @@ export const mockItcPurchaseRecords: PurchaseRecord[] = [
   { vendorInvoiceId: 'bill_2004', vendorName: 'Meridian Office Supplies Pvt Ltd', vendorGstin: '27AAECM1234F1Z5', invoiceNumber: 'MO-8790', invoiceDate: '2026-05-20', taxAmount: 3240, currency: 'INR' },
   // No corresponding itc_return_records entry -- demonstrates "Missing in Return": tax claimed on a booked
   // purchase invoice that hasn't shown up in a filed return yet.
-  { vendorInvoiceId: 'bill_2005', vendorName: 'Atelier Digital SARL', vendorGstin: '24AAFCA9012H1Z8', invoiceNumber: 'AD-0140', invoiceDate: '2026-07-10', taxAmount: 1080, currency: 'INR' },
+  { vendorInvoiceId: 'bill_2005', vendorName: 'Deccan Precision Components Pvt Ltd', vendorGstin: '24AAFCA9012H1Z8', invoiceNumber: 'DP-2210', invoiceDate: '2026-07-10', taxAmount: 1080, currency: 'INR' },
 ];

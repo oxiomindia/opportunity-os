@@ -20,7 +20,7 @@ test('every module has a unique id and a route that starts with /control-center'
   }
 });
 
-test('every shipped module (including Feedback, Engine Registry, Event Monitor, URP, Webhook Engine, and now Growth Intelligence) is available; the remaining platform-capability placeholders stay planned', () => {
+test('every shipped module (including Feedback, Engine Registry, Event Monitor, URP, Webhook Engine, Growth Intelligence, and now Growth Operations + Readiness) is available; the remaining platform-capability placeholders stay planned', () => {
   const available = controlCenterModules.filter((module) => module.availability === 'available').map((module) => module.id).sort();
   assert.deepEqual(available, [
     'audit-logs',
@@ -31,9 +31,11 @@ test('every shipped module (including Feedback, Engine Registry, Event Monitor, 
     'event-monitor',
     'feedback',
     'growth-intelligence',
+    'growth-operations',
     'pricing',
     'products',
     'promotions',
+    'readiness',
     'revenue',
     'settings',
     'subscriptions',

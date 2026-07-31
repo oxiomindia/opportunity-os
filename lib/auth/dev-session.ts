@@ -5,7 +5,11 @@ const DEV_SIGNING_KEY = 'oxiom-development-demo-session-v1';
 
 export const demoIdentity = {
   user: { id: '00000000-0000-4000-8000-000000000001', email: 'admin@demo.oxiom.local' },
-  organization: { id: '00000000-0000-4000-8000-000000000002', name: 'Demo Organization', slug: 'demo-organization', edition: 'finance_suite' as const },
+  // Name only -- id/slug/edition unchanged, so this stays a pure branding
+  // update, not a behavioral one. See data/mockInvoices.ts and friends for
+  // this organization's full demo dataset (25 invoices, 10 customers, 8
+  // vendors, 9 bills, GST reconciliation records).
+  organization: { id: '00000000-0000-4000-8000-000000000002', name: 'Oxiom Demo Manufacturing Pvt Ltd', slug: 'demo-organization', edition: 'finance_suite' as const },
   role: 'owner' as const,
 };
 

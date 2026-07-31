@@ -5,6 +5,7 @@ import type { Invoice, InvoiceLineItem } from '../../types/invoice';
 import { requireSessionContext } from '../auth/dal';
 import { createSupabaseServerClient } from '../supabase/server';
 import { mockInvoices } from '../../data/mockInvoices';
+import { mockInvoiceLineItems } from '../../data/mockInvoiceLineItems';
 
 interface InvoiceRow {
   id: string; invoice_number: string | null; invoice_date: string | null; due_date: string | null;
@@ -60,7 +61,7 @@ interface InvoiceLineItemRow {
 
 export async function getInvoiceLineItems(id: string): Promise<InvoiceLineItem[]> {
   const session = await requireSessionContext();
-  if (session.mode === 'demo') return [];
+  if (session.mode === 'demo') return mockInvoiceLineItems[id] ?? [];
   if (!/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(id)) return [];
   const { organization } = session;
   const supabase = await createSupabaseServerClient();

@@ -5,6 +5,7 @@ import type { VendorInvoice, VendorInvoiceAttachment, VendorInvoiceLineItem } fr
 import { requireSessionContext } from '../auth/dal';
 import { createSupabaseServerClient } from '../supabase/server';
 import { mockVendorInvoices } from '../../data/mockVendorInvoices';
+import { mockVendorInvoiceLineItems } from '../../data/mockVendorInvoiceLineItems';
 
 interface VendorInvoiceRow {
   id: string; vendor_invoice_number: string | null; invoice_date: string | null; due_date: string | null;
@@ -63,7 +64,7 @@ interface VendorInvoiceLineItemRow {
 
 export async function getVendorInvoiceLineItems(id: string): Promise<VendorInvoiceLineItem[]> {
   const session = await requireSessionContext();
-  if (session.mode === 'demo') return [];
+  if (session.mode === 'demo') return mockVendorInvoiceLineItems[id] ?? [];
   if (!/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(id)) return [];
   const { organization } = session;
   const supabase = await createSupabaseServerClient();

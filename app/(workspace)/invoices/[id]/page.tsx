@@ -80,7 +80,17 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
         <article className="rounded-xl border border-slate-200 bg-white p-5">
           <p className="text-sm font-medium text-slate-500">Amount</p>
           <p className="mt-2 text-base font-semibold text-slate-950">{formatInvoiceCurrency(invoice.total, invoice.currency)}</p>
-          <p className="mt-1 text-sm text-slate-500">Subtotal plus tax</p>
+          {invoice.taxBreakdown && invoice.taxBreakdown.length > 0 ? (
+            <ul className="mt-2 space-y-0.5">
+              {invoice.taxBreakdown.map((line) => (
+                <li key={line.name} className="text-xs text-slate-500">
+                  {line.name} ({line.rate}%): {formatInvoiceCurrency(line.amount, invoice.currency)}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-1 text-sm text-slate-500">Subtotal plus tax</p>
+          )}
         </article>
         <article className="rounded-xl border border-slate-200 bg-white p-5">
           <p className="text-sm font-medium text-slate-500">Dates</p>
@@ -107,7 +117,10 @@ export default async function InvoiceDetailPage({ params }: Readonly<InvoiceDeta
               <tbody className="divide-y divide-slate-100">
                 {lineItems.map((item) => (
                   <tr key={item.id}>
-                    <td className="py-3 text-slate-900">{item.description}</td>
+                    <td className="py-3 text-slate-900">
+                      {item.description}
+                      {item.discount ? <span className="ml-2 text-xs text-slate-400">(discount {formatInvoiceCurrency(item.discount, invoice.currency)})</span> : null}
+                    </td>
                     <td className="py-3 text-slate-600">{item.quantity}</td>
                     <td className="py-3 text-slate-600">{formatInvoiceCurrency(item.unitPrice, invoice.currency)}</td>
                     <td className="py-3 font-semibold text-slate-950">{formatInvoiceCurrency(item.lineTotal, invoice.currency)}</td>

@@ -57,6 +57,12 @@ export const controlCenterModules: ControlCenterModule[] = [
   // Intelligence Platform milestone), so it ships directly as 'available'
   // rather than going through a 'planned' placeholder stage first.
   { id: 'growth-intelligence', route: '/control-center/growth', title: 'Growth Intelligence', description: 'Social listening, opportunity queue, and engagement workflow', icon: '◎', availability: 'available', requiredPermission: 'canManagePlatform' },
+
+  // Growth Operations and Readiness, added by the Production Demo Data +
+  // Growth Operations milestone -- also new modules, also 'available'
+  // immediately for the same reason growth-intelligence is above.
+  { id: 'growth-operations', route: '/control-center/growth-operations', title: 'Growth Operations', description: 'Landing pages, content, and campaign tracking', icon: '▥', availability: 'available', requiredPermission: 'canManagePlatform' },
+  { id: 'readiness', route: '/control-center/readiness', title: 'Demo Experience & Readiness', description: 'Demo dataset verification and deployment readiness', icon: '✓', availability: 'available', requiredPermission: 'canManagePlatform' },
 ];
 
 export function getVisibleModules(role: ControlCenterRole): ControlCenterModule[] {

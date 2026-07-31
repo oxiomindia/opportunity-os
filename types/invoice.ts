@@ -16,7 +16,22 @@ export interface InvoiceLineItem {
   description: string;
   quantity: number;
   unitPrice: number;
+  /** Optional -- most existing line items don't carry one; additive so no
+   * existing caller needs to change. */
+  discount?: number;
   lineTotal: number;
+}
+
+/** One named tax component (e.g. CGST, SGST, IGST) making up an invoice's
+ * combined `tax` total. Optional and additive -- an invoice with no
+ * taxBreakdown still has a valid `tax` figure, same as before this field
+ * existed; mirrors the real invoice_taxes table's columns
+ * (db/schema/index.ts) without requiring every caller to handle it. */
+export interface InvoiceTaxLine {
+  name: string;
+  rate: number;
+  taxableAmount: number;
+  amount: number;
 }
 
 export interface Invoice {
@@ -29,6 +44,7 @@ export interface Invoice {
   currency: InvoiceCurrency;
   subtotal: number;
   tax: number;
+  taxBreakdown?: InvoiceTaxLine[];
   total: number;
   status: InvoiceStatus;
   createdAt: string;
