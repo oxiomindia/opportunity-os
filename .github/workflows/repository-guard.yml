@@ -1,0 +1,63 @@
+name: Repository Guard
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-repository:
+    name: Verify canonical repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify repository identity
+        shell: bash
+        env:
+          EXPECTED_REPOSITORY: oxiomindia/opportunity-os
+          EXPECTED_REPOSITORY_ID: "1308355413"
+          EXPECTED_BASE_BRANCH: main
+        run: |
+          set -euo pipefail
+
+          echo "Repository Guard"
+          echo "Expected repository: ${EXPECTED_REPOSITORY}"
+          echo "Actual repository:   ${GITHUB_REPOSITORY}"
+          echo "Expected repo ID:    ${EXPECTED_REPOSITORY_ID}"
+          echo "Actual repo ID:      ${GITHUB_REPOSITORY_ID}"
+
+          if [[ "${GITHUB_REPOSITORY}" != "${EXPECTED_REPOSITORY}" ]]; then
+            echo "::error::Repository Guard failed. Expected ${EXPECTED_REPOSITORY}, got ${GITHUB_REPOSITORY}."
+            exit 1
+          fi
+
+          if [[ "${GITHUB_REPOSITORY_ID}" != "${EXPECTED_REPOSITORY_ID}" ]]; then
+            echo "::error::Repository Guard failed. Expected repository ID ${EXPECTED_REPOSITORY_ID}, got ${GITHUB_REPOSITORY_ID}."
+            exit 1
+          fi
+
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            echo "Pull request base branch: ${GITHUB_BASE_REF}"
+
+            if [[ "${GITHUB_BASE_REF}" != "${EXPECTED_BASE_BRANCH}" ]]; then
+              echo "::error::Repository Guard failed. Pull request must target ${EXPECTED_BASE_BRANCH}."
+              exit 1
+            fi
+          fi
+
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            if [[ "${GITHUB_REF}" != "refs/heads/${EXPECTED_BASE_BRANCH}" ]]; then
+              echo "::error::Repository Guard failed. Protected push verification expected refs/heads/${EXPECTED_BASE_BRANCH}."
+              exit 1
+            fi
+          fi
+
+          echo "Repository Guard PASS"
+          echo "Canonical repository identity verified."
