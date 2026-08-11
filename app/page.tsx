@@ -5,12 +5,10 @@ import Hero from './components/marketing/Hero';
 import PlatformOverview from './components/marketing/PlatformOverview';
 import WhyOxiom from './components/marketing/WhyOxiom';
 import BusinessSolutions from './components/marketing/BusinessSolutions';
-import ProductCategoriesOverview from './components/marketing/ProductCategoriesOverview';
 import Industries from './components/marketing/Industries';
 import WhyChooseOxiom from './components/marketing/WhyChooseOxiom';
 import Testimonials from './components/marketing/Testimonials';
 import DemoCta from './components/marketing/DemoCta';
-import ContactSales from './components/marketing/ContactSales';
 import { buildMetadata } from '../lib/seo/metadata';
 import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema } from './components/StructuredData';
 
@@ -29,15 +27,13 @@ export default function HomePage() {
       <SiteHeader />
       <main>
         <Hero />
+        <BusinessSolutions />
         <PlatformOverview />
         <WhyOxiom />
-        <BusinessSolutions />
-        <ProductCategoriesOverview />
         <Industries />
         <WhyChooseOxiom />
         <Testimonials />
         <DemoCta />
-        <ContactSales />
       </main>
       <SiteFooter />
     </div>
