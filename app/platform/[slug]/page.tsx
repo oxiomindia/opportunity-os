@@ -7,28 +7,71 @@ import DemoCta from '../../components/marketing/DemoCta';
 import RelatedProducts from '../../components/RelatedProducts';
 import { ProductIcon, CheckIcon } from '../../components/marketing/icons';
 import { products, getProductById, getCategoryById } from '../../../lib/products/catalog';
-import { getProductDisplayName, getProductBadge, getStatusTone, getAvailabilityMessage, getPrimaryCtaLabel } from '../../../lib/products/types';
-import { buildMetadata } from '../../../lib/seo/metadata';
+import {
+  getProductDisplayName,
+  getProductBadge,
+  getStatusTone,
+  getAvailabilityMessage,
+  getPrimaryCtaLabel,
+} from '../../../lib/products/types';
+import { buildMetadata, SITE_URL } from '../../../lib/seo/metadata';
+import { BreadcrumbSchema, ServicePageSchema } from '../../components/StructuredData';
+
+const productSeo: Record<string, { title: string; description: string }> = {
+  'accounts-payable': {
+    title: 'Accounts Payable Automation Software | Oxiom',
+    description:
+      'Automate vendor bill intake, validation, approvals, payment tracking, and audit-ready AP workflows in one secure Oxiom workspace.',
+  },
+  'accounts-receivable': {
+    title: 'Accounts Receivable Automation Software | Oxiom',
+    description:
+      'Create invoices, manage customer billing, track payment status, and improve receivables visibility with Oxiom Accounts Receivable.',
+  },
+  'finance-suite': {
+    title: 'Finance Automation Suite for Indian Teams | Oxiom',
+    description:
+      'Bring AP, AR, approvals, payment tracking, and finance operations into one Oxiom workspace built for Indian businesses.',
+  },
+  'itc-recovery': {
+    title: 'GST ITC Recovery & Reconciliation Software | Oxiom',
+    description:
+      'Find GST input tax credit gaps, reconcile purchase data, and support faster ITC recovery with Oxiom finance automation.',
+  },
+};
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.id }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const product = getProductById(slug);
+
   if (!product) return {};
+
   const displayName = getProductDisplayName(product);
+  const seo = productSeo[product.id];
+
   return buildMetadata({
     path: `/platform/${slug}`,
-    title: `${displayName} | Oxiom`,
-    description: product.description,
+    title: seo?.title ?? `${displayName} | Oxiom`,
+    description: seo?.description ?? product.description,
   });
 }
 
-export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const product = getProductById(slug);
+
   if (!product) notFound();
 
   const category = getCategoryById(product.categoryId);
@@ -37,31 +80,66 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const availabilityMessage = getAvailabilityMessage(product);
   const primaryCta = getPrimaryCtaLabel(product.status);
 
+  const seo = productSeo[product.id];
+  const pageDescription = seo?.description ?? product.description;
+  const canonicalUrl = `${SITE_URL}/platform/${product.id}`;
+
   return (
     <div className="min-h-screen bg-white text-slate-950">
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: SITE_URL },
+          { name: 'Platform', url: `${SITE_URL}/platform` },
+          { name: product.name, url: canonicalUrl },
+        ]}
+      />
+
+      <ServicePageSchema
+        name={product.name}
+        description={pageDescription}
+        url={canonicalUrl}
+      />
+
       <SiteHeader />
+
       <main>
         <section className="border-b border-slate-200 bg-gradient-to-b from-blue-50/60 to-white py-16 sm:py-24">
           <div className="mx-auto max-w-5xl px-5 sm:px-8 lg:px-10">
             <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
-              <Link href="/platform" className="hover:text-blue-700">Products</Link>
+              <Link href="/platform" className="hover:text-blue-700">
+                Products
+              </Link>
               {category && <span> / {category.label}</span>}
             </nav>
+
             <div className="mt-6 flex items-start gap-4">
               <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 ring-1 ring-blue-100">
                 <ProductIcon icon={product.icon} size={28} />
               </span>
+
               <div>
                 {badge && (
-                  <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${tone.bg} ${tone.text}`}>
+                  <span
+                    className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${tone.bg} ${tone.text}`}
+                  >
                     {badge}
                   </span>
                 )}
-                <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-400">{product.brand}</p>
-                <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">{product.name}</h1>
+
+                <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  {product.brand}
+                </p>
+
+                <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
+                  {product.name}
+                </h1>
               </div>
             </div>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">{product.description}</p>
+
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+              {product.description}
+            </p>
+
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Link
                 href={product.trialHref}
@@ -69,6 +147,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               >
                 {primaryCta}
               </Link>
+
               <Link
                 href="/platform"
                 className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-6 py-3.5 text-sm font-semibold text-slate-800 transition-colors hover:border-blue-300 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -76,10 +155,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 Explore other products
               </Link>
             </div>
+
             {product.appHref && (
               <p className="mt-5 text-sm text-slate-500">
                 Already a customer?{' '}
-                <Link href={`/login?next=${encodeURIComponent(product.appHref)}`} className="font-semibold text-blue-700 hover:text-blue-800">
+                <Link
+                  href={`/login?next=${encodeURIComponent(product.appHref)}`}
+                  className="font-semibold text-blue-700 hover:text-blue-800"
+                >
                   Sign in →
                 </Link>
               </p>
@@ -87,16 +170,28 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           </div>
         </section>
 
-        <section aria-labelledby="highlights-title" className="py-16 sm:py-20">
+        <section
+          aria-labelledby="highlights-title"
+          className="py-16 sm:py-20"
+        >
           <div className="mx-auto max-w-5xl px-5 sm:px-8 lg:px-10">
-            <h2 id="highlights-title" className="text-2xl font-semibold tracking-tight text-slate-950">Key highlights</h2>
+            <h2
+              id="highlights-title"
+              className="text-2xl font-semibold tracking-tight text-slate-950"
+            >
+              Key highlights
+            </h2>
+
             <ul className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2">
               {product.highlights.map((highlight) => (
                 <li key={highlight} className="flex items-start gap-3">
                   <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700">
                     <CheckIcon size={14} />
                   </span>
-                  <span className="leading-7 text-slate-700">{highlight}</span>
+
+                  <span className="leading-7 text-slate-700">
+                    {highlight}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -106,15 +201,27 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         {availabilityMessage && (
           <section className="border-y border-slate-200 bg-slate-50 py-16 sm:py-20">
             <div className="mx-auto max-w-5xl px-5 sm:px-8 lg:px-10">
-              <h2 className="text-2xl font-semibold tracking-tight text-slate-950">Availability</h2>
-              <p className="mt-4 max-w-2xl leading-7 text-slate-600">{availabilityMessage}</p>
+              <h2 className="text-2xl font-semibold tracking-tight text-slate-950">
+                Availability
+              </h2>
+
+              <p className="mt-4 max-w-2xl leading-7 text-slate-600">
+                {availabilityMessage}
+              </p>
             </div>
           </section>
         )}
 
-        <section aria-labelledby="related-products-title" className="py-16 sm:py-20">
+        <section
+          aria-labelledby="related-products-title"
+          className="py-16 sm:py-20"
+        >
           <div className="mx-auto max-w-5xl px-5 sm:px-8 lg:px-10">
-            <RelatedProducts productId={product.id} heading="Explore more of Oxiom" subheading="Products that complement what you're looking at" />
+            <RelatedProducts
+              productId={product.id}
+              heading="Explore more of Oxiom"
+              subheading="Products that complement what you're looking at"
+            />
           </div>
         </section>
 
@@ -125,6 +232,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           label={primaryCta}
         />
       </main>
+
       <SiteFooter />
     </div>
   );

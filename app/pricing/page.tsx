@@ -10,61 +10,81 @@ import type { ProductPricing } from '../../lib/pricing/catalog';
 import { getVisiblePricing, getPromoBanner } from '../../lib/pricing/catalog';
 import { buildMetadata } from '../../lib/seo/metadata';
 import { getProductDisplayName } from '../../lib/products/types';
-import { ProductSchema } from '../components/StructuredData';
+import { ServiceOfferSchema } from '../components/StructuredData';
 
 export const metadata: Metadata = buildMetadata({
   path: '/pricing',
-  title: 'Pricing | Oxiom',
-  description: 'Simple, transparent pricing for every Oxiom product — Accounts Payable, Accounts Receivable, Finance Suite, and Input Tax Credit Recovery & Reconciliation.',
+  title: 'Oxiom Pricing | AP, AR, Finance Suite & GST ITC Plans',
+  description:
+    'Simple, transparent pricing for every Oxiom product — Accounts Payable, Accounts Receivable, Finance Suite, and Input Tax Credit Recovery & Reconciliation.',
 });
 
 const faqItems = [
   {
     question: 'What happens after my 7-day trial?',
-    answer: 'Your trial gives you full-featured access with no restrictions. When it ends, we\'ll reach out to activate a paid subscription — your data and setup carry over with no migration required.',
+    answer:
+      "Your trial gives you full-featured access with no restrictions. When it ends, we'll reach out to activate a paid subscription — your data and setup carry over with no migration required.",
   },
   {
     question: 'Can I switch products or plans later?',
-    answer: 'Yes. You can move between Accounts Payable, Accounts Receivable, and Finance Suite, or add ITC Recovery (Input Tax Credit Recovery & Reconciliation), as your needs change.',
+    answer:
+      'Yes. You can move between Accounts Payable, Accounts Receivable, and Finance Suite, or add ITC Recovery (Input Tax Credit Recovery & Reconciliation), as your needs change.',
   },
   {
     question: 'Is there a setup fee?',
-    answer: 'No. The price you see is the price you pay — no hidden setup or onboarding fees.',
+    answer:
+      'No. The price you see is the price you pay — no hidden setup or onboarding fees.',
   },
   {
     question: 'Do you offer annual discounts?',
-    answer: 'Yes — annual billing is discounted compared to paying monthly. Toggle to Annual above to see the difference for each product.',
+    answer:
+      'Yes — annual billing is discounted compared to paying monthly. Toggle to Annual above to see the difference for each product.',
   },
 ];
 
-function resolvePlans(pricingEntries: ProductPricing[]): Array<{ product: Product; pricing: ProductPricing }> {
+function resolvePlans(
+  pricingEntries: ProductPricing[],
+): Array<{ product: Product; pricing: ProductPricing }> {
   const products = getPublicProducts();
   const plans: Array<{ product: Product; pricing: ProductPricing }> = [];
+
   for (const pricing of pricingEntries) {
     const product = products.find((entry) => entry.id === pricing.productId);
-    if (product) plans.push({ product, pricing });
+
+    if (product) {
+      plans.push({ product, pricing });
+    }
   }
+
   return plans;
 }
 
 export default async function PricingPage() {
-  const [visiblePricing, promoBanner] = await Promise.all([getVisiblePricing(), getPromoBanner()]);
+  const [visiblePricing, promoBanner] = await Promise.all([
+    getVisiblePricing(),
+    getPromoBanner(),
+  ]);
+
   const plans = resolvePlans(visiblePricing);
 
   return (
     <div className="min-h-screen bg-white text-slate-950">
       {plans.length > 0 && (
-        <ProductSchema
-          name="Oxiom"
-          description="Finance automation platform for Accounts Payable, Accounts Receivable, and Finance Suite."
+        <ServiceOfferSchema
+          name="Oxiom Finance Automation Platform"
+          description="Finance automation service for Accounts Payable, Accounts Receivable, Finance Suite, and GST Input Tax Credit Recovery."
+          url="https://www.oxiom.in/pricing"
           offers={plans.map(({ product, pricing }) => ({
             name: getProductDisplayName(product),
-            priceInr: pricing.monthlyPriceInr,
-            url: `https://oxiom.in/platform/${product.id}`,
+            price: String(pricing.monthlyPriceInr),
+            currency: 'INR',
+            url: `https://www.oxiom.in/platform/${product.id}`,
           }))}
         />
       )}
+
       <SiteHeader />
+
       <main>
         <section className="border-b border-slate-200 bg-gradient-to-b from-blue-50/60 to-white py-16 sm:py-20">
           <div className="mx-auto max-w-3xl px-5 text-center sm:px-8 lg:px-10">
@@ -73,16 +93,28 @@ export default async function PricingPage() {
                 {promoBanner.headline}
               </span>
             )}
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">Simple, transparent pricing</h1>
+
+            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
+              Simple, transparent pricing
+            </h1>
+
             <p className="mt-4 text-lg leading-8 text-slate-600">
-              {promoBanner ? promoBanner.description : 'Pick a product, start a free 7-day trial, and pay only for what you use.'}
+              {promoBanner
+                ? promoBanner.description
+                : 'Pick a product, start a free 7-day trial, and pay only for what you use.'}
             </p>
           </div>
         </section>
 
-        <section aria-labelledby="pricing-cards-title" className="py-16 sm:py-20">
+        <section
+          aria-labelledby="pricing-cards-title"
+          className="py-16 sm:py-20"
+        >
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-            <h2 id="pricing-cards-title" className="sr-only">Product pricing</h2>
+            <h2 id="pricing-cards-title" className="sr-only">
+              Product pricing
+            </h2>
+
             <PricingCards plans={plans} />
           </div>
         </section>
@@ -90,6 +122,7 @@ export default async function PricingPage() {
         <FaqSection items={faqItems} />
         <ContactSales />
       </main>
+
       <SiteFooter />
     </div>
   );
