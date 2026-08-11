@@ -10,11 +10,11 @@ import type { ProductPricing } from '../../lib/pricing/catalog';
 import { getVisiblePricing, getPromoBanner } from '../../lib/pricing/catalog';
 import { buildMetadata } from '../../lib/seo/metadata';
 import { getProductDisplayName } from '../../lib/products/types';
-import { ProductSchema } from '../components/StructuredData';
+import { ServiceOfferSchema } from '../components/StructuredData';
 
 export const metadata: Metadata = buildMetadata({
   path: '/pricing',
-  title: 'Pricing | Oxiom',
+  title: 'Oxiom Pricing | AP, AR, Finance Suite & GST ITC Plans',
   description: 'Simple, transparent pricing for every Oxiom product — Accounts Payable, Accounts Receivable, Finance Suite, and Input Tax Credit Recovery & Reconciliation.',
 });
 
@@ -54,13 +54,14 @@ export default async function PricingPage() {
   return (
     <div className="min-h-screen bg-white text-slate-950">
       {plans.length > 0 && (
-        <ProductSchema
-          name="Oxiom"
-          description="Finance automation platform for Accounts Payable, Accounts Receivable, and Finance Suite."
+        <ServiceOfferSchema
+          name="Oxiom Finance Automation Platform"
+          description="Finance automation service for Accounts Payable, Accounts Receivable, Finance Suite, and GST Input Tax Credit Recovery."
+          url="https://www.oxiom.in/pricing"
           offers={plans.map(({ product, pricing }) => ({
             name: getProductDisplayName(product),
             priceInr: pricing.monthlyPriceInr,
-            url: `https://oxiom.in/platform/${product.id}`,
+            url: `https://www.oxiom.in/platform/${product.id}`,
           }))}
         />
       )}

@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Oxiom',
-    url: 'https://oxiom.in',
+    url: 'https://www.oxiom.in',
     // Google recommends a logo of at least 112x112px; apple-icon (180x180,
     // square) is the largest brand image this repo generates, so it's reused
     // here rather than referencing a dedicated logo file that doesn't exist.
@@ -44,7 +44,7 @@ export function SoftwareApplicationSchema() {
     description: 'Finance automation platform for Accounts Payable, Accounts Receivable, and Finance Suite -- invoice creation, sending, validation, payment tracking, and audit-ready billing.',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
-    url: 'https://oxiom.in',
+    url: 'https://www.oxiom.in',
     image: 'https://oxiom.in/opengraph-image',
     // No `offers` here: pricing varies by product and plan (see the Product
     // schema on /pricing, built from real numeric prices) -- a single flat
@@ -77,7 +77,7 @@ export function WebSiteSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Oxiom',
-    url: 'https://oxiom.in',
+    url: 'https://www.oxiom.in',
     description: 'Finance automation platform for Accounts Payable, Accounts Receivable, and Finance Suite.',
     // No SearchAction: this site has no /search route, so a sitelinks
     // searchbox action would point at a page that doesn't exist.
@@ -160,6 +160,85 @@ export function ProductSchema({
       url: offer.url,
       availability: 'https://schema.org/InStock',
     })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
+    />
+  );
+}
+
+export function ServiceOfferSchema({
+  name,
+  description,
+  url,
+  offers,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  offers: Array<{
+    name: string;
+    price: string;
+    currency: string;
+    url: string;
+  }>;
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    url,
+    provider: {
+      '@type': 'Organization',
+      name: 'Oxiom',
+      url: 'https://www.oxiom.in',
+    },
+    serviceType: 'Finance automation software',
+    areaServed: {
+      '@type': 'Country',
+      name: 'India',
+    },
+    offers: offers.map((offer) => ({
+      '@type': 'Offer',
+      name: offer.name,
+      price: offer.price,
+      priceCurrency: offer.currency,
+      url: offer.url,
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }}
+    />
+  );
+}
+
+export function ServicePageSchema({
+  name,
+  description,
+  url,
+}: {
+  name: string;
+  description: string;
+  url: string;
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    url,
+    image: 'https://www.oxiom.in/opengraph-image',
+    brand: { '@type': 'Brand', name: 'Oxiom' },
+    provider: { '@type': 'Organization', name: 'Oxiom' },
+    serviceType: 'Finance automation software',
+    areaServed: { '@type': 'Country', name: 'India' },
   };
 
   return (

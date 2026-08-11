@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-export const SITE_URL = 'https://oxiom.in';
+export const SITE_URL = 'https://www.oxiom.in';
 export const SITE_NAME = 'Oxiom';
 export const SITE_LOCALE = 'en-IN';
 

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   // that don't exist in this repository.
   openGraph: {
     type: "website",
-    url: "https://oxiom.in",
+    url: "https://www.oxiom.in",
     title: "Oxiom | Finance Automation Platform for Accounts Payable & Receivable",
     description: "Oxiom is a finance automation platform for growing businesses — Accounts Payable, Accounts Receivable, and Finance Suite, built on one secure workspace.",
     siteName: "Oxiom",

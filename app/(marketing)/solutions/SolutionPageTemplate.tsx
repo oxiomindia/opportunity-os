@@ -124,7 +124,7 @@ export function SolutionPageTemplate({ slug }: { slug: string }) {
             <p className="mb-8 text-lg text-slate-600">See how Oxiom can help your team automate invoicing, approvals, controls, and reporting with an enterprise-ready billing platform.</p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/contact" className="rounded-full bg-blue-600 px-7 py-3.5 text-base font-semibold text-white hover:bg-blue-700">Contact Oxiom</Link>
-              <Link href="/dashboard" className="rounded-full border border-slate-300 px-7 py-3.5 text-base font-semibold text-slate-700 hover:border-slate-400 hover:text-slate-950">View the product</Link>
+              <Link href="/trial" className="rounded-full border border-slate-300 px-7 py-3.5 text-base font-semibold text-slate-700 hover:border-slate-400 hover:text-slate-950">Request a free trial</Link>
             </div>
           </div>
         </div>

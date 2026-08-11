@@ -9,6 +9,26 @@ import { ProductIcon, CheckIcon } from '../../components/marketing/icons';
 import { products, getProductById, getCategoryById } from '../../../lib/products/catalog';
 import { getProductDisplayName, getProductBadge, getStatusTone, getAvailabilityMessage, getPrimaryCtaLabel } from '../../../lib/products/types';
 import { buildMetadata } from '../../../lib/seo/metadata';
+import { BreadcrumbSchema, ServicePageSchema } from '../../components/StructuredData';
+
+const productSeo: Record<string, { title: string; description: string }> = {
+  'accounts-payable': {
+    title: 'Accounts Payable Automation Software | Oxiom',
+    description: 'Automate vendor bill intake, validation, approvals, payment tracking, and audit-ready AP workflows in one secure Oxiom workspace.',
+  },
+  'accounts-receivable': {
+    title: 'Accounts Receivable Automation Software | Oxiom',
+    description: 'Create invoices, manage customer billing, track payment status, and improve receivables visibility with Oxiom Accounts Receivable.',
+  },
+  'finance-suite': {
+    title: 'Finance Automation Suite for Indian Teams | Oxiom',
+    description: 'Bring AP, AR, approvals, payment tracking, and finance operations into one Oxiom workspace built for Indian businesses.',
+  },
+  'itc-recovery': {
+    title: 'GST ITC Recovery & Reconciliation Software | Oxiom',
+    description: 'Find GST input tax credit gaps, reconcile purchase data, and support faster ITC recovery with Oxiom finance automation.',
+  },
+};
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.id }));
@@ -39,6 +59,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="min-h-screen bg-white text-slate-950">
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: 'https://www.oxiom.in' },
+          { name: 'Platform', url: 'https://www.oxiom.in/platform' },
+          { name: product.name, url: canonicalUrl },
+        ]}
+      />
+      <ServicePageSchema
+        name={product.name}
+        description={pageDescription}
+        url={canonicalUrl}
+      />
       <SiteHeader />
       <main>
         <section className="border-b border-slate-200 bg-gradient-to-b from-blue-50/60 to-white py-16 sm:py-24">
